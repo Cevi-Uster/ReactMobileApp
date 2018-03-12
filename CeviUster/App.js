@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 import WelcomeScreen from './Screens/WelcomeScreen';
@@ -15,12 +15,17 @@ export default TabNavigator(
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
         let iconName;
+        var styles = StyleSheet.create({
+        PNGImageStyle: {
+          width: 25,
+          height: 25
+        }});
         if (routeName === 'Welcome') {
-          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+          //iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+          return <Image source={require('./Ressources/Home_Icon.png')} style={[styles.PNGImageStyle, {tintColor: tintColor}]} />;
         } else if (routeName === 'Contact') {
           iconName = `ios-contact${focused ? '' : '-outline'}`;
         }
-
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return <Ionicons name={iconName} size={25} color={tintColor} />;
