@@ -2,26 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
-
-class WelcomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Welcome!</Text>
-      </View>
-    );
-  }
-}
-
-class ContactScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Contact!</Text>
-      </View>
-    );
-  }
-}
+import WelcomeScreen from './Screens/WelcomeScreen';
+import ContactScreen from './Screens/ContactScreen';
 
 export default TabNavigator(
   {
