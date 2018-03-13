@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StyleSheet, WebView } from 'react-native';
 
 export default class WelcomeScreen extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Welcome!</Text>
-      </View>
+      <WebView
+        source={{uri: 'https://www.cevi-uster.ch/iApp/welcome_ipad.html'}}
+        style={{marginTop: 0}}
+        scalesPageToFit={true}
+      />
     );
   }
 }

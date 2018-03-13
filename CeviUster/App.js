@@ -1,14 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { TabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
 import WelcomeScreen from './Screens/WelcomeScreen';
 import ContactScreen from './Screens/ContactScreen';
 
+const WelcomeStack = StackNavigator({
+  Welcome: {screen: WelcomeScreen},
+
+}, {
+  navigationOptions: {
+    headerTitle: 'Willkommen',
+  }
+});
+
+const ContactStack = StackNavigator({
+  Contact: {screen: ContactScreen},
+
+}, {
+  navigationOptions: {
+    headerTitle: 'Kontakt',
+  }
+});
+
 export default TabNavigator(
   {
-    Welcome: { screen: WelcomeScreen },
-    Contact: { screen: ContactScreen },
+    Willkommen: { screen: WelcomeStack },
+    Kontakt: { screen: ContactStack },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -20,10 +38,10 @@ export default TabNavigator(
           width: 25,
           height: 25
         }});
-        if (routeName === 'Welcome') {
+        if (routeName === 'Willkommen') {
           //iconName = `ios-information-circle${focused ? '' : '-outline'}`;
           return <Image source={require('./Ressources/Home_Icon.png')} style={[styles.PNGImageStyle, {tintColor: tintColor}]} />;
-        } else if (routeName === 'Contact') {
+        } else if (routeName === 'Kontakt') {
           iconName = `ios-contact${focused ? '' : '-outline'}`;
         }
         // You can return any component that you like here! We usually use an
