@@ -6,8 +6,9 @@ export default class ContactScreen extends React.Component {
   render() {
     return (
       <WebView
-        source={{uri: 'https://www.cevi-uster.ch/iApp/contact.html'}}
+        source={{uri: 'https://new.cevi-uster.ch/mobile-pages/kontakt/'}}
         style={{marginTop: 0}}
+        scalesPageToFit={true}
       />
     );
   }
