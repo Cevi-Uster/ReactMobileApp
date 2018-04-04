@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
 import WelcomeScreen from './Screens/WelcomeScreen';
+import AgendaScreen from './Screens/AgendaScreen';
 import ContactScreen from './Screens/ContactScreen';
 
 const WelcomeStack = StackNavigator({
@@ -11,6 +12,15 @@ const WelcomeStack = StackNavigator({
 }, {
   navigationOptions: {
     headerTitle: 'Willkommen',
+  }
+});
+
+const AgendaStack = StackNavigator({
+  Welcome: {screen: AgendaScreen},
+
+}, {
+  navigationOptions: {
+    headerTitle: 'Agenda',
   }
 });
 
@@ -26,6 +36,7 @@ const ContactStack = StackNavigator({
 export default TabNavigator(
   {
     Willkommen: { screen: WelcomeStack },
+    Agenda: { screen: AgendaStack },
     Kontakt: { screen: ContactStack },
   },
   {
@@ -43,6 +54,8 @@ export default TabNavigator(
           return <Image source={require('./Ressources/Home_Icon.png')} style={[styles.PNGImageStyle, {tintColor: tintColor}]} />;
         } else if (routeName === 'Kontakt') {
           iconName = `ios-contact${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Agenda') {
+          iconName = `ios-calendar${focused ? '' : '-outline'}`;
         }
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
