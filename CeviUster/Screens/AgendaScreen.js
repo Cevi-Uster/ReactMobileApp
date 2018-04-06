@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { List, ListItem } from 'react-native-elements';
 
 export default class AgendaScreen extends React.Component {
 
@@ -21,21 +22,20 @@ export default class AgendaScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <FlatList
-          data={this.state.data}
-          keyExtractor={(x, i) => i}
-          renderItem={({item}) => <Text>{item.name}</Text>}>
+      <View>
+        <List  containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+          <FlatList
+            data={this.state.data}
+            keyExtractor={(x, i) => i}
+            renderItem={({item}) =>
+              <ListItem
+                title={`${item.name}`}
+                leftIcon={{name: 'folder'}}
+              />
+            }>
           </FlatList>
+        </List>
       </View>
     );
   }
 }
-
-const styles =StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
