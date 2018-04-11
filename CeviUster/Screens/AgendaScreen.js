@@ -14,8 +14,10 @@ export default class AgendaScreen extends React.Component {
   constructor(props){
      super(props);
      //console.log(props);
-     if (this.props.navigation.state.params && this.props.navigation.state.params.parentCategoryId){
-       this.state.currentParentId = this.props.navigation.state.params.parentCategoryId;
+     if (this.props.navigation.state.params && this.props.navigation.state.params.parentCategory){
+       this.state.currentParentId = this.props.navigation.state.params.parentCategory.id;
+       //console.log(this.props.navigation.state.params.parentCategory);
+       //this.props.navigation.state.params.title = this.props.navigation.state.params.parentCategory.name;
      }
      this.onCategoryPressed = this.onCategoryPressed.bind(this);
      this.onEventPressed = this.onEventPressed.bind(this);
@@ -49,11 +51,8 @@ export default class AgendaScreen extends React.Component {
 
       let filteredEvents = new Array(0);
       for (event of json.events){
-        console.log(event.id);
         for (category of event.categories){
-          console.log(category.id);
           if (category.id == this.state.currentParentId){
-            console.log("match")
             filteredEvents.push(event);
           }
         }
@@ -68,7 +67,7 @@ export default class AgendaScreen extends React.Component {
 
   onCategoryPressed(item){
      console.log(item);
-     this.props.navigation.navigate('Agenda', {parentCategoryId: item.id});
+     this.props.navigation.navigate('Agenda', {parentCategory: item});
   }
 
   onEventPressed(item){
