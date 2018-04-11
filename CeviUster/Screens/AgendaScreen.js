@@ -13,6 +13,10 @@ export default class AgendaScreen extends React.Component {
 
   constructor(props){
      super(props);
+     console.log(props);
+     if (this.props.navigation.state.params && this.props.navigation.state.params.parentCategoryId){
+       this.state.currentParentId = this.props.navigation.state.params.parentCategoryId;
+     }
      this.onCategoryPressed = this.onCategoryPressed.bind(this);
      this.onEventPressed = this.onEventPressed.bind(this);
   }
@@ -52,7 +56,7 @@ export default class AgendaScreen extends React.Component {
 
   onCategoryPressed(item){
      console.log(item);
-     //this.props.navigation.navigate("some_route");
+     this.props.navigation.navigate('Agenda', {parentCategoryId: item.id});
   }
 
   onEventPressed(item){

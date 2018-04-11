@@ -16,7 +16,7 @@ const WelcomeStack = StackNavigator({
 });
 
 const AgendaStack = StackNavigator({
-  Welcome: {screen: AgendaScreen},
+  Agenda: {screen: AgendaScreen},
 
 }, {
   navigationOptions: {
