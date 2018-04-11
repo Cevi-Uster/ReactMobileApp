@@ -13,7 +13,7 @@ export default class AgendaScreen extends React.Component {
 
   constructor(props){
      super(props);
-     console.log(props);
+     //console.log(props);
      if (this.props.navigation.state.params && this.props.navigation.state.params.parentCategoryId){
        this.state.currentParentId = this.props.navigation.state.params.parentCategoryId;
      }
@@ -46,7 +46,19 @@ export default class AgendaScreen extends React.Component {
     const eventsResponse = await fetch(`https://new.cevi-uster.ch/wp-json/tribe/events/v1/events?start_date=${startDate}`);
     const json = await eventsResponse.json();
     if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
-      const filteredEvents = json.events.filter(event => event.categories.includes(this.state.currentParentId));
+
+      let filteredEvents = new Array(0);
+      for (event of json.events){
+        console.log(event.id);
+        for (category of event.categories){
+          console.log(category.id);
+          if (category.id == this.state.currentParentId){
+            console.log("match")
+            filteredEvents.push(event);
+          }
+        }
+      }
+      console.log(filteredEvents);
       this.setState({events: filteredEvents});
     } else {
       this.setState({events: new Array(0)});
@@ -88,9 +100,8 @@ export default class AgendaScreen extends React.Component {
                 keyExtractor: (x, i) => i,
                 renderItem: ({item}) =>
                   <ListItem
-                    title={`${item.start_date} ${item.name}`}
+                    title={`${item.start_date} ${item.title}`}
                     onPress={() => this.onEventPressed(item)}
-                    //leftIcon={{name: 'folder'}}
                   />
               }
             ]}
