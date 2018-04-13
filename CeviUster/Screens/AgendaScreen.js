@@ -99,7 +99,7 @@ export default class AgendaScreen extends React.Component {
                 keyExtractor: (x, i) => i,
                 renderItem: ({item}) =>
                   <ListItem
-                    title={`${item.start_date} ${item.title}`}
+                    title={`${item.start_date_details.day}.${item.start_date_details.month}.${item.start_date_details.year} ${item.start_date_details.hour}:${item.start_date_details.minutes} ${item.title}`}
                     onPress={() => this.onEventPressed(item)}
                   />
               }
