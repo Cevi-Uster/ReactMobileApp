@@ -20,7 +20,7 @@ const AgendaStack = StackNavigator({
 
 }, {
   navigationOptions: {
-    headerTitle: 'Agenda',
+    //headerTitle: 'Agenda',
   }
 });
 
