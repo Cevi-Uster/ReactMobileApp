@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import moment from 'moment';
 
 export default class AgendaEntryScreen extends React.Component {
@@ -30,9 +30,36 @@ export default class AgendaEntryScreen extends React.Component {
 
   render() {
     return (
-      <View>
-
+      <View style={styles.container}>
+        <Image
+          style={styles.icon}
+          source={require('../Ressources/CeviLogoTransparent.png')}
+        />
+        <View style={styles.content}>
+          <Text
+            style={styles.title}>
+            {this.state.event.title}
+          </Text>
+        </View>
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    margin: 10,
+  },
+  icon: {
+    width: 60,
+    height: 60
+  },
+  content: {
+    marginTop: 20,
+    marginLeft: 38,
+  },
+  title: {
+    fontSize: 19,
+    fontWeight: 'bold',
+  },
+
+});
