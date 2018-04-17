@@ -29,7 +29,21 @@ export default class AgendaEntryScreen extends React.Component {
   }
 
   render() {
+    const event = this.state.event;
+    let dateTime = '';
+    dateTime = `${event.start_date_details.day}.${event.start_date_details.month}.${event.start_date_details.year}`;
+    if (!event.all_day){
+      dateTime = `${dateTime} ${event.start_date_details.hour}:${event.start_date_details.minutes}`;
+    }
+    if (event.end_date_details !== undefined) {
+      dateTime= `${dateTime} - ${event.end_date_details.day}.${event.end_date_details.month}.${event.end_date_details.year}`
+    }
+    if (!event.all_day){
+      dateTime = `${dateTime} ${event.end_date_details.hour}:${event.end_date_details.minutes}`;
+    }
+
     return (
+
       <View style={styles.container}>
         <Image
           style={styles.icon}
@@ -38,13 +52,19 @@ export default class AgendaEntryScreen extends React.Component {
         <View style={styles.content}>
           <Text
             style={styles.title}>
-            {this.state.event.title}
+            {event.title}
+          </Text>
+          <Text
+            style={styles.date}>
+            {dateTime}
           </Text>
         </View>
       </View>
     );
   }
 }
+
+
 const styles = StyleSheet.create({
   container: {
     margin: 10,
@@ -58,8 +78,14 @@ const styles = StyleSheet.create({
     marginLeft: 38,
   },
   title: {
-    fontSize: 19,
+    fontSize: 22,
     fontWeight: 'bold',
+  },
+  date: {
+    marginTop: 10,
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 0x023EFF,
   },
 
 });
