@@ -79,7 +79,7 @@ export default class AgendaScreen extends React.Component {
 
   onEventPressed(item){
      console.log(item);
-     //this.props.navigation.navigate("some_route");
+     this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
   }
   render() {
     return (

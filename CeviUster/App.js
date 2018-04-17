@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
 import WelcomeScreen from './Screens/WelcomeScreen';
 import AgendaScreen from './Screens/AgendaScreen';
+import AgendaEntryScreen from './Screens/AgendaEntryScreen';
 import ContactScreen from './Screens/ContactScreen';
 
 const WelcomeStack = StackNavigator({
@@ -17,7 +18,7 @@ const WelcomeStack = StackNavigator({
 
 const AgendaStack = StackNavigator({
   Agenda: {screen: AgendaScreen},
-
+  AgendaEntry: {screen: AgendaEntryScreen},
 }, {
   navigationOptions: {
     //headerTitle: 'Agenda',
