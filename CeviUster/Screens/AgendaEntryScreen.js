@@ -74,7 +74,6 @@ export default class AgendaEntryScreen extends React.Component {
             style={styles.date}>
             {dateTime}
           </Text>
-        </View>
         <Text
           style={styles.description}>
           {event.description}
@@ -87,6 +86,7 @@ export default class AgendaEntryScreen extends React.Component {
           height={imageScaledHeight}
           >
         </Image>
+        </View>
       </View>
     );
   }
@@ -121,6 +121,5 @@ const styles = StyleSheet.create({
   },
   image: {
     marginTop:5,
-    marginLeft: 38, // Why do we need this?? We already have defined it at content!
   }
 });
