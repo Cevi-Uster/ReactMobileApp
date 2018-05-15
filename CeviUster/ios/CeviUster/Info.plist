@@ -63,5 +63,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Cevi Uster benötigt Zugriff auf den Kalender</string>
 </dict>
 </plist>
