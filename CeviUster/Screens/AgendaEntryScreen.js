@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, Dimensions } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
+import { Button } from 'react-native-elements';
+import { Icon } from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 
 export default class AgendaEntryScreen extends React.Component {
@@ -44,6 +46,11 @@ export default class AgendaEntryScreen extends React.Component {
     if (!event.all_day){
       dateTime = `${dateTime} ${event.end_date_details.hour}:${event.end_date_details.minutes}`;
     }
+
+    if (event.description == ''){
+      styles.description.display = 'none';
+    }
+
     const dimensions = Dimensions.get('window');
     let imageScaledWidth = dimensions.width - (2 * this.containerMargin) - this.contentMarginLeft;
     let imageScaledHeight = 0;
@@ -59,35 +66,59 @@ export default class AgendaEntryScreen extends React.Component {
     console.log(`event.image.width ${event.image.width}`);
     console.log(`ìmageScaledHeight ${imageScaledHeight}`);
     return (
-
-      <View style={styles.container}>
-        <Image
-          style={styles.icon}
-          source={require('../Ressources/CeviLogoTransparent.png')}
-        />
-        <View style={styles.content}>
+      <ScrollView>
+        <View style={styles.container}>
+          <Image
+            style={styles.icon}
+            source={require('../Ressources/CeviLogoTransparent.png')}
+          />
+          <View style={styles.content}>
+            <Text
+              style={styles.title}>
+              {event.title}
+            </Text>
+            <Text
+              style={styles.date}>
+              {dateTime}
+            </Text>
+            <Text
+              style={styles.venue}>
+              {event.venue.venue}
+            </Text>
           <Text
-            style={styles.title}>
-            {event.title}
+            style={styles.description}>
+            {event.description}
           </Text>
-          <Text
-            style={styles.date}>
-            {dateTime}
-          </Text>
-        <Text
-          style={styles.description}>
-          {event.description}
-        </Text>
-        <Image
-          style={styles.image}
-          source={{uri: event.image.url}}
-          resizeMode='contain'
-          width={imageScaledWidth}
-          height={imageScaledHeight}
-          >
-        </Image>
+          <Image
+            style={styles.image}
+            source={{uri: event.image.url}}
+            resizeMode='contain'
+            width={imageScaledWidth}
+            height={imageScaledHeight}
+            >
+          </Image>
+          </View>
+          <View style={styles.buttonview}>
+            <Button
+              style={styles.savebutton}
+              icon={{
+                name: 'save',
+                size: 20,
+                color: 'white'
+              }}
+              buttonStyle={{
+                backgroundColor: "rgba(92, 99, 216, 1)",
+                width: 140,
+                height: 40,
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 20
+              }}
+              title='Speichern'
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -102,7 +133,7 @@ const styles = StyleSheet.create({
     height: 60
   },
   content: {
-    marginTop: 20,
+    marginTop: 5,
     marginLeft: 38,
   },
   title: {
@@ -115,11 +146,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 0x023EFF,
   },
+  venue: {
+    fontWeight: 'bold',
+    marginTop: 5,
+    fontSize: 14,
+  },
   description: {
     marginTop: 5,
     fontSize: 14,
   },
   image: {
     marginTop:5,
+  },
+  buttonview: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  savebutton: {
+    marginTop:10,
   }
 });
