@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Icon } from 'react-native-vector-icons/FontAwesome';
+import RNCalendarEvents from 'react-native-calendar-events';
 import moment from 'moment';
 
 export default class AgendaEntryScreen extends React.Component {
@@ -31,6 +32,10 @@ export default class AgendaEntryScreen extends React.Component {
   }
 
   componentWillMount(){
+  }
+
+  saveButtonClicked(){
+    console.log(RNCalendarEvents.authorizationStatus());
   }
 
   render() {
@@ -101,6 +106,7 @@ export default class AgendaEntryScreen extends React.Component {
           <View style={styles.buttonview}>
             <Button
               style={styles.savebutton}
+              onPress={() => {this.saveButtonClicked()}}
               icon={{
                 name: 'save',
                 size: 20,
