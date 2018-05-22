@@ -35,7 +35,7 @@ export default class AgendaEntryScreen extends React.Component {
   }
 
   saveButtonClicked(){
-    console.log(RNCalendarEvents.authorizationStatus());
+    this.props.navigation.navigate('AgendaEntrySave', {selectedEvent: this.state.event});
   }
 
   render() {

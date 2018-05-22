@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, TouchableHighlight, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Icon } from 'react-native-vector-icons/FontAwesome';
 import RNCalendarEvents from 'react-native-calendar-events';
@@ -13,6 +13,7 @@ export default class AgendaEntrySaveScreen extends React.Component {
 
   state = {
     event: null,
+    auth: null,
     calendars: [],
   };
 
@@ -24,11 +25,43 @@ export default class AgendaEntrySaveScreen extends React.Component {
   constructor(props){
      super(props);
      //console.log(props);
-     this.props.navigation.setParams({ title: 'Eintrag Speichern' });
+
+     if (this.props.navigation.state.params && this.props.navigation.state.params.selectedEvent){
+       this.state.event = this.props.navigation.state.params.selectedEvent;
+       this.props.navigation.setParams({ title: `${this.props.navigation.state.params.selectedEvent.title } speichern` });
+     } else {
+        this.props.navigation.setParams({ title: 'Eintrag speichern' });
+     }
   }
 
-  componentWillMount(){
-    RNCalendarEvents.findCalendars().then(c => {this.state.calendars = c});
+  componentWillMount() {
+    RNCalendarEvents.authorizationStatus()
+      .then((status) => {
+        this.setState({ auth: status });
+        if (status === 'undetermined') {
+          RNCalendarEvents.authorizeEventStore().then((out) => {
+            if (out == 'authorized') {
+              this.setState({ auth: out });
+              this.loadCalendars();
+            }
+          });
+        } else if (status === 'authorized') {
+          this.loadCalendars();
+        }
+      })
+      .catch(error => console.warn('Auth Error: ', error));
+  }
+
+  loadCalendars(){
+    RNCalendarEvents.findCalendars()
+      .then(c => {this.calendarLoadingFinished(c)})
+      .catch(e => console.log(e));
+  }
+
+  calendarLoadingFinished(calendars){
+    console.log(calendars);
+    this.setState({calendars: calendars});
+    console.log(this.state.calendars);
   }
 
   okButtonClicked(){
@@ -37,10 +70,35 @@ export default class AgendaEntrySaveScreen extends React.Component {
     }
   }
 
+  calendarDropdownRenderButtonText(rowData){
+    const {id, allowsModifications, allowedAvailabilities, source, title} = rowData;
+    return `${title}`;
+  }
+
+  calendarDropdownRenderRow(rowData, rowID, highlighted) {
+
+    let evenRow = rowID % 2;
+    return (
+      <TouchableHighlight underlayColor='cornflowerblue'>
+        <View style={[styles.calendarDropdown_row, {backgroundColor: evenRow ? 'lemonchiffon' : 'white'}]}>
+          <Text style={[styles.calendarDropdown_row_text, highlighted && {color: 'mediumaquamarine'}]}>
+            {`${rowData.title}`}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  calendarDropdownRenderSeparator(sectionID, rowID, adjacentRowHighlighted) {
+    if (rowID == this.state.calendars.length - 1) return;
+    let key = `spr_${rowID}`;
+    return (<View style={styles.calendarDropdown_separator}
+                  key={key}
+    />);
+  }
+
   render() {
     const event = this.state.event;
-
-
 
     return (
       <ScrollView>
@@ -54,7 +112,15 @@ export default class AgendaEntrySaveScreen extends React.Component {
               style={styles.title}>
               {'Kalender wählen'}
             </Text>
-
+            <ModalDropdown ref="calendarDropdown"
+               style={styles.calendarDropdown}
+               textStyle={styles.calendarDropdown_text}
+               dropdownStyle={styles.calendarDropdown_dropdown}
+               options={this.state.calendars}
+               renderButtonText={(rowData) => this.calendarDropdownRenderButtonText(rowData)}
+               renderRow={this.calendarDropdownRenderRow.bind(this)}
+               renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this.calendarDropdownRenderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+/>
           </View>
           <View style={styles.buttonview}>
             <Button
@@ -82,6 +148,7 @@ export default class AgendaEntrySaveScreen extends React.Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   container: {
     margin: 10,
@@ -103,7 +170,49 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  calendarDropdown: {
+    width: 200,
+    marginTop: 15,
+    borderWidth: 0,
+    borderRadius: 3,
+    backgroundColor: 'cornflowerblue',
+  },
+  calendarDropdown_text: {
+    marginVertical: 10,
+    marginHorizontal: 6,
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
+  calendarDropdown_dropdown: {
+    width: 200,
+    height: 300,
+    borderColor: 'cornflowerblue',
+    borderWidth: 2,
+    borderRadius: 3,
+  },
+  calendarDropdown_row: {
+    flexDirection: 'row',
+    height: 40,
+    alignItems: 'center',
+  },
+  calendarDropdown_image: {
+    marginLeft: 4,
+    width: 30,
+    height: 30,
+  },
+  calendarDropdown_row_text: {
+    marginHorizontal: 4,
+    fontSize: 16,
+    color: 'navy',
+    textAlignVertical: 'center',
+  },
+  calendarDropdown_separator: {
+    height: 1,
+    backgroundColor: 'cornflowerblue',
+},
   okbutton: {
-    marginTop:10,
+    marginTop:20,
   }
 });
