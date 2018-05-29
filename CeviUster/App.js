@@ -38,7 +38,7 @@ const ContactStack = StackNavigator({
 export default TabNavigator(
   {
     Willkommen: { screen: WelcomeStack },
-    Agenda: { screen: AgendaStack },
+    Agenda: { screen: AgendaStack, navigationOptions: { tabBar: { label: 'Agenda' } } },
     Kontakt: { screen: ContactStack },
   },
   {
