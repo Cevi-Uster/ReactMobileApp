@@ -15,6 +15,8 @@ export default class AgendaEntrySaveScreen extends React.Component {
     event: null,
     auth: null,
     calendars: [],
+    selectedCalendar: null,
+    okVisible: false,
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -70,6 +72,16 @@ export default class AgendaEntrySaveScreen extends React.Component {
     }
   }
 
+  calendarSelected(index, value){
+    this.setState({selectedCalendar: value});
+    if (value !== undefined && value !== null){
+      this.setState({okVisible: true});
+    } else {
+      this.setState({okVisible: false});
+    }
+
+  }
+
   calendarDropdownRenderButtonText(rowData){
     const {id, allowsModifications, allowedAvailabilities, source, title} = rowData;
     return `${title}`;
@@ -97,6 +109,32 @@ export default class AgendaEntrySaveScreen extends React.Component {
     />);
   }
 
+  renderOkButton() {
+    if (this.state.okVisible){
+      return (
+        <Button
+          style={styles.okbutton}
+          onPress={() => {this.okButtonClicked()}}
+          icon={{
+            name: 'check',
+            size: 20,
+            color: 'white'
+          }}
+          buttonStyle={{
+            backgroundColor: "rgba(92, 99, 216, 1)",
+            width: 140,
+            height: 40,
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 20
+          }}
+          title='Ok'
+        />
+      )
+    }
+    return null;
+  }
+
   render() {
     const event = this.state.event;
 
@@ -120,27 +158,11 @@ export default class AgendaEntrySaveScreen extends React.Component {
                renderButtonText={(rowData) => this.calendarDropdownRenderButtonText(rowData)}
                renderRow={this.calendarDropdownRenderRow.bind(this)}
                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this.calendarDropdownRenderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-/>
+               onSelect={(index, value) => {this.calendarSelected(index, value)}}
+            />
           </View>
           <View style={styles.buttonview}>
-            <Button
-              style={styles.okbutton}
-              onPress={() => {this.okButtonClicked()}}
-              icon={{
-                name: 'check',
-                size: 20,
-                color: 'white'
-              }}
-              buttonStyle={{
-                backgroundColor: "rgba(92, 99, 216, 1)",
-                width: 140,
-                height: 40,
-                borderColor: "transparent",
-                borderWidth: 0,
-                borderRadius: 20
-              }}
-              title='Ok'
-            />
+            {this.renderOkButton()}
           </View>
         </View>
       </ScrollView>
