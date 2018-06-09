@@ -71,10 +71,12 @@ export default class AgendaEntrySaveScreen extends React.Component {
       console.log("okButtonClicked");
       console.log(new Date().getTimezoneOffset())
       let event = this.state.event;
+      let startDate = Date.parse(`${event.utc_start_date}Z`);
+      let endDate = Date.parse(`${event.utc_end_date}Z`);
       RNCalendarEvents.saveEvent(event.title, {
         calendarId: this.state.selectedCalendar.calendarId,
-        startDate: Date.parse(`${event.utc_start_date}Z`),
-        endDate: Date.parse(`${event.utc_end_date}Z`),
+        startDate: startDate,
+        endDate: endDate,
         location: event.venue.venue,
         notes: event.description
       });
