@@ -70,9 +70,11 @@ export default class AgendaEntrySaveScreen extends React.Component {
     if (RNCalendarEvents.authorizationStatus() !== 'denied'){
       console.log("okButtonClicked");
       console.log(new Date().getTimezoneOffset())
-      let event = this.state.event;
-      let startDate = Date.parse(`${event.utc_start_date}Z`);
-      let endDate = Date.parse(`${event.utc_end_date}Z`);
+      console.log(this.state.event);
+      let startDate = Date.parse(`${this.state.event.utc_start_date}Z`);
+      let endDate = Date.parse(`${this.state.event.utc_end_date}Z`);
+      //console.log(startDate);
+      //console.log(endDate);
       RNCalendarEvents.saveEvent(event.title, {
         calendarId: this.state.selectedCalendar.calendarId,
         startDate: startDate,
