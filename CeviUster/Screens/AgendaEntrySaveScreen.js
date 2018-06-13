@@ -5,6 +5,7 @@ import { Icon } from 'react-native-vector-icons/FontAwesome';
 import RNCalendarEvents from 'react-native-calendar-events';
 import ModalDropdown from 'react-native-modal-dropdown';
 import moment from 'moment';
+import {COLOR_PRIMARY, COLOR_SECONDARY, COLOR_HIGHLIGHT, BORDER_RADIUS} from '../styles/common.js'
 
 export default class AgendaEntrySaveScreen extends React.Component {
 
@@ -106,8 +107,8 @@ export default class AgendaEntrySaveScreen extends React.Component {
     let evenRow = rowID % 2;
     return (
       <TouchableHighlight underlayColor='cornflowerblue'>
-        <View style={[styles.calendarDropdown_row, {backgroundColor: evenRow ? 'lemonchiffon' : 'white'}]}>
-          <Text style={[styles.calendarDropdown_row_text, highlighted && {color: 'mediumaquamarine'}]}>
+        <View style={[styles.calendarDropdown_row, {backgroundColor: evenRow ? COLOR_SECONDARY : 'white'}]}>
+          <Text style={[styles.calendarDropdown_row_text, highlighted && {color: COLOR_HIGHLIGHT}]}>
             {`${rowData.title}`}
           </Text>
         </View>
@@ -135,12 +136,12 @@ export default class AgendaEntrySaveScreen extends React.Component {
             color: 'white'
           }}
           buttonStyle={{
-            backgroundColor: "rgba(92, 99, 216, 1)",
+            backgroundColor: COLOR_PRIMARY,
             width: 140,
             height: 40,
             borderColor: "transparent",
             borderWidth: 0,
-            borderRadius: 20
+            borderRadius: BORDER_RADIUS
           }}
           title='Ok'
         />
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderWidth: 0,
     borderRadius: 3,
-    backgroundColor: 'cornflowerblue',
+    backgroundColor: COLOR_PRIMARY,
   },
   calendarDropdown_text: {
     marginVertical: 10,
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
   calendarDropdown_dropdown: {
     width: 200,
     height: 300,
-    borderColor: 'cornflowerblue',
+    borderColor: COLOR_PRIMARY,
     borderWidth: 2,
     borderRadius: 3,
   },
@@ -241,12 +242,12 @@ const styles = StyleSheet.create({
   calendarDropdown_row_text: {
     marginHorizontal: 4,
     fontSize: 16,
-    color: 'navy',
+    color: 'black',
     textAlignVertical: 'center',
   },
   calendarDropdown_separator: {
     height: 1,
-    backgroundColor: 'cornflowerblue',
+    backgroundColor: COLOR_PRIMARY,
 },
   okbutton: {
     marginTop:20,

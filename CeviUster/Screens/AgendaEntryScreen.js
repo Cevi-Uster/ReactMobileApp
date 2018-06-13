@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { Icon } from 'react-native-vector-icons/FontAwesome';
 import RNCalendarEvents from 'react-native-calendar-events';
 import moment from 'moment';
+import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from '../styles/common.js'
 
 export default class AgendaEntryScreen extends React.Component {
 
@@ -113,12 +114,12 @@ export default class AgendaEntryScreen extends React.Component {
                 color: 'white'
               }}
               buttonStyle={{
-                backgroundColor: "rgba(92, 99, 216, 1)",
+                backgroundColor: COLOR_PRIMARY,
                 width: 140,
                 height: 40,
                 borderColor: "transparent",
                 borderWidth: 0,
-                borderRadius: 20
+                borderRadius: BORDER_RADIUS
               }}
               title='Speichern'
             />

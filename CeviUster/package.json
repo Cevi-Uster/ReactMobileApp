@@ -23,10 +23,11 @@
   },
   "dependencies": {
     "flow": "^0.2.3",
+    "flowtype": "^2.0.0",
     "moment": "^2.22.0",
     "react": "16.2.0",
     "react-native": "^0.55.4",
-    "react-native-calendar-events": "^1.5.0",
+    "react-native-calendar-events": "^1.6.1",
     "react-native-elements": "^0.19.1",
     "react-native-modal-dropdown": "^0.6.2",
     "react-native-vector-icons": "^4.6.0",

@@ -45,10 +45,10 @@
 		555F0A2926784C8E8DCD5192 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0D69161E82144998393F34C /* MaterialIcons.ttf */; };
 		5E38DB088845482789E34A8C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 898E78A3A7D1499B836E0D2A /* Zocial.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		620F0F5B20D1B51400809338 /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = 620F0F5920D1B51400809338 /* main.jsbundle.meta */; };
+		620F0F5C20D1B51400809338 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 620F0F5A20D1B51400809338 /* main.jsbundle */; };
 		62535CAA205B01CA00CA386C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 62535C74205B01C900CA386C /* Ionicons.ttf */; };
 		6269BB1320AB71230034254D /* libRNCalendarEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6269BB1120AB70E50034254D /* libRNCalendarEvents.a */; };
-		627A328020CC4E070011216B /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = 627A325720CC4E070011216B /* main.jsbundle.meta */; };
-		627A328120CC4E070011216B /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 627A327F20CC4E070011216B /* main.jsbundle */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		E459C86490C647B6AEEDDA39 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2895CAD5AF7043C0B23E1E32 /* FontAwesome.ttf */; };
@@ -372,10 +372,10 @@
 		4321418EA4C44D958A160C04 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		5E145954C60549AA9F7F4E8D /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		620F0F5920D1B51400809338 /* main.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = file; path = main.jsbundle.meta; sourceTree = "<group>"; };
+		620F0F5A20D1B51400809338 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		62535C74205B01C900CA386C /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		6269BAE720AB70E50034254D /* RNCalendarEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCalendarEvents.xcodeproj; path = "../node_modules/react-native-calendar-events/RNCalendarEvents.xcodeproj"; sourceTree = "<group>"; };
-		627A325720CC4E070011216B /* main.jsbundle.meta */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle.meta; path = CeviUster/main.jsbundle.meta; sourceTree = "<group>"; };
-		627A327F20CC4E070011216B /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = CeviUster/main.jsbundle; sourceTree = "<group>"; };
 		6537A4F55F94487085A3B2A1 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		6980EFECD8DD4B50A04FDC72 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		7250A3BC96764A2694BCE082 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -528,9 +528,9 @@
 		13B07FAE1A68108700A75B9A /* CeviUster */ = {
 			isa = PBXGroup;
 			children = (
+				620F0F5A20D1B51400809338 /* main.jsbundle */,
+				620F0F5920D1B51400809338 /* main.jsbundle.meta */,
 				62535C74205B01C900CA386C /* Ionicons.ttf */,
-				627A327F20CC4E070011216B /* main.jsbundle */,
-				627A325720CC4E070011216B /* main.jsbundle.meta */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -1167,16 +1167,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				627A328020CC4E070011216B /* main.jsbundle.meta in Resources */,
+				620F0F5B20D1B51400809338 /* main.jsbundle.meta in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				62535CAA205B01CA00CA386C /* Ionicons.ttf in Resources */,
 				53EE441C946649D5A265AB2E /* Entypo.ttf in Resources */,
 				0FD45D8F0E2E4AD3AD024F55 /* EvilIcons.ttf in Resources */,
 				45DCC58FB1574BF3869A342A /* Feather.ttf in Resources */,
-				627A328120CC4E070011216B /* main.jsbundle in Resources */,
 				E459C86490C647B6AEEDDA39 /* FontAwesome.ttf in Resources */,
 				15A2AB8C3EB1497D8DBD9E15 /* Foundation.ttf in Resources */,
+				620F0F5C20D1B51400809338 /* main.jsbundle in Resources */,
 				512123D00F514C4C9DE737C5 /* Ionicons.ttf in Resources */,
 				07435F1648674536AF4E145F /* MaterialCommunityIcons.ttf in Resources */,
 				555F0A2926784C8E8DCD5192 /* MaterialIcons.ttf in Resources */,
@@ -1216,7 +1216,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../bundle_ios.sh\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
