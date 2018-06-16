@@ -38,7 +38,6 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* CeviUsterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CeviUsterTests.m */; };
-		4121C986F5CC47359957B802 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB452B5ADB3B422095D7C43B /* libRNVectorIcons.a */; };
 		45DCC58FB1574BF3869A342A /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6537A4F55F94487085A3B2A1 /* Feather.ttf */; };
 		512123D00F514C4C9DE737C5 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7250A3BC96764A2694BCE082 /* Ionicons.ttf */; };
 		53EE441C946649D5A265AB2E /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD54FD07B42E4074BB0A4566 /* Entypo.ttf */; };
@@ -47,6 +46,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		620F0F5B20D1B51400809338 /* main.jsbundle.meta in Resources */ = {isa = PBXBuildFile; fileRef = 620F0F5920D1B51400809338 /* main.jsbundle.meta */; };
 		620F0F5C20D1B51400809338 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 620F0F5A20D1B51400809338 /* main.jsbundle */; };
+		6222BAE220D5B324002704DC /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 6222BAE120D5B324002704DC /* assets */; };
 		62535CAA205B01CA00CA386C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 62535C74205B01C900CA386C /* Ionicons.ttf */; };
 		6269BB1320AB71230034254D /* libRNCalendarEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6269BB1120AB70E50034254D /* libRNCalendarEvents.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -374,6 +374,7 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		620F0F5920D1B51400809338 /* main.jsbundle.meta */ = {isa = PBXFileReference; lastKnownFileType = file; path = main.jsbundle.meta; sourceTree = "<group>"; };
 		620F0F5A20D1B51400809338 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		6222BAE120D5B324002704DC /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		62535C74205B01C900CA386C /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		6269BAE720AB70E50034254D /* RNCalendarEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCalendarEvents.xcodeproj; path = "../node_modules/react-native-calendar-events/RNCalendarEvents.xcodeproj"; sourceTree = "<group>"; };
 		6537A4F55F94487085A3B2A1 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -384,7 +385,6 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		898E78A3A7D1499B836E0D2A /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
-		BB452B5ADB3B422095D7C43B /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		F0D69161E82144998393F34C /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		F6DAC68967D94B0B98E15D16 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		FD54FD07B42E4074BB0A4566 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -416,7 +416,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				4121C986F5CC47359957B802 /* libRNVectorIcons.a in Frameworks */,
 				6269BB1320AB71230034254D /* libRNCalendarEvents.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -584,7 +583,6 @@
 		62535CC3205B052400CA386C /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				BB452B5ADB3B422095D7C43B /* libRNVectorIcons.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -647,6 +645,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6222BAE120D5B324002704DC /* assets */,
 				13B07FAE1A68108700A75B9A /* CeviUster */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* CeviUsterTests */,
@@ -1169,6 +1168,7 @@
 			files = (
 				620F0F5B20D1B51400809338 /* main.jsbundle.meta in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				6222BAE220D5B324002704DC /* assets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				62535CAA205B01CA00CA386C /* Ionicons.ttf in Resources */,
 				53EE441C946649D5A265AB2E /* Entypo.ttf in Resources */,
