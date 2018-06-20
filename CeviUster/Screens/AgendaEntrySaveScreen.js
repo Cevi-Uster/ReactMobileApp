@@ -63,6 +63,29 @@ export default class AgendaEntrySaveScreen extends React.Component {
 
   calendarLoadingFinished(calendars){
     console.log(calendars);
+    /*
+    { id: '1CFEAAAB-91F7-4BA5-877B-FB447CE06B97',
+        allowsModifications: true,
+        source: 'Default',
+        allowedAvailabilities: [],
+        title: 'Calendar' },
+
+    */
+    calendars = calendars.filter((calendar) => calendar.allowsModifications === true)
+      .map(({id, allowsModifications, source, allowedAvailabilities, title}) => ({id, allowsModifications, source, allowedAvailabilities, title}));
+    calendars.sort(function(a, b) {
+      var nameA = a !== undefined && a.title != undefined ? a.title.toUpperCase() : ""; // ignore upper and lowercase
+      var nameB = b !== undefined && b.title != undefined ? b.title.toUpperCase() : "";// ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+
+      // namen müssen gleich sein
+      return 0;
+    });
     this.setState({calendars: calendars});
     console.log(this.state.calendars);
   }
