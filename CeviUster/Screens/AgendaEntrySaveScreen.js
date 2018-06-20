@@ -70,12 +70,15 @@ export default class AgendaEntrySaveScreen extends React.Component {
   okButtonClicked(){
     if (RNCalendarEvents.authorizationStatus() !== 'denied'){
       console.log("okButtonClicked");
-      console.log(new Date().getTimezoneOffset())
-      console.log(this.state.event);
-      let startDate = Date.parse(`${this.state.event.utc_start_date}Z`);
-      let endDate = Date.parse(`${this.state.event.utc_end_date}Z`);
-      //console.log(startDate);
-      //console.log(endDate);
+      var dateFormat = 'YYYY-MM-DD HH:mm:ssZ';
+      var startDate = moment(`${this.state.event.utc_start_date}Z`, dateFormat);
+      var endDate = moment(`${this.state.event.utc_end_date}Z`, dateFormat);
+      console.log(`Calender Id: ${this.state.selectedCalendar.calendarId}`);
+      console.log(`Event title: ${event.title}`);
+      console.log(`Original startDate: ${this.state.event.utc_start_date}Z`);
+      console.log(`Original endDate: ${this.state.event.utc_end_date}Z`);
+      console.log(`Parsed startDate: ${startDate}`);
+      console.log(`Parsed endDate: ${endDate}`);
       RNCalendarEvents.saveEvent(event.title, {
         calendarId: this.state.selectedCalendar.calendarId,
         startDate: startDate,
@@ -91,8 +94,10 @@ export default class AgendaEntrySaveScreen extends React.Component {
     this.setState({selectedCalendar: value});
     if (value !== undefined && value !== null){
       this.setState({okVisible: true});
+      console.log(`Selected value: ${value} and index ${index}`);
     } else {
       this.setState({okVisible: false});
+      console.log(`No calendar selected`);
     }
 
   }
