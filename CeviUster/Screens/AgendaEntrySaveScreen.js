@@ -16,7 +16,7 @@ export default class AgendaEntrySaveScreen extends React.Component {
     event: null,
     auth: null,
     calendars: [],
-    selectedCalendar: null,
+    selectedCalendarId: null,
     okVisible: false,
   };
 
@@ -96,14 +96,14 @@ export default class AgendaEntrySaveScreen extends React.Component {
       var dateFormat = 'YYYY-MM-DD HH:mm:ssZ';
       var startDate = moment(`${this.state.event.utc_start_date}Z`, dateFormat);
       var endDate = moment(`${this.state.event.utc_end_date}Z`, dateFormat);
-      console.log(`Calender Id: ${this.state.selectedCalendar.calendarId}`);
+      console.log(`Calender Id: ${this.state.selectedCalendarId}`);
       console.log(`Event title: ${event.title}`);
       console.log(`Original startDate: ${this.state.event.utc_start_date}Z`);
       console.log(`Original endDate: ${this.state.event.utc_end_date}Z`);
       console.log(`Parsed startDate: ${startDate}`);
       console.log(`Parsed endDate: ${endDate}`);
       RNCalendarEvents.saveEvent(event.title, {
-        calendarId: this.state.selectedCalendar.calendarId,
+        calendarId: this.state.selectedCalendarId,
         startDate: startDate,
         endDate: endDate,
         location: event.venue.venue,
@@ -114,13 +114,15 @@ export default class AgendaEntrySaveScreen extends React.Component {
   }
 
   calendarSelected(index, value){
-    this.setState({selectedCalendar: value});
+
     if (value !== undefined && value !== null){
       this.setState({okVisible: true});
-      console.log(`Selected value: ${value} and index ${index}`);
+      console.log(`Selected calendar id: ${value.id} and index ${index}`);
+      this.setState({selectedCalendarId: value.id});
     } else {
       this.setState({okVisible: false});
       console.log(`No calendar selected`);
+      this.setState({selectedCalendarId: null});
     }
 
   }
