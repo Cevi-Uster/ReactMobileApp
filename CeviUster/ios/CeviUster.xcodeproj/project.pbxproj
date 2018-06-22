@@ -20,7 +20,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -49,6 +48,10 @@
 		6222BAE220D5B324002704DC /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 6222BAE120D5B324002704DC /* assets */; };
 		62535CAA205B01CA00CA386C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 62535C74205B01C900CA386C /* Ionicons.ttf */; };
 		6269BB1320AB71230034254D /* libRNCalendarEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6269BB1120AB70E50034254D /* libRNCalendarEvents.a */; };
+		62DBFBDC20DDA01A00A9D4D3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62DBFBDB20DDA01A00A9D4D3 /* Launch Screen.storyboard */; };
+		62DD709720DD93FC0001F138 /* LaunchScreen@2x in Resources */ = {isa = PBXBuildFile; fileRef = 62DD706D20DD93FB0001F138 /* LaunchScreen@2x */; };
+		62DD709820DD93FC0001F138 /* LaunchScreen in Resources */ = {isa = PBXBuildFile; fileRef = 62DD709520DD93FB0001F138 /* LaunchScreen */; };
+		62DD709920DD93FC0001F138 /* LaunchScreen@3x in Resources */ = {isa = PBXBuildFile; fileRef = 62DD709620DD93FC0001F138 /* LaunchScreen@3x */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		E459C86490C647B6AEEDDA39 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2895CAD5AF7043C0B23E1E32 /* FontAwesome.ttf */; };
@@ -360,7 +363,6 @@
 		13B07F961A680F5B00A75B9A /* CeviUster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CeviUster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CeviUster/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CeviUster/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CeviUster/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CeviUster/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CeviUster/main.m; sourceTree = "<group>"; };
@@ -377,6 +379,10 @@
 		6222BAE120D5B324002704DC /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		62535C74205B01C900CA386C /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		6269BAE720AB70E50034254D /* RNCalendarEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCalendarEvents.xcodeproj; path = "../node_modules/react-native-calendar-events/RNCalendarEvents.xcodeproj"; sourceTree = "<group>"; };
+		62DBFBDB20DDA01A00A9D4D3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		62DD706D20DD93FB0001F138 /* LaunchScreen@2x */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LaunchScreen@2x"; path = "assets/Ressources/LaunchScreen@2x"; sourceTree = "<group>"; };
+		62DD709520DD93FB0001F138 /* LaunchScreen */ = {isa = PBXFileReference; lastKnownFileType = file; name = LaunchScreen; path = assets/Ressources/LaunchScreen; sourceTree = "<group>"; };
+		62DD709620DD93FC0001F138 /* LaunchScreen@3x */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LaunchScreen@3x"; path = "assets/Ressources/LaunchScreen@3x"; sourceTree = "<group>"; };
 		6537A4F55F94487085A3B2A1 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		6980EFECD8DD4B50A04FDC72 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		7250A3BC96764A2694BCE082 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -534,8 +540,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				62DBFBDB20DDA01A00A9D4D3 /* Launch Screen.storyboard */,
 			);
 			name = CeviUster;
 			sourceTree = "<group>";
@@ -645,6 +651,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				62DD709520DD93FB0001F138 /* LaunchScreen */,
+				62DD706D20DD93FB0001F138 /* LaunchScreen@2x */,
+				62DD709620DD93FC0001F138 /* LaunchScreen@3x */,
 				6222BAE120D5B324002704DC /* assets */,
 				13B07FAE1A68108700A75B9A /* CeviUster */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1166,10 +1175,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62DD709720DD93FC0001F138 /* LaunchScreen@2x in Resources */,
+				62DD709820DD93FC0001F138 /* LaunchScreen in Resources */,
+				62DD709920DD93FC0001F138 /* LaunchScreen@3x in Resources */,
 				620F0F5B20D1B51400809338 /* main.jsbundle.meta in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				6222BAE220D5B324002704DC /* assets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				62535CAA205B01CA00CA386C /* Ionicons.ttf in Resources */,
 				53EE441C946649D5A265AB2E /* Entypo.ttf in Resources */,
 				0FD45D8F0E2E4AD3AD024F55 /* EvilIcons.ttf in Resources */,
@@ -1182,6 +1193,7 @@
 				555F0A2926784C8E8DCD5192 /* MaterialIcons.ttf in Resources */,
 				F0422B7AA4564976B6DC98C5 /* Octicons.ttf in Resources */,
 				0AD74C60D1914FA1BAB11987 /* SimpleLineIcons.ttf in Resources */,
+				62DBFBDC20DDA01A00A9D4D3 /* Launch Screen.storyboard in Resources */,
 				5E38DB088845482789E34A8C /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1284,18 +1296,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = CeviUster;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1354,7 +1354,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 5989NN7MH5;
@@ -1380,7 +1379,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5989NN7MH5;
 				HEADER_SEARCH_PATHS = (
