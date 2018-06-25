@@ -2,6 +2,7 @@ import React from 'react';
 import { SectionList, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import moment from 'moment';
+import Config from 'react-native-config';
 
 export default class AgendaScreen extends React.Component {
 
@@ -40,7 +41,7 @@ export default class AgendaScreen extends React.Component {
   }
 
   fetchCategories = async () => {
-    const categoryResponse = await fetch("https://new.cevi-uster.ch/wp-json/tribe/events/v1/categories/?hide_empty=false&orderby=parent");
+    const categoryResponse = await fetch(`${Config.AGENDA_BASE_URL}categories/?hide_empty=false&orderby=parent`);
     const json = await categoryResponse.json();
     if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
     const filteredCategories = json.categories.filter(categorie => categorie.parent == this.state.currentParentId);
@@ -52,7 +53,7 @@ export default class AgendaScreen extends React.Component {
 
   fetchEvents = async () => {
     const startDate = moment().format("YYYY-MM-DD 00:00:00");
-    const eventsResponse = await fetch(`https://new.cevi-uster.ch/wp-json/tribe/events/v1/events?start_date=${startDate}`);
+    const eventsResponse = await fetch(`${Config.AGENDA_BASE_URL}events?start_date=${startDate}`);
     const json = await eventsResponse.json();
     if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
 

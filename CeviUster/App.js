@@ -10,7 +10,6 @@ import ContactScreen from './Screens/ContactScreen';
 
 const WelcomeStack = StackNavigator({
   Welcome: {screen: WelcomeScreen},
-
 }, {
   navigationOptions: {
     headerTitle: 'Willkommen',
@@ -18,17 +17,16 @@ const WelcomeStack = StackNavigator({
 });
 
 const AgendaStack = StackNavigator({
-  Agenda: {screen: AgendaScreen},
-  AgendaEntry: {screen: AgendaEntryScreen},
-  AgendaEntrySave: {screen: AgendaEntrySaveScreen},
-}, {
-  navigationOptions: {
+    Agenda: {screen: AgendaScreen},
+    AgendaEntry: {screen: AgendaEntryScreen},
+    AgendaEntrySave: {screen: AgendaEntrySaveScreen},
+  }, {
+    navigationOptions: {
   }
 });
 
 const ContactStack = StackNavigator({
   Contact: {screen: ContactScreen},
-
 }, {
   navigationOptions: {
     headerTitle: 'Kontakt',
