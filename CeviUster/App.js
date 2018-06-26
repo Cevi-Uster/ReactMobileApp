@@ -10,10 +10,10 @@ import ContactScreen from './Screens/ContactScreen';
 
 const WelcomeStack = StackNavigator({
   Welcome: {screen: WelcomeScreen},
-}, {
-  navigationOptions: {
-    headerTitle: 'Willkommen',
-  }
+  }, {
+    navigationOptions: {
+      headerTitle: 'Willkommen',
+    }
 });
 
 const AgendaStack = StackNavigator({
