@@ -73,6 +73,9 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
+    //bundleInDebug: true,
+    //bundleInRelease: true,
+    //entryFile: "main.jsbundle",
     entryFile: "index.js"
 ]
 
@@ -96,7 +99,7 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion 26
     buildToolsVersion "27.0.3"
-
+    def pass = getPassword("mbaumgar","marc_keystore")
     defaultConfig {
         applicationId "com.ceviuster"
         minSdkVersion 16
@@ -105,6 +108,14 @@ android {
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword pass
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword pass
         }
     }
     splits {
@@ -119,6 +130,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
