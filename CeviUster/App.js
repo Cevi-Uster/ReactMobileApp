@@ -7,6 +7,8 @@ import AgendaScreen from './Screens/AgendaScreen';
 import AgendaEntryScreen from './Screens/AgendaEntryScreen';
 import AgendaEntrySaveScreen from './Screens/AgendaEntrySaveScreen';
 import ContactScreen from './Screens/ContactScreen';
+import PrivacyStatementScreen from './Screens/PrivacyStatementScreen';
+
 
 const WelcomeStack = StackNavigator({
   Welcome: {screen: WelcomeScreen},
@@ -33,11 +35,20 @@ const ContactStack = StackNavigator({
   }
 });
 
+const PrivacyStatementStack = StackNavigator({
+  Contact: {screen: PrivacyStatementScreen},
+}, {
+  navigationOptions: {
+    headerTitle: 'Datenschutz',
+  }
+});
+
 export default TabNavigator(
   {
     Willkommen: { screen: WelcomeStack, navigationOptions: { tabBarLabel: 'Willkommen' } },
     Agenda: { screen: AgendaStack, navigationOptions: { tabBarLabel: 'Agenda' } },
     Kontakt: { screen: ContactStack, navigationOptions: { tabBarLabel: 'Kontakt' } },
+    Datenschutz: { screen: PrivacyStatementStack, navigationOptions: { tabBarLabel: 'Datenschutz' } },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -56,6 +67,8 @@ export default TabNavigator(
           iconName = `ios-contact${focused ? '' : '-outline'}`;
         } else if (routeName === 'Agenda') {
           iconName = `ios-calendar${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Datenschutz') {
+          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
         }
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
