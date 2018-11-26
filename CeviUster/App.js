@@ -5,6 +5,7 @@ import { TabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
 import WelcomeScreen from './Screens/WelcomeScreen';
 import AgendaScreen from './Screens/AgendaScreen';
 import AgendaEntryScreen from './Screens/AgendaEntryScreen';
+import StufenScreen from './Screens/StufenScreen';
 import AgendaEntrySaveScreen from './Screens/AgendaEntrySaveScreen';
 import ContactScreen from './Screens/ContactScreen';
 import PrivacyStatementScreen from './Screens/PrivacyStatementScreen';
@@ -22,6 +23,14 @@ const AgendaStack = StackNavigator({
     Agenda: {screen: AgendaScreen},
     AgendaEntry: {screen: AgendaEntryScreen},
     AgendaEntrySave: {screen: AgendaEntrySaveScreen},
+  }, {
+    navigationOptions: {
+  }
+});
+
+const InfoBoxStack = StackNavigator({
+    Stufen: {screen: StufenScreen},
+    //InfoBox: {screen: InfoBoxScreen},
   }, {
     navigationOptions: {
   }
@@ -47,6 +56,7 @@ export default TabNavigator(
   {
     Willkommen: { screen: WelcomeStack, navigationOptions: { tabBarLabel: 'Willkommen' } },
     Agenda: { screen: AgendaStack, navigationOptions: { tabBarLabel: 'Agenda' } },
+    InfoBox: { screen: InfoBoxStack, navigationOptions: { tabBarLabel: 'Chäschtli' } },
     Kontakt: { screen: ContactStack, navigationOptions: { tabBarLabel: 'Kontakt' } },
     Datenschutz: { screen: PrivacyStatementStack, navigationOptions: { tabBarLabel: 'Datenschutz' } },
   },
@@ -67,6 +77,8 @@ export default TabNavigator(
           iconName = `ios-contact${focused ? '' : '-outline'}`;
         } else if (routeName === 'Agenda') {
           iconName = `ios-calendar${focused ? '' : '-outline'}`;
+        } else if (routeName === 'InfoBox') {
+          iconName = `ios-bonfire${focused ? '' : '-outline'}`;
         } else if (routeName === 'Datenschutz') {
           iconName = `ios-information-circle${focused ? '' : '-outline'}`;
         }
