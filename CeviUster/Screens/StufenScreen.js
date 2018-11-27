@@ -1,8 +1,9 @@
 import React from 'react';
-import { SectionList, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { SectionList, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import moment from 'moment';
 import Config from 'react-native-config';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class StufenScreen extends React.Component {
 
@@ -54,10 +55,16 @@ export default class StufenScreen extends React.Component {
   }
 
   render() {
+    var styles = StyleSheet.create({
+    PNGImageStyle: {
+      width: 25,
+      height: 25
+    }});
     return (
       <View>
         <List  containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
           <SectionList
+
             sections={[
               {
                 title: "Stufen",
@@ -68,7 +75,8 @@ export default class StufenScreen extends React.Component {
                     <ListItem
                       title={`${item.name}`}
                       onPress={() => this.onStufePressed(item)}
-                      leftIcon={{name: 'folder'}}
+                      //leftIcon={<Icon name="ios-bonfire" color="#ccc" size={30} />}
+                      leftIcon={<Image source={require('../Ressources/Home_Icon.png')} style={[styles.PNGImageStyle]} />}
                     />
                   </TouchableOpacity>,
               }

@@ -10,7 +10,6 @@ import AgendaEntrySaveScreen from './Screens/AgendaEntrySaveScreen';
 import ContactScreen from './Screens/ContactScreen';
 import PrivacyStatementScreen from './Screens/PrivacyStatementScreen';
 
-
 const WelcomeStack = StackNavigator({
   Welcome: {screen: WelcomeScreen},
   }, {
