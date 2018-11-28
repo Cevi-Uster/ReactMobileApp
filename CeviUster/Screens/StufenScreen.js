@@ -58,7 +58,8 @@ export default class StufenScreen extends React.Component {
     var styles = StyleSheet.create({
     PNGImageStyle: {
       width: 25,
-      height: 25
+      height: 25,
+      marginRight: 20
     }});
     return (
       <View>
@@ -77,6 +78,7 @@ export default class StufenScreen extends React.Component {
                       onPress={() => this.onStufePressed(item)}
                       //leftIcon={<Icon name="ios-bonfire" color="#ccc" size={30} />}
                       leftIcon={<Image source={require('../Ressources/Home_Icon.png')} style={[styles.PNGImageStyle]} />}
+                      //pad={`200`}
                     />
                   </TouchableOpacity>,
               }
