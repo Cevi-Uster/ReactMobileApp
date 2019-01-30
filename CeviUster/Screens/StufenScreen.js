@@ -4,12 +4,12 @@ import { List, ListItem } from 'react-native-elements';
 import moment from 'moment';
 import Config from 'react-native-config';
 import Icon from 'react-native-vector-icons/Ionicons';
+import InfoBoxScreen from './InfoBoxScreen';
 
 export default class StufenScreen extends React.Component {
 
   state = {
     stufen: [],
-    infoBoxEntry: null,
     currentParentStufenId: -1,
   };
 
@@ -51,7 +51,7 @@ export default class StufenScreen extends React.Component {
 
   onStufePressed(item){
      console.log(item);
-     //this.props.navigation.navigate('InfoBox', {parentStufe: item, title: item.name});
+     this.props.navigation.navigate('InfoBox', {parentStufe: item, title: item.name});
   }
 
   render() {
@@ -65,7 +65,6 @@ export default class StufenScreen extends React.Component {
       <View>
         <List  containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
           <SectionList
-
             sections={[
               {
                 title: "Stufen",

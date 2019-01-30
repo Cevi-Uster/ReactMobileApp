@@ -6,6 +6,7 @@ import WelcomeScreen from './Screens/WelcomeScreen';
 import AgendaScreen from './Screens/AgendaScreen';
 import AgendaEntryScreen from './Screens/AgendaEntryScreen';
 import StufenScreen from './Screens/StufenScreen';
+import InfoBoxScreen from './Screens/InfoBoxScreen';
 import AgendaEntrySaveScreen from './Screens/AgendaEntrySaveScreen';
 import ContactScreen from './Screens/ContactScreen';
 import PrivacyStatementScreen from './Screens/PrivacyStatementScreen';
@@ -29,7 +30,7 @@ const AgendaStack = StackNavigator({
 
 const InfoBoxStack = StackNavigator({
     Stufen: {screen: StufenScreen},
-    //InfoBox: {screen: InfoBoxScreen},
+    InfoBox: {screen: InfoBoxScreen},
   }, {
     navigationOptions: {
   }

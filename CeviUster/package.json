@@ -25,9 +25,13 @@
   },
   "dependencies": {
     "@babel/preset-react": "^7.0.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react-native": "5",
     "flow": "^0.2.3",
     "flowtype": "^2.0.0",
+    "mobx": "^5.9.0",
+    "mobx-react": "^5.4.3",
     "moment": "^2.22.0",
     "react": "16.5.0",
     "react-native": "0.57.2",
