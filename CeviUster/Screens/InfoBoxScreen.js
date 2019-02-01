@@ -16,6 +16,7 @@ export default class InfoBoxScreen extends React.Component {
 
   state = observable({
     stufe: null,
+    aktuell: false,
     von: null,
     bis: null,
     wo: null,
@@ -56,67 +57,109 @@ export default class InfoBoxScreen extends React.Component {
     const chaeschliResponse = await fetch(url);
     const json = await chaeschliResponse.json();
     if (json !== undefined && json !== null){
-      this.state.von= json.von;
-      this.state.bis = json.bis;
-      this.state.wo = json.wo;
-      this.state.infos = json.infos;
-      this.state.mitnehmen = json.mitnehmen;
-      console.log(this.state);
+      this.state.von = new Date(Date.parse(json.von));
+      this.state.aktuell = this.state.von !== undefined && this.state.von > 0 && this.state.von - Date.now() > 0;
+      if (!this.state.aktuell){
+        this.state.von = null;
+        this.state.bis = null;
+        this.state.wo = null;
+        this.state.infos  = 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.';
+        this.state.mitnehmen = null;
+      } else {
+        this.state.bis = new Date(Date.parse(json.bis));
+        this.state.wo = json.wo;
+        this.state.infos = json.infos;
+        this.state.mitnehmen = json.mitnehmen;
+      }
+      console.log(this.state.von);
     } 
-    
-  }
-
-  render2() {
-    return (
-      <Text
-      style={styles.title}>
-      {this.state.wo}
-    </Text>
-    );
   }
 
   render() {
     let dateTime = '';
     if (this.state.von !== undefined && this.state.von !== null) {
-      dateTime = `${this.state.von}`;
+      let fromDay = ('0' + this.state.von.getDate()).slice(-2);
+      let fromMonth = ('0' + (this.state.von.getMonth() + 1)).slice(-2);
+      let fromHours =  ('0' + this.state.von.getHours()).slice(-2);
+      let fromMinutes=  ('0' + this.state.von.getMinutes()).slice(-2);
+      dateTime = `${fromDay}.${fromMonth}.${this.state.von.getFullYear()} ${fromHours}:${fromMinutes}`;
     }
     
     if (this.state.bis!== undefined && this.state.bis !== null) {
-      dateTime= `${dateTime} - ${this.state.bis}`
+      dateTime= `${dateTime} - ${this.state.bis.getHours()}:${this.state.bis.getMinutes()}`;
     }
-  
-    return (
-      <ScrollView>
-        <View style={styles.container}>
-          <Image
-            style={styles.icon}
-            source={require('../Ressources/CeviLogoTransparent.png')}
-          />
-          <View style={styles.content}>
-            <Text
-              style={styles.title}>
-              {this.state.stufe.name}
-            </Text>
-            <Text
-              style={styles.date}>
-              {dateTime}
-            </Text>
-            <Text
-              style={styles.ort}>
-              {this.state.wo}
-            </Text>
-            <Text
-              style={styles.info}>
-              {this.state.infos}
-            </Text>
-            <Text
-              style={styles.mitnehmen}>
-              {this.state.mitnehmen}
-            </Text>
+    
+    if (this.state.aktuell){
+      return (
+        <ScrollView>
+          <View style={styles.container}>
+            <Image
+              style={styles.icon}
+              source={require('../Ressources/CeviLogoTransparent.png')}
+            />
+            <View style={styles.content}>
+              <Text
+                style={styles.title}>
+                {this.state.stufe.name}
+              </Text>
+              <Text
+                style={styles.header}>
+                {"\n"}Treffpunkt:
+              </Text>
+              <Text
+                style={styles.date}>
+                {dateTime}
+              </Text>
+              <Text
+                style={styles.ort}>
+                {this.state.wo}
+              </Text>
+              <Text
+                style={styles.header}>
+                {"\n"}Infos:
+              </Text>
+              <Text
+                style={styles.info}>
+                {this.state.infos}
+              </Text>
+              <Text
+                style={styles.header}>
+                {"\n"}Mitnehmen:
+              </Text>
+              <Text
+                style={styles.mitnehmen}>
+                {this.state.mitnehmen}
+              </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    );
+        </ScrollView>
+      );
+    } else {
+      return (
+        <ScrollView>
+          <View style={styles.container}>
+            <Image
+              style={styles.icon}
+              source={require('../Ressources/CeviLogoTransparent.png')}
+            />
+            <View style={styles.content}>
+              <Text
+                style={styles.title}>
+                {this.state.stufe.name}
+              </Text>
+                            <Text
+                style={styles.header}>
+                {"\n"}Infos:
+              </Text>
+              <Text
+                style={styles.info}>
+                {this.state.infos}
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+      );
+    }
   }
   
 }
@@ -135,6 +178,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
+    fontWeight: 'bold',
+  },
+  header: {
+    fontSize: 16,
     fontWeight: 'bold',
   },
   date: {
