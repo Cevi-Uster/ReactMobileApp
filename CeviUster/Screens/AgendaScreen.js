@@ -41,7 +41,7 @@ export default class AgendaScreen extends React.Component {
   }
 
   fetchCategories = async () => {
-    const categoryResponse = await fetch(`${Config.AGENDA_BASE_URL}categories/?hide_empty=false&orderby=parent`);
+    const categoryResponse = await fetch(`${Config.AGENDA_BASE_URL}categories/?hide_empty=false&orderby=parent&per_page=10000`);
     const json = await categoryResponse.json();
     if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
     const filteredCategories = json.categories.filter(categorie => categorie.parent == this.state.currentParentId);
