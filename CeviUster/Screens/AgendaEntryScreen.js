@@ -71,6 +71,9 @@ export default class AgendaEntryScreen extends React.Component {
     console.log(`imageScaledWidth ${imageScaledWidth}`);
     console.log(`event.image.width ${event.image.width}`);
     console.log(`ìmageScaledHeight ${imageScaledHeight}`);
+
+    let description = event.description.replace(/<(.|\n)*?>/g, '');
+
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -93,7 +96,7 @@ export default class AgendaEntryScreen extends React.Component {
             </Text>
           <Text
             style={styles.description}>
-            {event.description}
+            {description}
           </Text>
           <Image
             style={styles.image}
