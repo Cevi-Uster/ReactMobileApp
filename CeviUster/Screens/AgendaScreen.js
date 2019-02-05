@@ -105,11 +105,23 @@ export default class AgendaScreen extends React.Component {
                 title: "Termine",
                 data: this.state.events,
                 keyExtractor: (x, i) => i,
-                renderItem: ({item}) =>
-                  <ListItem
-                    title={`${item.start_date_details.day}.${item.start_date_details.month}.${item.start_date_details.year} ${item.start_date_details.hour}:${item.start_date_details.minutes} ${item.title}`}
+                renderItem: ({item}) => {
+                  let dateText = `${item.start_date_details.day}.${item.start_date_details.month}.${item.start_date_details.year}`;
+                  let timeText = ``;
+                  if (!item.all_day){
+                    timeText +=  `${item.start_date_details.hour}:${item.start_date_details.minutes}`;
+                    if (item.end_date_details.hour !== undefined){
+                      timeText += ` - ${item.end_date_details.hour}:${item.end_date_details.minutes}`;
+                    }
+                  }  else {
+                    timeText += `Ganzer Tag`;
+                  }
+                  return <ListItem
+                    title={`${dateText} ${item.title}`}
+                    subtitle={`${timeText}`}
                     onPress={() => this.onEventPressed(item)}
                   />
+                }
               }
             ]}
           />
