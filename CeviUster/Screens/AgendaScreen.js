@@ -53,7 +53,7 @@ export default class AgendaScreen extends React.Component {
 
   fetchEvents = async () => {
     const startDate = moment().format("YYYY-MM-DD 00:00:00");
-    const eventsResponse = await fetch(`${Config.AGENDA_BASE_URL}events?start_date=${startDate}`);
+    const eventsResponse = await fetch(`${Config.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${this.state.currentParentId}&per_page=10000`);
     const json = await eventsResponse.json();
     if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
 
