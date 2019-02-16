@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="ipad10_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,21 +18,17 @@
                         <viewControllerLayoutGuide type="bottom" id="CtT-Lf-vn1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenImage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wrx-6R-mlx">
-                                <rect key="frame" x="0.0" y="28" width="375" height="639"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Wrx-6R-mlx" secondAttribute="height" multiplier="125:213" id="zdS-C3-WzU"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenImage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wrx-6R-mlx">
+                                <rect key="frame" x="33" y="172" width="768" height="768"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Wrx-6R-mlx" secondAttribute="trailing" id="E4v-Wb-ZTG"/>
-                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="W6w-zF-xDJ"/>
-                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="top" secondItem="JHO-mV-WbA" secondAttribute="bottom" constant="8" symbolic="YES" id="iNS-ZE-Zzf"/>
+                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="cQe-xx-rFF"/>
+                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="z2z-7K-g8a"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -43,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchScreenImage" width="512" height="512"/>
+        <image name="LaunchScreenImage" width="768" height="768"/>
     </resources>
 </document>
