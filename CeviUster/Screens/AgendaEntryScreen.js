@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     marginTop:5,
   },
   buttonview: {
+    marginTop: 10,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center'
