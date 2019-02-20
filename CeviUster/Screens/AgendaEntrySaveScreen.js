@@ -190,22 +190,24 @@ export default class AgendaEntrySaveScreen extends React.Component {
             style={styles.icon}
             source={require('../Ressources/CeviLogoTransparent.png')}
           />
-          <View style={styles.content}>
+          <View style={styles.titleview}>
             <Text
               style={styles.title}>
               {'Kalender wählen'}
             </Text>
-            <ModalDropdown ref="calendarDropdown"
-               style={styles.calendarDropdown}
-               textStyle={styles.calendarDropdown_text}
-               dropdownStyle={styles.calendarDropdown_dropdown}
-               options={this.state.calendars}
-               renderButtonText={(rowData) => this.calendarDropdownRenderButtonText(rowData)}
-               renderRow={this.calendarDropdownRenderRow.bind(this)}
-               renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this.calendarDropdownRenderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-               onSelect={(index, value) => {this.calendarSelected(index, value)}}
-            />
           </View>
+          <View style={styles.dropdownview}>
+              <ModalDropdown ref="calendarDropdown"
+                style={styles.calendarDropdown}
+                textStyle={styles.calendarDropdown_text}
+                dropdownStyle={styles.calendarDropdown_dropdown}
+                options={this.state.calendars}
+                renderButtonText={(rowData) => this.calendarDropdownRenderButtonText(rowData)}
+                renderRow={this.calendarDropdownRenderRow.bind(this)}
+                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this.calendarDropdownRenderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+                onSelect={(index, value) => {this.calendarSelected(index, value)}}
+              />
+              </View>
           <View style={styles.buttonview}>
             {this.renderOkButton()}
           </View>
@@ -224,7 +226,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60
   },
-  content: {
+  titleview: {
     marginTop: 5,
     marginLeft: 38,
   },
@@ -232,9 +234,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
   },
-  buttonview: {
-    marginTop: 10,
-    width: '100%',
+  dropdownview: {
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -280,7 +280,13 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: COLOR_PRIMARY,
 },
-  okbutton: {
+buttonview: {
+  marginTop: 10,
+  width: '100%',
+  justifyContent: 'center',
+  alignItems: 'center'
+},  
+okbutton: {
     marginTop:20,
   }
 });
