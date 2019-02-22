@@ -119,7 +119,7 @@ export default class AgendaEntryScreen extends React.Component {
               buttonStyle={{
                 backgroundColor: COLOR_PRIMARY,
                 width: 140,
-                height: 40,
+                height: 50,
                 borderColor: "transparent",
                 borderWidth: 0,
                 borderRadius: BORDER_RADIUS
