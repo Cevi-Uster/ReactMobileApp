@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="ipad10_5" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,17 +18,23 @@
                         <viewControllerLayoutGuide type="bottom" id="CtT-Lf-vn1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenImage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wrx-6R-mlx">
-                                <rect key="frame" x="33" y="172" width="768" height="768"/>
+                                <rect key="frame" x="29" y="153" width="262" height="262"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Wrx-6R-mlx" secondAttribute="height" multiplier="1:1" id="bFk-3S-2uf"/>
+                                    <constraint firstAttribute="width" secondItem="Wrx-6R-mlx" secondAttribute="height" multiplier="1:1" id="cIP-Xm-Af5"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="cQe-xx-rFF"/>
-                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="z2z-7K-g8a"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Wrx-6R-mlx" secondAttribute="trailing" constant="13" id="9uz-0Z-J1w"/>
+                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="13" id="Rtt-IA-5Kp"/>
+                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="js4-Kl-H1g"/>
+                            <constraint firstItem="Wrx-6R-mlx" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="mNR-RM-w4R"/>
                         </constraints>
                     </view>
                 </viewController>
