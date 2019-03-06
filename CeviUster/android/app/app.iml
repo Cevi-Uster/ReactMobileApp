@@ -151,5 +151,11 @@
     <orderEntry type="module" module-name="react-native-config" />
     <orderEntry type="module" module-name="react-native-vector-icons" />
     <orderEntry type="module" module-name="react-native-calendar-events" />
+    <orderEntry type="module" module-name="react-native-config" />
+    <orderEntry type="module" module-name="react-native-vector-icons" />
+    <orderEntry type="module" module-name="react-native-calendar-events" />
+    <orderEntry type="module" module-name="react-native-config" />
+    <orderEntry type="module" module-name="react-native-vector-icons" />
+    <orderEntry type="module" module-name="react-native-calendar-events" />
   </component>
 </module>
