@@ -97,17 +97,17 @@ export default class AgendaEntrySaveScreen extends React.Component {
       var startDate = moment(`${this.state.event.utc_start_date}Z`, dateFormat);
       var endDate = moment(`${this.state.event.utc_end_date}Z`, dateFormat);
       console.log(`Calender Id: ${this.state.selectedCalendarId}`);
-      console.log(`Event title: ${event.title}`);
+      console.log(`Event title: ${this.state.event.title}`);
       console.log(`Original startDate: ${this.state.event.utc_start_date}Z`);
       console.log(`Original endDate: ${this.state.event.utc_end_date}Z`);
       console.log(`Parsed startDate: ${startDate}`);
       console.log(`Parsed endDate: ${endDate}`);
-      RNCalendarEvents.saveEvent(event.title, {
+      RNCalendarEvents.saveEvent(this.state.event.title, {
         calendarId: this.state.selectedCalendarId,
         startDate: startDate,
         endDate: endDate,
-        location: event.venue.venue,
-        notes: event.description
+        location: this.state.event.venue.venue,
+        notes: this.state.event.description
       });
       this.props.navigation.goBack();
     }
