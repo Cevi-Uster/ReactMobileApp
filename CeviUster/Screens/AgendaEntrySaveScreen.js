@@ -201,6 +201,7 @@ export default class AgendaEntrySaveScreen extends React.Component {
                 style={styles.calendarDropdown}
                 textStyle={styles.calendarDropdown_text}
                 dropdownStyle={styles.calendarDropdown_dropdown}
+                defaultValue="Kalender wählen"
                 options={this.state.calendars}
                 renderButtonText={(rowData) => this.calendarDropdownRenderButtonText(rowData)}
                 renderRow={this.calendarDropdownRenderRow.bind(this)}
