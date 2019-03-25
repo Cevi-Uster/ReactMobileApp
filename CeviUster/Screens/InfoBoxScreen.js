@@ -57,8 +57,8 @@ export default class InfoBoxScreen extends React.Component {
     const chaeschliResponse = await fetch(url);
     const json = await chaeschliResponse.json();
     if (json !== undefined && json !== null){
-      this.state.von = new Date(Date.parse(json.von));
-      this.state.aktuell = this.state.von !== undefined && this.state.von > 0 && this.state.von - Date.now() > 0;
+      var expiryMoment = moment(Date.parse(json.bis)).endOf('day');
+      this.state.aktuell = moment().diff(expiryMoment) < 0;
       if (!this.state.aktuell){
         this.state.von = null;
         this.state.bis = null;
@@ -66,6 +66,7 @@ export default class InfoBoxScreen extends React.Component {
         this.state.infos  = 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.';
         this.state.mitnehmen = null;
       } else {
+        this.state.von = new Date(Date.parse(json.von));
         this.state.bis = new Date(Date.parse(json.bis));
         this.state.wo = json.wo;
         this.state.infos = json.infos;
@@ -86,7 +87,9 @@ export default class InfoBoxScreen extends React.Component {
     }
     
     if (this.state.bis!== undefined && this.state.bis !== null) {
-      dateTime= `${dateTime} - ${this.state.bis.getHours()}:${this.state.bis.getMinutes()}`;
+      let toHours =  ('0' + this.state.bis.getHours()).slice(-2);
+      let toMinutes=  ('0' + this.state.bis.getMinutes()).slice(-2);
+      dateTime = `${dateTime} - ${toHours}:${toMinutes}`;
     }
     
     if (this.state.aktuell){
