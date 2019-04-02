@@ -1,4 +1,4 @@
-package com.ceviuster;
+package ch.ceviuster.android;
 
 import android.app.Application;
 

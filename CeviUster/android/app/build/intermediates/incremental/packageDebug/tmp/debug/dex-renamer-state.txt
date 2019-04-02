@@ -1,0 +1,4 @@
+#Mon Mar 11 22:44:50 CET 2019
+base.0=/Users/matthiaskunz/Documents/Webpages/Cevi/ReactMobileApp/CeviUster/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
