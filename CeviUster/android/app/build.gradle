@@ -100,8 +100,9 @@ def enableProguardInReleaseBuilds = false
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
-    def pass = getPassword("matthiaskunz","android_keystore")
-    def keypass = getPassword("matthiaskunz","android_keystore_matthias-kunz_key")
+    def username = System.properties['user.name']
+    def pass = getPassword(username, MYAPP_KEYSTORE_KEYCHAIN_NAME)
+    def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)
     defaultConfig {
         applicationId "ch.ceviuster.android"
         minSdkVersion 16

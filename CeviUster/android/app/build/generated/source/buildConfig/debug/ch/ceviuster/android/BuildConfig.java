@@ -8,7 +8,7 @@ public final class BuildConfig {
   public static final String APPLICATION_ID = "ch.ceviuster.android";
   public static final String BUILD_TYPE = "debug";
   public static final String FLAVOR = "";
-  public static final int VERSION_CODE = 9;
+  public static final int VERSION_CODE = 10;
   public static final String VERSION_NAME = "3.0";
   // Fields from default config.
   public static final String AGENDA_BASE_URL = "https://cevi-uster.ch/wp-json/tribe/events/v1/";
