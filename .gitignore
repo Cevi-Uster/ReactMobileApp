@@ -1,4 +1,5 @@
-CeviUster/android/.gradle/
-CeviUster/android/app/build/
+.gradle/
+.idea/
+build/
 CeviUster.code-workspace
 CeviUster/android/local.properties
