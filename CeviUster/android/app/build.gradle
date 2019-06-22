@@ -104,7 +104,7 @@ android {
     def pass = getPassword(username, MYAPP_KEYSTORE_KEYCHAIN_NAME)
     def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)
     defaultConfig {
-        applicationId "ch.ceviuster.android"
+        applicationId "com.ceviuster"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 10
