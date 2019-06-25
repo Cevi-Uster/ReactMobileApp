@@ -147,8 +147,8 @@
     <orderEntry type="library" name="Gradle: org.webkit:android-jsc:r236355@aar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.facebook.soloader:soloader:0.5.1@aar" level="project" />
-    <orderEntry type="module" module-name="react-native-config" />
-    <orderEntry type="module" module-name="react-native-vector-icons" />
-    <orderEntry type="module" module-name="react-native-calendar-events" />
+    <orderEntry type="module" module-name="android-react-native-config" />
+    <orderEntry type="module" module-name="android-react-native-vector-icons" />
+    <orderEntry type="module" module-name="android-react-native-calendar-events" />
   </component>
 </module>
