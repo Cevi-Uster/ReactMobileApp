@@ -98,19 +98,19 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     def username = System.properties['user.name']
     def pass = getPassword(username, MYAPP_KEYSTORE_KEYCHAIN_NAME)
     def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)
     defaultConfig {
         applicationId "com.ceviuster"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 10
         versionName "3.0"
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     signingConfigs {
@@ -126,7 +126,7 @@ android {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     buildTypes {
@@ -141,7 +141,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def versionCodes = ["armeabi-v7a":1, "x86":2, "arm64-v8a":3, "x86_64":4]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
@@ -151,18 +151,18 @@ android {
     }
 }
 
-configurations.all {
+/*configurations.all {
     resolutionStrategy {
         force 'org.webkit:android-jsc:r236355'
     }
-}
+}*/
 
 dependencies {
     compile project(':react-native-config')
     api project(':react-native-calendar-events')
     api project(':react-native-vector-icons')
     api fileTree(dir: "libs", include: ["*.jar"])
-    api "com.android.support:appcompat-v7:27.0.3"
+    api "com.android.support:appcompat-v7:28+"
     api "com.facebook.react:react-native:+"  // From node_modules
 }
 
