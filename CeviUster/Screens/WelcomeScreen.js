@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, WebView } from 'react-native';
+import { WebView } from 'react-native-webview';
 import Config from 'react-native-config';
 
 export default class WelcomeScreen extends React.Component {

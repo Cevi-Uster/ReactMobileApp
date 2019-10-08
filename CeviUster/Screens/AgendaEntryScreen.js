@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Icon } from 'react-native-vector-icons/FontAwesome';
-import RNCalendarEvents from 'react-native-calendar-events';
-import moment from 'moment';
 import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from '../styles/common.js'
 
 export default class AgendaEntryScreen extends React.Component {
