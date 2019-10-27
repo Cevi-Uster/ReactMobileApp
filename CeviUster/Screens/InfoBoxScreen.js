@@ -76,6 +76,10 @@ export default class InfoBoxScreen extends React.Component {
     } 
   }
 
+  dropOutButtonClicked(){
+    console.log("dropOutButtonClicked");
+  }
+
   render() {
     let dateTime = '';
     if (this.state.von !== undefined && this.state.von !== null) {
@@ -133,6 +137,21 @@ export default class InfoBoxScreen extends React.Component {
                 style={styles.mitnehmen}>
                 {this.state.mitnehmen}
               </Text>
+              <View style={styles.buttonview}>
+            <Button
+              style={styles.dropOutButton}
+              onPress={() => {this.dropOutButtonClicked()}}
+              buttonStyle={{
+                backgroundColor: COLOR_PRIMARY,
+                width: 140,
+                height: 50,
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: BORDER_RADIUS
+              }}
+              title='Abmelden'
+            />
+          </View>
             </View>
           </View>
         </ScrollView>
@@ -150,7 +169,7 @@ export default class InfoBoxScreen extends React.Component {
                 style={styles.title}>
                 {this.state.stufe.name}
               </Text>
-                            <Text
+              <Text
                 style={styles.header}>
                 {"\n"}Infos:
               </Text>
@@ -205,4 +224,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 14,
   },
+  buttonview: {
+    marginTop: 10,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  dropOutButton: {
+    marginTop:10,
+  }
 });
