@@ -1,6 +1,6 @@
+import { observable, observe } from "mobx";
 import React from 'react';
-import DropOutForm from '../Forms/DropOutForm/DropOutForm'
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
+import DropOutForm from '../Forms/DropOutForm/DropOutForm';
 
 
 export default class DropOutScreen extends React.Component {
@@ -22,7 +22,7 @@ export default class DropOutScreen extends React.Component {
         console.log(props);
         if (this.props.navigation.state.params && this.props.navigation.state.params.parentStufe) {
             this.state.stufe = this.props.navigation.state.params.parentStufe;
-            this.state.destinationEmail = this.props.navigation.state.destinationEmail;
+            this.state.destinationEmail = this.props.navigation.state.params.destinationEmail;
             this.props.navigation.setParams({ title: this.props.navigation.state.params.parentStufe.name });
         } else {
             this.props.navigation.setParams({ title: "Unknown" });
@@ -30,6 +30,7 @@ export default class DropOutScreen extends React.Component {
     }
 
     render() {
-        return <DropOutForm onSubmit={(values) => Alert.alert('Submitted!', JSON.stringify(values))} />;
+        return null;
+        //return <DropOutForm onSubmit={(values) => Alert.alert('Submitted!', JSON.stringify(values))} />;
     }
 }

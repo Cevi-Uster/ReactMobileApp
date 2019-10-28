@@ -22,6 +22,7 @@ export default class InfoBoxScreen extends React.Component {
     wo: null,
     infos: null,
     mitnehmen: null,
+    email: null,
   });
   
   disposer = observe(this.state, (change) => {
@@ -65,19 +66,22 @@ export default class InfoBoxScreen extends React.Component {
         this.state.wo = null;
         this.state.infos  = 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.';
         this.state.mitnehmen = null;
+        this.state.email = null;
       } else {
         this.state.von = new Date(Date.parse(json.von));
         this.state.bis = new Date(Date.parse(json.bis));
         this.state.wo = json.wo;
         this.state.infos = json.infos;
         this.state.mitnehmen = json.mitnehmen;
+        this.state.email = json.email;
       }
       console.log(this.state.von);
     } 
   }
 
-  dropOutButtonClicked(){
+  dropOutButtonClicked() {
     console.log("dropOutButtonClicked");
+    this.props.navigation.navigate('DropOut', {parentStufe: this.state.stufe, destinationEmail: this.state.email});
   }
 
   render() {
@@ -149,7 +153,7 @@ export default class InfoBoxScreen extends React.Component {
                 borderWidth: 0,
                 borderRadius: BORDER_RADIUS
               }}
-              title='Abmelden'
+              title='Abmelden!'
             />
           </View>
             </View>
