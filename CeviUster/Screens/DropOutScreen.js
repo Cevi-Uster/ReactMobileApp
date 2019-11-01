@@ -4,6 +4,7 @@ import { Alert, ScrollView, StyleSheet, Text, TextInput, View, Keyboard } from '
 import { CheckBox } from 'react-native-elements';
 import { COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS } from '../styles/common.js'
 import { Button } from 'react-native-elements';
+import Config from 'react-native-config';
 
 
 export default class DropOutScreen extends React.Component {
@@ -101,7 +102,7 @@ export default class DropOutScreen extends React.Component {
 
     handleSubmit(values) {
         if (this.validateData()){
-            Alert.alert('Submitted!', JSON.stringify(values));
+            this.sendData()
         }   
     }
 
@@ -117,6 +118,48 @@ export default class DropOutScreen extends React.Component {
             return false;
         }
         return true;
+    }
+
+    sendData() {
+        let formData = new FormData();
+        //formData.append('destination-email',  this.state.destinationEmail);
+        formData.append('destination-email',  'marc@mabaka.ch');
+        formData.append('your-name',  this.state.your_name);
+        formData.append('your-email',  this.state.your_email);
+        formData.append('your-subject',  this.state.your_subject);
+        formData.append('your-message',  this.state.your_message);
+        formData.append('acceptance',  this.state.acceptance);
+
+        const url = `${Config.DROP_OFF_FORM_URL}`;
+        Alert.alert('URL!', url);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+            body: formData
+         })
+         .then((response) => {
+            Alert.alert('Gesendet!', JSON.stringify(response));
+         })
+         .then((responseJson) => {
+            Alert.alert('Gesendet!', JSON.stringify(responseJson));
+         })
+         .catch((error) => {
+            console.error(error);
+            Alert.alert('Fehler beim Senden!', error);
+         });
+
+        //Alert.alert('Submitted!', JSON.stringify(formData));
+    }
+
+    handleError(e) {
+        Alert.alert('Fehler beim Senden: ', e);
+    }
+
+    readyStateChanged() {
+        
     }
 }
 

@@ -1,13 +1,10 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Icon } from 'react-native-vector-icons/FontAwesome';
 import Config from 'react-native-config';
-import RNCalendarEvents from 'react-native-calendar-events';
 import moment from 'moment';
-import { observable, observe, computed, action, decorate } from "mobx"
-import { observer } from "mobx-react"
-import { COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS } from '../styles/common.js'
+import { observable, observe } from "mobx"
+import { COLOR_PRIMARY, BORDER_RADIUS } from '../styles/common.js'
 
 export default class InfoBoxScreen extends React.Component {
 
