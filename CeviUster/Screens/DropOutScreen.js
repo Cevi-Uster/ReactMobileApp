@@ -41,7 +41,6 @@ export default class DropOutScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-
                     <Text
                         style={styles.title}>
                         Abmeldung
@@ -53,7 +52,7 @@ export default class DropOutScreen extends React.Component {
                     <Text style={styles.text}>Dein Name*</Text>
                     <TextInput
                         style={styles.text_input}
-                        onChangeText={(your_name) => this.setState({[your_name]: your_name})}
+                        onChangeText={(your_name) => this.setState({your_name: your_name})}
                         onBlur={Keyboard.dismiss}
                         value={this.state.your_name}
                     />
@@ -61,13 +60,15 @@ export default class DropOutScreen extends React.Component {
                     <TextInput
                         style={styles.text_input}
                         keyboardType='email-address'
-                        onChangeText={(your_email) => this.setState({[your_email]: your_email})}
-                        value={this.state.your_name}
+                        onChangeText={(your_email) => this.setState({your_email: your_email})}
+                        value={this.state.your_email}
+                        autoCapitalize={false}
+                        autoCorrect={false}
                     />
                     <Text style={styles.text}>Deine Nachricht</Text>
                     <TextInput
                         style={styles.multiline_text_input}
-                        onChangeText={(your_message) => this.setState({[your_message]: your_message})}
+                        onChangeText={(your_message) => this.setState({your_message: your_message})}
                         onBlur={Keyboard.dismiss}
                         value={this.state.your_message}
                         multiline={true}
@@ -99,7 +100,23 @@ export default class DropOutScreen extends React.Component {
     }
 
     handleSubmit(values) {
-        return Alert.alert('Submitted!', JSON.stringify(values));
+        if (this.validateData()){
+            Alert.alert('Submitted!', JSON.stringify(values));
+        }   
+    }
+
+    validateData() {
+        if (!this.state.your_name){
+            Alert.alert('Bitte gibt deinen Namen ein. ');
+            return false;
+        } else if (!this.state.your_email){
+            Alert.alert('Bitte gibt deine E-Mailadresse ein.');
+            return false;
+        } if (!this.state.acceptance){
+            Alert.alert('Bitte stimme der Datenverwendung zu.');
+            return false;
+        }
+        return true;
     }
 }
 
