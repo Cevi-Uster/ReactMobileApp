@@ -141,7 +141,8 @@ export default class InfoBoxScreen extends React.Component {
                 style={styles.mitnehmen}>
                 {this.state.mitnehmen}
               </Text>
-              <View style={styles.buttonview}>
+            </View>
+            <View style={styles.buttonview}>
                 <Button
                   style={styles.dropOutButton}
                   onPress={() => { this.dropOutButtonClicked() }}
@@ -155,7 +156,6 @@ export default class InfoBoxScreen extends React.Component {
                   }}
                   title='Abmelden!'
                 />
-              </View>
             </View>
           </View>
         </ScrollView>
