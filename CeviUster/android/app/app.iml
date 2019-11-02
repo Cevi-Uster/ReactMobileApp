@@ -134,9 +134,9 @@
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-core:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.interpolator:interpolator:1.0.0@aar" level="project" />
-    <orderEntry type="module" module-name="react-native-calendar-events-android-react-native-calendar-events" />
-    <orderEntry type="module" module-name="react-native-vector-icons-android-react-native-vector-icons" />
-    <orderEntry type="module" module-name="react-native-config-android-react-native-config" />
-    <orderEntry type="module" module-name="android-react-native-webview" />
+    <orderEntry type="module" module-name="node_modules-react-native-calendar-events-android-react-native-calendar-events~1" />
+    <orderEntry type="module" module-name="node_modules-react-native-vector-icons-android-react-native-vector-icons~1" />
+    <orderEntry type="module" module-name="node_modules-react-native-config-android-react-native-config~1" />
+    <orderEntry type="module" module-name="node_modules-react-native-webview-android-react-native-webview" />
   </component>
 </module>
