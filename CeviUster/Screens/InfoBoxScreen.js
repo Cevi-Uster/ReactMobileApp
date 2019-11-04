@@ -52,7 +52,11 @@ export default class InfoBoxScreen extends React.Component {
   fetchChaeschtli = async () => {
     const url = `${Config.INFOBOX_BASE_URL}chaeschtlizettel/${this.state.stufe.stufen_id}`;
     console.log(`Try to load chaeschtli from URL: ${url}`);
-    const chaeschliResponse = await fetch(url);
+    const chaeschliResponse = await fetch(url, {
+      headers: {
+        Accept: "application/json"
+      }
+    });
     const json = await chaeschliResponse.json();
     if (json !== undefined && json !== null) {
       var expiryMoment = moment(Date.parse(json.bis)).endOf('day');

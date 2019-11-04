@@ -37,7 +37,11 @@ export default class StufenScreen extends React.Component {
   }
 
   fetchStufen = async () => {
-    const stufenResponse = await fetch(`${Config.INFOBOX_BASE_URL}stufen/`);
+    const stufenResponse = await fetch(`${Config.INFOBOX_BASE_URL}stufen/`, {
+        headers: {
+          Accept: "application/json"
+        }
+    } );
     const json = await stufenResponse.json();
     if (json !== undefined && json !== null && json.length > 0) {
       this.setState({ stufen: json });
