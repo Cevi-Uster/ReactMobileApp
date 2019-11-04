@@ -1,6 +1,6 @@
 import { observable, observe } from "mobx";
 import React from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TextInput, View, Keyboard } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TextInput, View, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS } from '../styles/common.js'
 import { Button } from 'react-native-elements';
@@ -41,62 +41,67 @@ export default class DropOutScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView>
-                <View style={styles.container}>
-                    <Text
-                        style={styles.title}>
-                        Abmeldung
-                    </Text>
-                    <Text
-                        style={styles.subtitle}>
-                        für das nächste Programm der Stufe {this.state.stufe.name}
-                    </Text>
-                    <Text style={styles.text}>Dein Name*</Text>
-                    <TextInput
-                        style={styles.text_input}
-                        onChangeText={(your_name) => this.setState({ your_name: your_name })}
-                        onBlur={Keyboard.dismiss}
-                        value={this.state.your_name}
-                    />
-                    <Text style={styles.text} >Deine E-Mailadresse*</Text>
-                    <TextInput
-                        style={styles.text_input}
-                        keyboardType='email-address'
-                        onChangeText={(your_email) => this.setState({ your_email: your_email })}
-                        value={this.state.your_email}
-                        autoCorrect={false}
-                    />
-                    <Text style={styles.text}>Deine Nachricht</Text>
-                    <TextInput
-                        style={styles.multiline_text_input}
-                        onChangeText={(your_message) => this.setState({ your_message: your_message })}
-                        onBlur={Keyboard.dismiss}
-                        value={this.state.your_message}
-                        multiline={true}
 
-                    />
-                    <CheckBox
-                        checked={this.state.acceptance}
-                        onPress={() => this.setState({ acceptance: !this.state.acceptance })}
-                        title='Ich stimme der Datenverwendung für diese Nachricht zu'
-                    />
-                </View>
-                <View style={styles.buttonview}>
-                    <Button
-                        style={styles.sendButton}
-                        onPress={() => { this.handleSubmit() }}
-                        buttonStyle={{
-                            backgroundColor: COLOR_PRIMARY,
-                            width: 140,
-                            height: 50,
-                            borderColor: "transparent",
-                            borderWidth: 0,
-                            borderRadius: BORDER_RADIUS
-                        }}
-                        title='Senden'
-                    />
-                </View>
-            </ScrollView>
+            <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }} behavior="padding" enabled keyboardVerticalOffset={100}>
+
+                <ScrollView>
+                    <View style={styles.container}>
+                        <Text
+                            style={styles.title}>
+                            Abmeldung
+                            </Text>
+                        <Text
+                            style={styles.subtitle}>
+                            für das nächste Programm der Stufe {this.state.stufe.name}
+                        </Text>
+                        <Text style={styles.text}>Dein Name*</Text>
+                        <TextInput
+                            style={styles.text_input}
+                            onChangeText={(your_name) => this.setState({ your_name: your_name })}
+                            onBlur={Keyboard.dismiss}
+                            value={this.state.your_name}
+                        />
+                        <Text style={styles.text} >Deine E-Mailadresse*</Text>
+                        <TextInput
+                            style={styles.text_input}
+                            keyboardType='email-address'
+                            onChangeText={(your_email) => this.setState({ your_email: your_email })}
+                            value={this.state.your_email}
+                            autoCorrect={false}
+                        />
+                        <Text style={styles.text}>Deine Nachricht</Text>
+                        <TextInput
+                            style={styles.multiline_text_input}
+                            onChangeText={(your_message) => this.setState({ your_message: your_message })}
+                            onBlur={Keyboard.dismiss}
+                            value={this.state.your_message}
+                            multiline={true}
+
+                        />
+                        <CheckBox
+                            checked={this.state.acceptance}
+                            onPress={() => this.setState({ acceptance: !this.state.acceptance })}
+                            title='Ich stimme der Datenverwendung für diese Nachricht zu'
+                        />
+                    </View>
+                    <View style={styles.buttonview}>
+                        <Button
+                            style={styles.sendButton}
+                            onPress={() => { this.handleSubmit() }}
+                            buttonStyle={{
+                                backgroundColor: COLOR_PRIMARY,
+                                width: 140,
+                                height: 50,
+                                borderColor: "transparent",
+                                borderWidth: 0,
+                                borderRadius: BORDER_RADIUS
+                            }}
+                            title='Senden'
+                        />
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+
         );
     }
 
@@ -122,7 +127,7 @@ export default class DropOutScreen extends React.Component {
 
     sendData() {
         let formData = new FormData();
-        formData.append('destination-email',  this.state.destinationEmail);
+        formData.append('destination-email', this.state.destinationEmail);
         //formData.append('destination-email', 'marc@mabaka.ch');
         formData.append('your-name', this.state.your_name);
         formData.append('your-email', this.state.your_email);
@@ -184,8 +189,8 @@ const styles = StyleSheet.create({
         borderColor: '#CCCCCC',
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        height: 50,
-        fontSize: 25,
+        height: 36,
+        fontSize: 18,
         paddingLeft: 20,
         paddingRight: 20
     },
@@ -193,8 +198,8 @@ const styles = StyleSheet.create({
         borderColor: '#CCCCCC',
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        height: 150,
-        fontSize: 25,
+        height: 100,
+        fontSize: 18,
         paddingLeft: 20,
         paddingRight: 20
     },
