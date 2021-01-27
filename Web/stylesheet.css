@@ -1,20 +1,20 @@
-.slogantext {
+.default-content-slogantext {
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
   font-size: 2em;
   color: #D50038;
 }
-.left {
+.default-content-left {
   text-align: left;
 }
-.center {
+.default-content-center {
   text-align: center;
 }
-.right {
+.default-content-right {
   text-align: right;
 }
 
-.fadein1 {
+.default-content-fadein1 {
 	animation-name: fadeIn;
   animation-duration: 6s;
   animation-delay: -9s;
@@ -33,7 +33,7 @@
 	}
 }
 
-.fadein2 {
+.default-content-fadein2 {
 	animation-name: fadeIn;
   animation-duration: 6s;
   animation-delay: -6s;
@@ -52,7 +52,7 @@
 	}
 }
 
-.fadein3 {
+.default-content-fadein3 {
 	animation-name: fadeIn;
   animation-duration: 6s;
   animation-delay: -3s;
@@ -71,7 +71,7 @@
 	}
 }
 
-.fadein4 {
+.default-content-fadein4 {
 	animation-name: fadeIn;
   animation-duration: 6s;
   animation-delay: 0s;
@@ -90,7 +90,7 @@
 	}
 }
 
-#wrapper {
+#default-content-wrapper {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 10px;
@@ -99,29 +99,29 @@
   margin: auto;
 }
 
-#top-banner {
+#default-content-top-banner {
 	grid-column: 1 / 3;
   grid-row: 1;
 }
 
-#center-banner {
+#default-content-center-banner {
 	grid-column: 2;
   grid-row: 2 / 3;
   margin: auto;
 }
 
-#center-logo {
+#default-content-center-logo {
 	grid-column: 2;
   grid-row: 2 / 3;
   margin: auto;
 }
 
-#cevi-logo{
+#default-content-cevi-logo{
   width: min(80vw, 50vh);
   height: min(80vw, 50vh);
 }
 
-#bottom-banner {
+#default-content-bottom-banner {
 	grid-column: 2 / 4;
   grid-row: 4;
 }
