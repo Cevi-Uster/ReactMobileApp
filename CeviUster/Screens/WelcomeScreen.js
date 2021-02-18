@@ -1,12 +1,12 @@
 import React from 'react';
 import { WebView } from 'react-native-webview';
-import Config from 'react-native-config';
+import GLOBALS from '../Global';
 
 export default class WelcomeScreen extends React.Component {
   render() {
     return (
       <WebView
-        source={{uri: Config.WELCOME_URL}}
+        source={{uri: GLOBALS.WELCOME_URL}}
         style={{marginTop: 0}}
         scalesPageToFit={true}
       />

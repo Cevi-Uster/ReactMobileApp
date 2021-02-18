@@ -4,8 +4,8 @@ import { Alert, ScrollView, StyleSheet, Text, TextInput, View, Keyboard, Keyboar
 import { CheckBox } from 'react-native-elements';
 import { COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS } from '../styles/common.js'
 import { Button } from 'react-native-elements';
-import Config from 'react-native-config';
 import AlertAsync from "react-native-alert-async";
+import GLOBALS from '../Global';
 
 
 export default class DropOutScreen extends React.Component {
@@ -144,7 +144,7 @@ export default class DropOutScreen extends React.Component {
         formData.append('your-message', this.state.your_message);
         formData.append('acceptance', this.state.acceptance);
 
-        const url = `${Config.DROP_OFF_FORM_URL}`;
+        const url = `${GLOBALS.DROP_OFF_FORM_URL}`;
 
         fetch(url, {
             method: 'POST',

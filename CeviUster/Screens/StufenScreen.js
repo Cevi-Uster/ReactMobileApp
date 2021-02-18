@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, SectionList, StyleSheet, TouchableOpacity, View } from 'react-native';
-import Config from 'react-native-config';
 import { List, ListItem } from 'react-native-elements';
+import GLOBALS from '../Global';
 
 export default class StufenScreen extends React.Component {
 
@@ -37,7 +37,7 @@ export default class StufenScreen extends React.Component {
   }
 
   fetchStufen = async () => {
-    const stufenResponse = await fetch(`${Config.INFOBOX_BASE_URL}stufen/`, {
+    const stufenResponse = await fetch(`${GLOBALS.INFOBOX_BASE_URL}stufen/`, {
         headers: {
           Accept: "application/json"
         }

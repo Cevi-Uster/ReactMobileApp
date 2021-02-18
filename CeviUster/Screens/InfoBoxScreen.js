@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
-import Config from 'react-native-config';
 import moment from 'moment';
 import { observable, observe } from "mobx"
 import { COLOR_PRIMARY, BORDER_RADIUS } from '../styles/common.js'
+import GLOBALS from '../Global';
 
 export default class InfoBoxScreen extends React.Component {
 
@@ -50,7 +50,7 @@ export default class InfoBoxScreen extends React.Component {
   }
 
   fetchChaeschtli = async () => {
-    const url = `${Config.INFOBOX_BASE_URL}chaeschtlizettel/${this.state.stufe.stufen_id}`;
+    const url = `${GLOBALS.INFOBOX_BASE_URL}chaeschtlizettel/${this.state.stufe.stufen_id}`;
     console.log(`Try to load chaeschtli from URL: ${url}`);
     const chaeschliResponse = await fetch(url, {
       headers: {
