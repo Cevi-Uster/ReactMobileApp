@@ -19,10 +19,11 @@ export default class AgendaScreen extends React.Component {
 
   constructor(props){
      super(props);
-     //console.log(props);
-     if (this.props.navigation.state.params && this.props.navigation.state.params.parentCategory){
-       this.state.currentParentId = this.props.navigation.state.params.parentCategory.id;
-       this.props.navigation.setParams({ title: this.props.navigation.state.params.parentCategory.name });
+     console.log(this.props);
+     if (this.props.route.params && this.props.route.params.parentCategory){
+       let parentCategory = this.props.route.params.parentCategory;
+       this.state.currentParentId = parentCategory.id;
+       this.props.navigation.setParams({ title: parentCategory.name });
      } else {
        this.props.navigation.setParams({ title: "Agenda" });
      }
@@ -48,7 +49,7 @@ export default class AgendaScreen extends React.Component {
     });
     const json = await categoryResponse.json();
     if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
-    const filteredCategories = json.categories.filter(categorie => categorie.parent == this.state.currentParentId);
+    const filteredCategories = json.categories.filter(category => category.parent == this.state.currentParentId);
     this.setState({categories: filteredCategories});
     } else {
       this.setState({categories: new Array(0)});
@@ -90,10 +91,20 @@ export default class AgendaScreen extends React.Component {
      console.log(item);
      this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
   }
+  
   render() {
     return (
       <View>
-        <List  containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
+        
+      </View>
+    )
+  }
+
+  /*
+  render() {
+    return (
+      <View>
+        <List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
           <SectionList
             sections={[
               {
@@ -136,5 +147,5 @@ export default class AgendaScreen extends React.Component {
         </List>
       </View>
     );
-  }
+  } */
 }

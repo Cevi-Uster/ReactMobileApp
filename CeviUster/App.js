@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TabNavigator, StackNavigator, TabBarBottom } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from './Screens/WelcomeScreen';
 import AgendaScreen from './Screens/AgendaScreen';
 import AgendaEntryScreen from './Screens/AgendaEntryScreen';
@@ -13,50 +15,108 @@ import ContactScreen from './Screens/ContactScreen';
 import PrivacyStatementScreen from './Screens/PrivacyStatementScreen';
 
 
-const WelcomeStack = StackNavigator({
-  Welcome: {screen: WelcomeScreen},
-  }, {
-    navigationOptions: {
-      headerTitle: 'Willkommen',
-    }
-});
+const TabNavigator = createBottomTabNavigator();
+const WelcomeStack = createStackNavigator();
+const AgendaStack = createStackNavigator();
+const InfoBoxStack = createStackNavigator();
+const ContactStack = createStackNavigator();
+const PrivacyStatementStack = createStackNavigator();
 
-const AgendaStack = StackNavigator({
-    Agenda: {screen: AgendaScreen},
-    AgendaEntry: {screen: AgendaEntryScreen},
-    AgendaEntrySave: {screen: AgendaEntrySaveScreen},
-  }, {
-    navigationOptions: {
-  }
-});
+function WelcomeStackScreen() {
+  return (
+    <WelcomeStack.Navigator>
+      <WelcomeStack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{ tabBarLabel: 'Willkommen' /*, headerTitle: 'Willkommen' */}}
+      />
+    </WelcomeStack.Navigator>
+  );
+} 
 
-const InfoBoxStack = StackNavigator({
-    Stufen: {screen: StufenScreen},
-    InfoBox: {screen: InfoBoxScreen},
-    DropOut: {screen: DropOutScreen},
-  }, {
-    navigationOptions: {
-  }
-});
+function AgendaStackScreen() {
+  return (
+    <AgendaStack.Navigator>
+      <AgendaStack.Screen
+        name="Agenda"
+        component={AgendaScreen}
+        options={{ tabBarLabel: 'Agenda' }}
+      />
+      <AgendaStack.Screen
+        name="AgendaEntry"
+        component={AgendaEntryScreen}
+        options={{ tabBarLabel: 'Agenda' }}
+      />
+      <AgendaStack.Screen
+        name="AgendaEntrySave"
+        component={AgendaEntrySaveScreen}
+        options={{ tabBarLabel: 'Agenda' }}
+      />
+    </AgendaStack.Navigator>
+  );
+}
 
-const ContactStack = StackNavigator({
-  Contact: {screen: ContactScreen},
-}, {
-  navigationOptions: {
-    headerTitle: 'Kontakt',
-  }
-});
+function InfoboxStackScreen() {
+  return (
+    <InfoboxStack.Navigator>
+      <InfoboxStack.Screen
+        name="Stufen"
+        component={StufenScreen}
+        options={{ tabBarLabel: 'Chäschtli' }}
+      />
+       <InfoboxStack.Screen
+        name="InfoBox"
+        component={InfoBoxScreen}
+        options={{ tabBarLabel: 'Chäschtli' }}
+      />
+       <InfoboxStack.Screen
+        name="DropOut"
+        component={DropOutScreen}
+        options={{ tabBarLabel: 'Chäschtli' }}
+      />
+    </InfoboxStack.Navigator>
+  );
+}
 
-const PrivacyStatementStack = StackNavigator({
-  Contact: {screen: PrivacyStatementScreen},
-}, {
-  navigationOptions: {
-    headerTitle: 'Datenschutz',
-  }
-});
+function ContactStackScreen() {
+  return (
+    <ContactStack.Navigator>
+      <ContactStack.Screen
+        name="Contact"
+        component={ContactScreen}
+        options={{ tabBarLabel: 'Kontakt' }}
+      />
+    </ContactStack.Navigator>
+  );
+}
 
+function PrivacyStatementStackScreen() {
+  return (
+    <PrivacyStatementStack.Navigator>
+      <PrivacyStatementStack.Screen
+        name="Privacy"
+        component={PrivacyStatementScreen}
+        options={{ tabBarLabel: 'Datenschutz' }}
+      />
+    </PrivacyStatementStack.Navigator>
+  );
+}
 
-export default TabNavigator(
+export default function App() {
+  return (
+    <NavigationContainer>
+      <TabNavigator.Navigator>
+        <TabNavigator.Screen name="Welcome" component={WelcomeStackScreen} />
+        <TabNavigator.Screen name="Agenda" component={AgendaStackScreen} />
+        <TabNavigator.Screen name="Infobox" component={InfoboxStackScreen} />
+        <TabNavigator.Screen name="Contact" component={ContactStackScreen} />
+        <TabNavigator.Screen name="Privacy" component={PrivacyStatementStackScreen} />
+      </TabNavigator.Navigator>
+    </NavigationContainer>
+  );
+}
+
+/*export default TabNavigator(
   {
     Willkommen: { screen: WelcomeStack, navigationOptions: { tabBarLabel: 'Willkommen' } },
     Agenda: { screen: AgendaStack, navigationOptions: { tabBarLabel: 'Agenda' } },
@@ -100,4 +160,4 @@ export default TabNavigator(
     animationEnabled: false,
     swipeEnabled: false,
   }
-);
+);*/
