@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, StyleSheet, SafeAreaView, Text, TouchableOpacity, StatusBar } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Icon } from 'react-native-elements';
 import moment from 'moment';
 import GLOBALS from '../Global';
 
@@ -109,11 +109,15 @@ export default class AgendaScreen extends React.Component {
       console.log('render category');
       // Handle category
       return (<TouchableOpacity>
-        <ListItem
-          title={`${item.name}`}
-          onPress={() => this.onCategoryPressed(item)}
-          leftIcon={{name: 'folder'}}
-        />
+        <ListItem 
+          bottomDivider
+          onPress={ () => this.onCategoryPressed(item)}>
+          <Icon name={'folder'}/>
+          <ListItem.Content>
+            <ListItem.Title>{item.name}</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
       </TouchableOpacity>)
     } else if (typeof item.title !== 'undefined') {
       console.log('render event');
