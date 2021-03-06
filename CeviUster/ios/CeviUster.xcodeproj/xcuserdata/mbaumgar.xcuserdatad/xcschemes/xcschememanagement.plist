@@ -4,10 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>CeviUster-tvOS.xcscheme_^#shared#^_</key>
+		<key>CeviUster Debug.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+		<key>CeviUster-tvOS.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>CeviUster.xcscheme_^#shared#^_</key>
 		<dict>
