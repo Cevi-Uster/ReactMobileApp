@@ -26,7 +26,7 @@ function WelcomeStackScreen() {
   return (
     <WelcomeStack.Navigator>
       <WelcomeStack.Screen
-        name="Welcome"
+        name='Welcome'
         component={WelcomeScreen}
         options={{ tabBarLabel: 'Willkommen' /*, headerTitle: 'Willkommen' */}}
       />
@@ -38,17 +38,17 @@ function AgendaStackScreen() {
   return (
     <AgendaStack.Navigator>
       <AgendaStack.Screen
-        name="Agenda"
+        name='Agenda'
         component={AgendaScreen}
         options={{ tabBarLabel: 'Agenda' }}
       />
       <AgendaStack.Screen
-        name="AgendaEntry"
+        name='AgendaEntry'
         component={AgendaEntryScreen}
         options={{ tabBarLabel: 'Agenda' }}
       />
       <AgendaStack.Screen
-        name="AgendaEntrySave"
+        name='AgendaEntrySave'
         component={AgendaEntrySaveScreen}
         options={{ tabBarLabel: 'Agenda' }}
       />
@@ -60,17 +60,17 @@ function InfoboxStackScreen() {
   return (
     <InfoboxStack.Navigator>
       <InfoboxStack.Screen
-        name="Stufen"
+        name='Stufen'
         component={StufenScreen}
         options={{ tabBarLabel: 'Chäschtli' }}
       />
        <InfoboxStack.Screen
-        name="InfoBox"
+        name='InfoBox'
         component={InfoBoxScreen}
         options={{ tabBarLabel: 'Chäschtli' }}
       />
        <InfoboxStack.Screen
-        name="DropOut"
+        name='DropOut'
         component={DropOutScreen}
         options={{ tabBarLabel: 'Chäschtli' }}
       />
@@ -82,7 +82,7 @@ function ContactStackScreen() {
   return (
     <ContactStack.Navigator>
       <ContactStack.Screen
-        name="Contact"
+        name='Contact'
         component={ContactScreen}
         options={{ tabBarLabel: 'Kontakt' }}
       />
@@ -94,7 +94,7 @@ function PrivacyStatementStackScreen() {
   return (
     <PrivacyStatementStack.Navigator>
       <PrivacyStatementStack.Screen
-        name="Privacy"
+        name='Privacy'
         component={PrivacyStatementScreen}
         options={{ tabBarLabel: 'Datenschutz' }}
       />
