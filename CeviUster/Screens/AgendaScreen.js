@@ -137,11 +137,18 @@ export default class AgendaScreen extends React.Component {
       }  else {
         timeText += `Ganzer Tag`;
       }
-      return (<ListItem
-        title={`${dateText} ${item.title}`}
-        subtitle={`${timeText}`}
-        onPress={() => this.onEventPressed(item)}
-      />)
+      let agendaEntryTitle = dateText + ' ' + item.title
+      return (<TouchableOpacity>
+        <ListItem 
+          bottomDivider
+          onPress={ () => this.onEventPressed(item)}>
+          <ListItem.Content>
+            <ListItem.Title>{agendaEntryTitle}</ListItem.Title>
+            <ListItem.Subtitle>{timeText}</ListItem.Subtitle>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      </TouchableOpacity>)
     } else {
       console.log('render unknown item ' + item);
     }
