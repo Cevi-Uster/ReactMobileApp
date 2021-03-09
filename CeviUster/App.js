@@ -105,12 +105,36 @@ function PrivacyStatementStackScreen() {
 export default function App() {
   return (
     <NavigationContainer>
-      <TabNavigator.Navigator>
-        <TabNavigator.Screen name="Welcome" component={WelcomeStackScreen} />
-        <TabNavigator.Screen name="Agenda" component={AgendaStackScreen} />
-        <TabNavigator.Screen name="Infobox" component={InfoboxStackScreen} />
-        <TabNavigator.Screen name="Contact" component={ContactStackScreen} />
-        <TabNavigator.Screen name="Privacy" component={PrivacyStatementStackScreen} />
+      <TabNavigator.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            console.log('route.name: ' + route.name);
+            let iconName = 'warning-outline';
+            if (route.name === 'Welcome') {
+              iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+              //return <Image source={require('./Ressources/Home_Icon.png')} style={[styles.PNGImageStyle, {tintColor: tintColor}]} />;
+            }  else if (route.name === 'Agenda') {
+              iconName = `ios-calendar${focused ? '' : '-outline'}`;
+            } else if (route.name === 'Infobox') {
+              iconName = `ios-bonfire${focused ? '' : '-outline'}`;
+            } else if (route.name === 'Contact') {
+              iconName = `ios-at${focused ? '' : '-outline'}`;
+            }else if (route.name === 'Privacy') {
+              iconName = `shield${focused ? '' : '-outline'}`;
+            }
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'navy',
+          inactiveTintColor: 'grey',
+        }}>
+        <TabNavigator.Screen name="Welcome" component={WelcomeStackScreen} options={{title: 'Willkommen' }} />
+        <TabNavigator.Screen name="Agenda" component={AgendaStackScreen} options={{title: 'Agenda' }} />
+        <TabNavigator.Screen name="Infobox" component={InfoboxStackScreen} options={{title: 'Chäschtli' }} />
+        <TabNavigator.Screen name="Contact" component={ContactStackScreen} options={{title: 'Kontakt' }} />
+        <TabNavigator.Screen name="Privacy" component={PrivacyStatementStackScreen} options={{title: 'Datenschutz' } }/>
       </TabNavigator.Navigator>
     </NavigationContainer>
   );
