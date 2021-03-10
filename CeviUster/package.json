@@ -22,6 +22,7 @@
     "flow": "^0.2.3",
     "flow-bin": "^0.98.0",
     "flowtype": "^2.0.0",
+    "html-entities": "^2.1.0",
     "jsc-android": "241213.1.0",
     "mobx": "^6.1.6",
     "mobx-react": "^7.1.0",

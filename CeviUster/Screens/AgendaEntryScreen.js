@@ -2,11 +2,13 @@ import React from 'react';
 import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from '../styles/common.js'
+import {decode} from 'html-entities';
 
 export default class AgendaEntryScreen extends React.Component {
 
   containerMargin = 10;
   contentMarginLeft = 38;
+
 
   state = {
     event: null,
@@ -82,7 +84,7 @@ export default class AgendaEntryScreen extends React.Component {
           <View style={styles.content}>
             <Text
               style={styles.title}>
-              {event.title}
+              {decode(event.title)}
             </Text>
             <Text
               style={styles.date}>
@@ -90,11 +92,11 @@ export default class AgendaEntryScreen extends React.Component {
             </Text>
             <Text
               style={styles.venue}>
-              {event.venue.venue}
+              {decode(event.venue.venue)}
             </Text>
           <Text
             style={styles.description}>
-            {description}
+            {decode(description)}
           </Text>
           <Image
             style={styles.image}
