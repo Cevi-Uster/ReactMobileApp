@@ -111,8 +111,8 @@ export default function App() {
             console.log('route.name: ' + route.name);
             let iconName = 'warning-outline';
             if (route.name === 'Welcome') {
-              iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-              //return <Image source={require('./Ressources/Home_Icon.png')} style={[styles.PNGImageStyle, {tintColor: tintColor}]} />;
+              //iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+              return <Image source={require('./Ressources/Home_Icon.png')} style={[{resizeMode: 'contain'}, {tintColor: color}]} />;
             }  else if (route.name === 'Agenda') {
               iconName = `ios-calendar${focused ? '' : '-outline'}`;
             } else if (route.name === 'Infobox') {
