@@ -20,16 +20,16 @@ export default class AgendaEntryScreen extends React.Component {
   constructor(props){
      super(props);
      //console.log(props);
-     if (this.props.navigation.state.params && this.props.navigation.state.params.selectedEvent){
-       this.state.event = this.props.navigation.state.params.selectedEvent;
-       this.props.navigation.setParams({ title: this.props.navigation.state.params.selectedEvent.title });
+     if (this.props.route.params && this.props.route.params.selectedEvent){
+       this.state.event = this.props.route.params.selectedEvent;
+       this.props.navigation.setParams({ title: this.props.route.params.selectedEvent.title });
      } else {
        this.props.navigation.setParams({ title: "Agenda" });
      }
 
   }
 
-  componentWillMount(){
+  componentDidMount(){
   }
 
   saveButtonClicked(){
@@ -57,7 +57,8 @@ export default class AgendaEntryScreen extends React.Component {
     const dimensions = Dimensions.get('window');
     let imageScaledWidth = dimensions.width - (2 * this.containerMargin) - this.contentMarginLeft;
     let imageScaledHeight = 0;
-    if (event.image == 'false'){
+    console.log(`event.image ${event.image}`);
+    if (event.image == false){
       styles.image.display = 'none';
     } else {
       imageScaledHeight = Math.round(event.image.height * (imageScaledWidth  / event.image.width));

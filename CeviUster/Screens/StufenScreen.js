@@ -18,9 +18,9 @@ export default class StufenScreen extends React.Component {
   constructor(props) {
     super(props);
     //console.log(props);
-    if (this.props.navigation.state.params && this.props.navigation.state.params.parentStufe) {
-      this.state.currentParentStufenId = this.props.navigation.state.params.parentStufe.id;
-      this.props.navigation.setParams({ title: this.props.navigation.state.params.parentStufe.name });
+    if (this.props.route.params && this.props.route.params.parentStufe) {
+      this.state.currentParentStufenId = this.props.route.params.parentStufe.id;
+      this.props.navigation.setParams({ title: this.props.route.params.parentStufe.name });
     } else {
       this.props.navigation.setParams({ title: "Chäschtli" });
     }
