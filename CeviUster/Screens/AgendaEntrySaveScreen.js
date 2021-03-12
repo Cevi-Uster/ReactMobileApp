@@ -29,20 +29,20 @@ export default class AgendaEntrySaveScreen extends React.Component {
      super(props);
      //console.log(props);
 
-     if (this.props.navigation.state.params && this.props.navigation.state.params.selectedEvent){
-       this.state.event = this.props.navigation.state.params.selectedEvent;
-       this.props.navigation.setParams({ title: `${this.props.navigation.state.params.selectedEvent.title } speichern` });
+     if (this.props.route.params && this.props.route.params.selectedEvent){
+       this.state.event = this.props.route.params.selectedEvent;
+       this.props.navigation.setParams({ title: `${this.props.route.params.selectedEvent.title } speichern` });
      } else {
         this.props.navigation.setParams({ title: 'Eintrag speichern' });
      }
   }
 
-  componentWillMount() {
-    RNCalendarEvents.authorizationStatus()
+  componentDidMount() {
+    RNCalendarEvents.checkPermissions((readOnly = false))
       .then((status) => {
         this.setState({ auth: status });
         if (status === 'undetermined') {
-          RNCalendarEvents.authorizeEventStore().then((out) => {
+          RNCalendarEvents.requestPermissions((readOnly = false)).then((out) => {
             if (out == 'authorized') {
               this.setState({ auth: out });
               this.loadCalendars();
@@ -63,14 +63,6 @@ export default class AgendaEntrySaveScreen extends React.Component {
 
   calendarLoadingFinished(calendars){
     console.log(calendars);
-    /*
-    { id: '1CFEAAAB-91F7-4BA5-877B-FB447CE06B97',
-        allowsModifications: true,
-        source: 'Default',
-        allowedAvailabilities: [],
-        title: 'Calendar' },
-
-    */
     calendars = calendars.filter((calendar) => calendar.allowsModifications === true)
       .map(({id, allowsModifications, source, allowedAvailabilities, title}) => ({id, allowsModifications, source, allowedAvailabilities, title}));
     calendars.sort(function(a, b) {
@@ -114,7 +106,6 @@ export default class AgendaEntrySaveScreen extends React.Component {
   }
 
   calendarSelected(index, value){
-
     if (value !== undefined && value !== null){
       this.setState({okVisible: true});
       console.log(`Selected calendar id: ${value.id} and index ${index}`);
@@ -124,7 +115,6 @@ export default class AgendaEntrySaveScreen extends React.Component {
       console.log(`No calendar selected`);
       this.setState({selectedCalendarId: null});
     }
-
   }
 
   calendarDropdownRenderButtonText(rowData){
@@ -197,18 +187,18 @@ export default class AgendaEntrySaveScreen extends React.Component {
             </Text>
           </View>
           <View style={styles.dropdownview}>
-              <ModalDropdown ref="calendarDropdown"
-                style={styles.calendarDropdown}
-                textStyle={styles.calendarDropdown_text}
-                dropdownStyle={styles.calendarDropdown_dropdown}
-                defaultValue="Kalender wählen"
-                options={this.state.calendars}
-                renderButtonText={(rowData) => this.calendarDropdownRenderButtonText(rowData)}
-                renderRow={this.calendarDropdownRenderRow.bind(this)}
-                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this.calendarDropdownRenderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-                onSelect={(index, value) => {this.calendarSelected(index, value)}}
-              />
-              </View>
+            <ModalDropdown ref="calendarDropdown"
+              style={styles.calendarDropdown}
+              textStyle={styles.calendarDropdown_text}
+              dropdownStyle={styles.calendarDropdown_dropdown}
+              defaultValue="Kalender wählen"
+              options={this.state.calendars}
+              renderButtonText={(rowData) => this.calendarDropdownRenderButtonText(rowData)}
+              renderRow={this.calendarDropdownRenderRow.bind(this)}
+              renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this.calendarDropdownRenderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+              onSelect={(index, value) => {this.calendarSelected(index, value)}}
+            />
+          </View>
           <View style={styles.buttonview}>
             {this.renderOkButton()}
           </View>

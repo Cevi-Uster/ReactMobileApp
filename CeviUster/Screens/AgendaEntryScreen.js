@@ -3,15 +3,17 @@ import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-nat
 import { Button } from 'react-native-elements';
 import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from '../styles/common.js'
 import {decode} from 'html-entities';
+import LocalCalendarModalComponent from '../Components/LocalCalendarModalComponent';
+import {addCalendarEvent} from '../Services/LocalCalendarService';
 
 export default class AgendaEntryScreen extends React.Component {
 
   containerMargin = 10;
   contentMarginLeft = 38;
 
-
   state = {
     event: null,
+    isVisibleCalendars: false,
   };
 
   static navigationOptions = ({ navigation }) => ({
@@ -35,8 +37,19 @@ export default class AgendaEntryScreen extends React.Component {
   }
 
   saveButtonClicked(){
-    this.props.navigation.navigate('AgendaEntrySave', {selectedEvent: this.state.event});
+    //this.props.navigation.navigate('AgendaEntrySave', {selectedEvent: this.state.event});
+    this.setState({ isVisibleCalendars: true });
   }
+
+  closeLocalCalendarModal(){
+    this.setState({ isVisibleCalendars: false });
+  }
+
+  saveEvent = async (calendar) => { 
+    console.log('saveEvent: ' + this.state.event + ' to calendar: ' + calendar );
+    await addCalendarEvent(this.state.event, calendar);
+    this.closeLocalCalendarModal();
+  };
 
   render() {
     const event = this.state.event;
@@ -72,10 +85,16 @@ export default class AgendaEntryScreen extends React.Component {
     console.log(`event.image.width ${event.image.width}`);
     console.log(`ìmageScaledHeight ${imageScaledHeight}`);
 
-    let description = event.description.replace(/<(.|\n)*?>/g, '');
+    let description = decode(event.description.replace(/<(.|\n)*?>/g, ''));
 
     return (
       <ScrollView>
+        <LocalCalendarModalComponent
+          isVisible={this.state.isVisibleCalendars}
+          closeModal={() => this.closeLocalCalendarModal()}
+          handleCalendarSelected={(calendar) => this.saveEvent(calendar)}
+          label={'Kalender wählen'}
+        />
         <View style={styles.container}>
           <Image
             style={styles.icon}
@@ -96,7 +115,7 @@ export default class AgendaEntryScreen extends React.Component {
             </Text>
           <Text
             style={styles.description}>
-            {decode(description)}
+            {description}
           </Text>
           <Image
             style={styles.image}
