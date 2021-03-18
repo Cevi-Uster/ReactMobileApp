@@ -20,15 +20,14 @@ export default class AgendaEntryScreen extends React.Component {
     title: typeof(navigation.state.params)==='undefined' || typeof(navigation.state.params.title) === 'undefined' ? 'find': navigation.state.params.title,
   });
 
-
   constructor(props){
      super(props);
      //console.log(props);
      if (this.props.route.params && this.props.route.params.selectedEvent){
        this.state.event = this.props.route.params.selectedEvent;
-       this.props.navigation.setParams({ title: this.props.route.params.selectedEvent.title });
+       this.props.navigation.setOptions({ title: this.props.route.params.selectedEvent.title });
      } else {
-       this.props.navigation.setParams({ title: "Agenda" });
+       this.props.navigation.setOptions({ title: "Agenda" });
      }
 
   }
@@ -55,15 +54,15 @@ export default class AgendaEntryScreen extends React.Component {
         [
           { text: "OK", onPress: () => this.closeLocalCalendarModal() }
         ]
-      );
+      )
     }, (e) => {
       Alert.alert(
         "Fehler",
         "Fehler beim Speichern im Kalender: " + e,
         [
-          { text: "OK", onPress: () => this.closeLocalCalendarModal(); }
+          { text: "OK", onPress: () => this.closeLocalCalendarModal() }
         ]
-      );
+      )
     });
   };
 

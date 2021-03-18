@@ -26,9 +26,9 @@ export default class AgendaScreen extends React.Component {
        let parentCategory = this.props.route.params.parentCategory;
        console.log('parentCategory=' + parentCategory);
        this.state.currentParentId = parentCategory.id;
-       this.props.navigation.setParams({ title: parentCategory.name });
+       this.props.navigation.setOptions({ title: parentCategory.name });
      } else {
-       this.props.navigation.setParams({ title: "Agenda" });
+       this.props.navigation.setOptions({ title: "Agenda" });
      }
      console.log('currentParentId=' + this.state.currentParentId);
      this.onCategoryPressed = this.onCategoryPressed.bind(this);
