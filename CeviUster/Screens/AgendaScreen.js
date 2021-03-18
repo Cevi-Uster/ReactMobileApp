@@ -14,11 +14,6 @@ export default class AgendaScreen extends React.Component {
     currentParentId: 0,
   };
 
-  static navigationOptions = ({ navigation }) => ({
-    title: typeof(navigation.state.params)==='undefined' || typeof(navigation.state.params.title) === 'undefined' ? 'find': navigation.state.params.title,
-  });
-
-
   constructor(props){
      super(props);
      console.log('AgendaScreen#constructor');
@@ -155,7 +150,6 @@ export default class AgendaScreen extends React.Component {
     }
   }
 
-
   render() {
     console.log('render data = ' + this.state.data);
     return (
@@ -169,55 +163,6 @@ export default class AgendaScreen extends React.Component {
       </SafeAreaView>
     )
   }
-
-  /*
-  render() {
-    return (
-      <View>
-        <List containerStyle={{ marginTop: 0, borderTopWidth: 0, borderBottomWidth: 0 }}>
-          <SectionList
-            sections={[
-              {
-                title: "Kategorien",
-                data: this.state.categories,
-                keyExtractor: (x, i) => i,
-                renderItem: ({item}) =>
-                  <TouchableOpacity>
-                    <ListItem
-                      title={`${item.name}`}
-                      onPress={() => this.onCategoryPressed(item)}
-                      leftIcon={{name: 'folder'}}
-                    />
-                  </TouchableOpacity>,
-              },
-              {
-                title: "Termine",
-                data: this.state.events,
-                keyExtractor: (x, i) => i,
-                renderItem: ({item}) => {
-                  let dateText = `${item.start_date_details.day}.${item.start_date_details.month}.${item.start_date_details.year}`;
-                  let timeText = ``;
-                  if (!item.all_day){
-                    timeText +=  `${item.start_date_details.hour}:${item.start_date_details.minutes}`;
-                    if (item.end_date_details.hour !== undefined){
-                      timeText += ` - ${item.end_date_details.hour}:${item.end_date_details.minutes}`;
-                    }
-                  }  else {
-                    timeText += `Ganzer Tag`;
-                  }
-                  return <ListItem
-                    title={`${dateText} ${item.title}`}
-                    subtitle={`${timeText}`}
-                    onPress={() => this.onEventPressed(item)}
-                  />
-                }
-              }
-            ]}
-          />
-        </List>
-      </View>
-    );
-  } */
 }
 
 const styles = StyleSheet.create({

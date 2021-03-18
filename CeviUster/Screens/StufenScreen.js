@@ -1,6 +1,7 @@
 import React from 'react';
-import { Image, SectionList, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { Image, FlatList, StyleSheet, SafeAreaView, Text, TouchableOpacity, View, StatusBar } from 'react-native';
+import { List, ListItem, Icon} from 'react-native-elements';
+import { decode } from 'html-entities';
 import GLOBALS from '../Global';
 
 export default class StufenScreen extends React.Component {
@@ -10,25 +11,20 @@ export default class StufenScreen extends React.Component {
     currentParentStufenId: -1,
   };
 
-  static navigationOptions = ({ navigation }) => ({
-    title: typeof (navigation.state.params) === 'undefined' || typeof (navigation.state.params.title) === 'undefined' ? 'find' : navigation.state.params.title,
-  });
-
-
   constructor(props) {
     super(props);
     //console.log(props);
     if (this.props.route.params && this.props.route.params.parentStufe) {
       this.state.currentParentStufenId = this.props.route.params.parentStufe.id;
-      this.props.navigation.setParams({ title: this.props.route.params.parentStufe.name });
+      this.props.navigation.setOptions({ title: this.props.route.params.parentStufe.name });
     } else {
-      this.props.navigation.setParams({ title: "Chäschtli" });
+      this.props.navigation.setOptions({ title: "Chäschtli" });
     }
     this.onStufePressed = this.onStufePressed.bind(this);
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchData();
   }
 
@@ -54,7 +50,39 @@ export default class StufenScreen extends React.Component {
     console.log(item);
     this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
   }
+  //<Image source={require('../Ressources/Home_Icon.png')} style={[{resizeMode: 'contain', width: '25pt', height: '25pt', marginRight: '20pt'}]} />;
+  renderListItem = ({ item, index, separators }) => {
+    if (typeof item.name !== 'undefined') {
+      return (<TouchableOpacity>
+        <ListItem 
+          bottomDivider
+          onPress={ () => this.onStufePressed(item)}>
+          
+          <ListItem.Content>
+            <ListItem.Title>{decode(item.name)}</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      </TouchableOpacity>)
+    }
+    return null;
+  }
 
+  render() {
+    console.log('render stufen = ' + this.state.stufen);
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={this.state.stufen}
+          renderItem={this.renderListItem.bind(this)}
+          keyExtractor={(item, index) => ''+ index}
+          extraData={this.state}
+        />
+      </SafeAreaView>
+    )
+  }
+
+  /*
   render() {
     var styles = StyleSheet.create({
       PNGImageStyle: {
@@ -100,5 +128,24 @@ export default class StufenScreen extends React.Component {
         </List>
       </View>
     );
+    
   }
+  */
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+});

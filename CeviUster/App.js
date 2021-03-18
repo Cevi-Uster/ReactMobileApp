@@ -58,23 +58,23 @@ function AgendaStackScreen() {
 
 function InfoboxStackScreen() {
   return (
-    <InfoboxStack.Navigator>
-      <InfoboxStack.Screen
+    <InfoBoxStack.Navigator>
+      <InfoBoxStack.Screen
         name='Stufen'
         component={StufenScreen}
         options={{ tabBarLabel: 'Chäschtli' }}
       />
-       <InfoboxStack.Screen
+       <InfoBoxStack.Screen
         name='InfoBox'
         component={InfoBoxScreen}
         options={{ tabBarLabel: 'Chäschtli' }}
       />
-       <InfoboxStack.Screen
+       <InfoBoxStack.Screen
         name='DropOut'
         component={DropOutScreen}
         options={{ tabBarLabel: 'Chäschtli' }}
       />
-    </InfoboxStack.Navigator>
+    </InfoBoxStack.Navigator>
   );
 }
 

@@ -16,10 +16,6 @@ export default class AgendaEntryScreen extends React.Component {
     isVisibleCalendars: false,
   };
 
-  static navigationOptions = ({ navigation }) => ({
-    title: typeof(navigation.state.params)==='undefined' || typeof(navigation.state.params.title) === 'undefined' ? 'find': navigation.state.params.title,
-  });
-
   constructor(props){
      super(props);
      //console.log(props);
@@ -29,7 +25,6 @@ export default class AgendaEntryScreen extends React.Component {
      } else {
        this.props.navigation.setOptions({ title: "Agenda" });
      }
-
   }
 
   componentDidMount(){
