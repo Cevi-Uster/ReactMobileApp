@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from '../styles/common.js'
 import {decode} from 'html-entities';
@@ -47,8 +47,24 @@ export default class AgendaEntryScreen extends React.Component {
 
   saveEvent = async (calendar) => { 
     console.log('saveEvent: ' + this.state.event + ' to calendar: ' + calendar );
-    await addCalendarEvent(this.state.event, calendar);
-    this.closeLocalCalendarModal();
+    
+    addCalendarEvent(this.state.event, calendar, () => {
+      Alert.alert(
+        "Gespeichert",
+        "Der Kalendereintrag wurde gespeichert.",
+        [
+          { text: "OK", onPress: () => this.closeLocalCalendarModal() }
+        ]
+      );
+    }, (e) => {
+      Alert.alert(
+        "Fehler",
+        "Fehler beim Speichern im Kalender: " + e,
+        [
+          { text: "OK", onPress: () => this.closeLocalCalendarModal(); }
+        ]
+      );
+    });
   };
 
   render() {

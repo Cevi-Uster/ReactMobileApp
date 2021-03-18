@@ -21,7 +21,7 @@ export const listCalendars = async () => {
   return calendars;
 };
 
-export const addCalendarEvent = async (event, calendar) => {
+export const addCalendarEvent = async (event, calendar, doneHandler, errorHandler) => {
   let permissions;
   let createdEvent = false;
   try {
@@ -60,8 +60,14 @@ export const addCalendarEvent = async (event, calendar) => {
         notes: description,
         allDay: event.all_day,
       });
+    if (typeof(doneHandler) != 'undefined'){
+      doneHandler();
+    }
   } catch (e) {
     console.log('Could not save event: ' + e);
+    if (typeof(errorHandler) != 'undefined'){
+      errorHandler(e);
+    }
   }
 
   return createdEvent;
