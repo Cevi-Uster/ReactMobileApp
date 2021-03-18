@@ -28,7 +28,7 @@ function WelcomeStackScreen() {
       <WelcomeStack.Screen
         name='Welcome'
         component={WelcomeScreen}
-        options={{ tabBarLabel: 'Willkommen' /*, headerTitle: 'Willkommen' */}}
+        options={{ tabBarLabel: 'Willkommen'}}
       />
     </WelcomeStack.Navigator>
   );

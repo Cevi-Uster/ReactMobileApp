@@ -4,6 +4,12 @@ import GLOBALS from '../Global';
 
 
 export default class PrivacyStatementScreen extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.props.navigation.setOptions({ title: "Datenschutzerklärung" });
+  }
+
   render() {
     return (
       <WebView
