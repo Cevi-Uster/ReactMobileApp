@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
-import { observable, observe } from "mobx"
+import {decode} from 'html-entities';
 import { COLOR_PRIMARY, BORDER_RADIUS } from '../styles/common.js'
 import GLOBALS from '../Global';
 
@@ -11,7 +11,7 @@ export default class InfoBoxScreen extends React.Component {
   containerMargin = 10;
   contentMarginLeft = 38;
 
-  state = observable({
+  state = {
     stufe: null,
     aktuell: false,
     von: null,
@@ -20,28 +20,20 @@ export default class InfoBoxScreen extends React.Component {
     infos: null,
     mitnehmen: null,
     email: null,
-  });
-
-  disposer = observe(this.state, (change) => {
-    console.log(change.type, change.name, "from", change.oldValue, "to", change.object[change.name]);
-  });
-
-  static navigationOptions = ({ navigation }) => ({
-    title: typeof (navigation.state.params) === 'undefined' || typeof (navigation.state.params.title) === 'undefined' ? 'find' : navigation.state.params.title,
-  });
+  };
 
   constructor(props) {
     super(props);
     console.log(props);
-    if (this.props.navigation.state.params && this.props.navigation.state.params.parentStufe) {
-      this.state.stufe = this.props.navigation.state.params.parentStufe;
-      this.props.navigation.setParams({ title: this.props.navigation.state.params.parentStufe.name });
+    if (this.props.route.params && this.props.route.params.parentStufe) {
+      this.state.stufe = this.props.route.params.parentStufe;
+      this.props.navigation.setOptions({ title: this.props.route.params.parentStufe.name });
     } else {
-      this.props.navigation.setParams({ title: "Unknown" });
+      this.props.navigation.setOptions({ title: "Unknown" });
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchData();
   }
 
@@ -62,19 +54,19 @@ export default class InfoBoxScreen extends React.Component {
       var expiryMoment = moment(Date.parse(json.bis)).endOf('day');
       this.state.aktuell = moment().diff(expiryMoment) < 0;
       if (!this.state.aktuell) {
-        this.state.von = null;
-        this.state.bis = null;
-        this.state.wo = null;
-        this.state.infos = 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.';
-        this.state.mitnehmen = null;
-        this.state.email = null;
+        this.setState({von: null});
+        this.setState({bis: null});
+        this.setState({wo: null});
+        this.setState({infos: 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.'});
+        this.setState({mitnehmen: null});
+        this.setState({email: null});
       } else {
-        this.state.von = new Date(Date.parse(json.von));
-        this.state.bis = new Date(Date.parse(json.bis));
-        this.state.wo = json.wo;
-        this.state.infos = json.infos;
-        this.state.mitnehmen = json.mitnehmen;
-        this.state.email = json.email;
+        this.setState({von: new Date(Date.parse(json.von))});
+        this.setState({bis: new Date(Date.parse(json.bis))});
+        this.setState({wo: decode(json.wo)});
+        this.setState({infos: decode(json.infos)});
+        this.setState({mitnehmen: decode(json.mitnehmen)});
+        this.setState({email: decode(json.email)});
       }
       console.log(this.state.von);
     }

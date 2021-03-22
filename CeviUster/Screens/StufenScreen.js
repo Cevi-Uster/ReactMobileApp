@@ -23,7 +23,6 @@ export default class StufenScreen extends React.Component {
     this.onStufePressed = this.onStufePressed.bind(this);
   }
 
-
   componentDidMount() {
     this.fetchData();
   }
@@ -50,6 +49,7 @@ export default class StufenScreen extends React.Component {
     console.log(item);
     this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
   }
+  
   renderListItem = ({ item, index, separators }) => {
     if (typeof item.name !== 'undefined') {
       return (<TouchableOpacity>
@@ -80,71 +80,11 @@ export default class StufenScreen extends React.Component {
       </SafeAreaView>
     )
   }
-
-  /*
-  render() {
-    var styles = StyleSheet.create({
-      PNGImageStyle: {
-        width: 25,
-        height: 25,
-        marginRight: 20
-      }
-    });
-    return (
-      <View>
-        <List
-          containerStyle={{
-            marginTop: 0,
-            borderTopWidth: 0,
-            borderBottomWidth: 0
-          }}
-        >
-          <SectionList
-            sections={[
-              {
-                title: "Stufen",
-                data: this.state.stufen,
-                keyExtractor: (x, i) => i,
-                renderItem: ({ item }) => (
-                  <TouchableOpacity>
-                    <ListItem
-                      title={`${item.name}`}
-                      onPress={() => this.onStufePressed(item)}
-                      //leftIcon={<Icon name="ios-bonfire" color="#ccc" size={30} />}
-                      leftIcon={
-                        <Image
-                          source={require("../Ressources/Home_Icon.png")}
-                          style={[styles.PNGImageStyle]}
-                        />
-                      }
-                    //pad={`200`}
-                    />
-                  </TouchableOpacity>
-                )
-              }
-            ]}
-          />
-        </List>
-      </View>
-    );
-    
-  }
-  */
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-  },
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
   },
 });
