@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, FlatList, StyleSheet, SafeAreaView, Text, TouchableOpacity, View, StatusBar } from 'react-native';
-import { List, ListItem, Icon} from 'react-native-elements';
+import { FlatList, StyleSheet, SafeAreaView, Text, TouchableOpacity, View, StatusBar } from 'react-native';
+import { Avatar, List, ListItem, Icon} from 'react-native-elements';
 import { decode } from 'html-entities';
 import GLOBALS from '../Global';
 
@@ -50,14 +50,13 @@ export default class StufenScreen extends React.Component {
     console.log(item);
     this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
   }
-  //<Image source={require('../Ressources/Home_Icon.png')} style={[{resizeMode: 'contain', width: '25pt', height: '25pt', marginRight: '20pt'}]} />;
   renderListItem = ({ item, index, separators }) => {
     if (typeof item.name !== 'undefined') {
       return (<TouchableOpacity>
         <ListItem 
           bottomDivider
           onPress={ () => this.onStufePressed(item)}>
-          
+          <Avatar source={require('../Ressources/Home_Icon.png')} />
           <ListItem.Content>
             <ListItem.Title>{decode(item.name)}</ListItem.Title>
           </ListItem.Content>
