@@ -1,42 +1,36 @@
-import { observable, observe } from "mobx";
 import React from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, View, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS } from '../styles/common.js'
 import { Button } from 'react-native-elements';
 import AlertAsync from "react-native-alert-async";
+import { decode } from 'html-entities';
 import GLOBALS from '../Global';
 
 
 export default class DropOutScreen extends React.Component {
 
-    state = observable({
+    state = {
         stufe: null,
         destinationEmail: null,
         your_name: null,
         your_email: null,
-        your_subject: 'ich möchte mich für das nächste Programm abmelden',
+        your_subject: 'Ich möchte mich für das nächste Programm abmelden',
         your_message: null,
         acceptance: false,
 
-    });
-
-    disposer = observe(this.state, (change) => {
-        console.log(change.type, change.name, "from", change.oldValue, "to", change.object[change.name]);
-    });
-
-    static navigationOptions = ({ navigation }) => ({
-        title: typeof (navigation.state.params) === 'undefined' || typeof (navigation.state.params.title) === 'undefined' ? 'undefined' : navigation.state.params.title,
-    });
+    };
 
     constructor(props) {
         super(props);
+        console.log('DropOutScreen constructor');
         console.log(props);
-        if (this.props.navigation.state.params && this.props.navigation.state.params.parentStufe) {
-            this.state.stufe = this.props.navigation.state.params.parentStufe;
-            this.state.destinationEmail = this.props.navigation.state.params.destinationEmail;
+        if (this.props.route.params && this.props.route.params.parentStufe) {
+            console.log('Setting stufe and destinationEmail');
+            this.state.stufe = this.props.route.params.parentStufe;
+            this.state.destinationEmail = this.props.route.params.destinationEmail;
         }
-        this.props.navigation.setParams({ title: "Abmeldung" });
+        this.props.navigation.setOptions({ title: "Abmeldung" });
     }
 
     renderContent = () => {
@@ -48,7 +42,7 @@ export default class DropOutScreen extends React.Component {
                     </Text>
                 <Text
                     style={styles.subtitle}>
-                    für das nächste Programm der Stufe {this.state.stufe.name}
+                    für das nächste Programm der Stufe {decode(this.state.stufe.name)}
                 </Text>
                 <Text style={styles.text}>Dein Name*</Text>
                 <TextInput
