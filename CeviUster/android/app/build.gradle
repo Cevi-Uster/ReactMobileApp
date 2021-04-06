@@ -1,5 +1,4 @@
 apply plugin: "com.android.application"
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 import com.android.build.OutputFile
 
 /**
@@ -76,8 +75,12 @@ project.ext.react = [
     //bundleInDebug: true,
     //bundleInRelease: true,
     //entryFile: "main.jsbundle",
-    entryFile: "index.js"
+    entryFile: "index.js",
+    enableHermes: false,
 ]
+
+def jscFlavor = 'org.webkit:android-jsc:+'
+def enableHermes = project.ext.react.get("enableHermes", false);
 
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -98,15 +101,15 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
     def username = System.properties['user.name']
     def pass = getPassword(username, MYAPP_KEYSTORE_KEYCHAIN_NAME)
     def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)
     defaultConfig {
         applicationId "com.ceviuster"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 10
         versionName "3.0"
         ndk {
@@ -158,13 +161,21 @@ android {
 }*/
 
 dependencies {
-    implementation project(':react-native-webview')
-    compile project(':react-native-config')
-    api project(':react-native-calendar-events')
-    api project(':react-native-vector-icons')
     api fileTree(dir: "libs", include: ["*.jar"])
-    api "com.android.support:appcompat-v7:28+"
     api "com.facebook.react:react-native:+"  // From node_modules
+    if (enableHermes) {
+        // For RN 0.60.x
+        def hermesPath = "../../node_modules/hermesvm/android/"
+
+        // --- OR ----
+
+        // for RN 0.61+
+        //def hermesPath = "../../node_modules/hermes-engine/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+        implementation jscFlavor
+    }
 }
 
 // Run this once to be able to run the application with BUCK
@@ -173,3 +184,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.api
     into 'libs'
 }
+
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

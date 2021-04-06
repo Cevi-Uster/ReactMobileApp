@@ -1,6 +1,6 @@
 package com.ceviuster;
 
-import com.calendarevents.CalendarEventsPackage;
+import com.calendarevents.RNCalendarEventsPackage;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -21,14 +21,12 @@ public class MainActivity extends ReactActivity {
 
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-                new MainReactPackage(),
-                new CalendarEventsPackage()
+                new MainReactPackage()
         );
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        CalendarEventsPackage.onRequestPermissionsResult(requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

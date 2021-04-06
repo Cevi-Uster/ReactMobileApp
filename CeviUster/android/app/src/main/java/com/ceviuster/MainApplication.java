@@ -2,14 +2,10 @@ package com.ceviuster;
 
 import android.app.Application;
 
+import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.calendarevents.CalendarEventsPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
@@ -25,13 +21,10 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNCWebViewPackage(),
-            new ReactNativeConfigPackage(),
-            new CalendarEventsPackage(),
-            new VectorIconsPackage()
-      );
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+        // Manually add any missing packages like this
+        // packages.add(new PostsnapPackage());
+      return packages;
     }
 
     @Override
