@@ -71,9 +71,11 @@ import com.android.build.OutputFile
  * ]
  */
 
+apply plugin: "com.klarna.gradle.reactnative"
+
 project.ext.react = [
-    //bundleInDebug: true,
-    //bundleInRelease: true,
+    bundleInDebug: true,
+    bundleInRelease: true,
     //entryFile: "main.jsbundle",
     entryFile: "index.js",
     enableHermes: false,
@@ -84,6 +86,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 
 /**
  * Set this to true to create two separate APKs instead of one:
