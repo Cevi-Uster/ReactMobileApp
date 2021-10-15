@@ -25,6 +25,7 @@ export const addCalendarEvent = async (event, calendar, doneHandler, errorHandle
   let permissions;
   let createdEvent = false;
   try {
+    console.log('Try to save event to calendar');
     permissions = await RNCalendarEvents.checkPermissions((readOnly = false));
     if (permissions !== 'authorized') {
       permissions = await RNCalendarEvents.requestPermissions((readOnly = false));
@@ -35,9 +36,9 @@ export const addCalendarEvent = async (event, calendar, doneHandler, errorHandle
     }
 
     var sourceDateFormat = 'YYYY-MM-DD HH:mm:ssZ';
-    var targetDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-    var startDate = moment(`${event.utc_start_date}Z`, sourceDateFormat).format(targetDateFormat);
-    var endDate = moment(`${event.utc_end_date}Z`, sourceDateFormat).format(targetDateFormat);
+    var targetDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSS';
+    var startDate = moment(`${event.utc_start_date}Z`, sourceDateFormat).utc().format(targetDateFormat) + 'UTC';
+    var endDate = moment(`${event.utc_end_date}Z`, sourceDateFormat).utc().format(targetDateFormat) + 'UTC';
     var location = typeof(event.venue.venue) != 'undefined' ? decode(event.venue.venue.replace(/<[^>]+>/g, '')) : '';
     var description = typeof(event.description) != 'undefined' ? decode(event.description.replace(/<[^>]+>/g, '')) : '';
 

@@ -79,6 +79,13 @@ project.ext.react = [
     //entryFile: "main.jsbundle",
     entryFile: "index.js",
     enableHermes: false,
+    jsBundleDirDebug: "$buildDir/intermediates/assets/debug",
+    jsBundleDirRelease: "$buildDir/intermediates/assets/release",
+    resourcesDirDebug: "$buildDir/intermediates/res/merged/debug",
+    resourcesDirRelease: "$buildDir/intermediates/res/merged/release",
+    inputExcludes: ["android/**", "ios/**"],
+    nodeExecutableAndArgs: ["node"],
+    extraPackagerArgs: []
 ]
 
 def jscFlavor = 'org.webkit:android-jsc:+'
