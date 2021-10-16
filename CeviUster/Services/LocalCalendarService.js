@@ -37,8 +37,8 @@ export const addCalendarEvent = async (event, calendar, doneHandler, errorHandle
 
     var sourceDateFormat = 'YYYY-MM-DD HH:mm:ssZ';
     var targetDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSS';
-    var startDate = moment(`${event.utc_start_date}Z`, sourceDateFormat).utc().format(targetDateFormat) + 'UTC';
-    var endDate = moment(`${event.utc_end_date}Z`, sourceDateFormat).utc().format(targetDateFormat) + 'UTC';
+    var startDate = moment(`${event.utc_start_date}Z`, sourceDateFormat).utc().format(targetDateFormat) + 'Z';
+    var endDate = moment(`${event.utc_end_date}Z`, sourceDateFormat).utc().format(targetDateFormat) + 'Z';
     var location = typeof(event.venue.venue) != 'undefined' ? decode(event.venue.venue.replace(/<[^>]+>/g, '')) : '';
     var description = typeof(event.description) != 'undefined' ? decode(event.description.replace(/<[^>]+>/g, '')) : '';
 

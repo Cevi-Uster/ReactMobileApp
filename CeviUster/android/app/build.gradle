@@ -74,19 +74,20 @@ import com.android.build.OutputFile
 apply plugin: "com.klarna.gradle.reactnative"
 
 project.ext.react = [
-    bundleInDebug: true,
-    bundleInRelease: true,
-    //entryFile: "main.jsbundle",
-    entryFile: "index.js",
-    enableHermes: false,
-    jsBundleDirDebug: "$buildDir/intermediates/assets/debug",
-    jsBundleDirRelease: "$buildDir/intermediates/assets/release",
-    resourcesDirDebug: "$buildDir/intermediates/res/merged/debug",
-    resourcesDirRelease: "$buildDir/intermediates/res/merged/release",
-    inputExcludes: ["android/**", "ios/**"],
-    nodeExecutableAndArgs: ["node"],
-    extraPackagerArgs: []
+        entryFile: "index.js",
+        enableHermes: false,  // clean and rebuild if changing
+        bundleInDebug: true,
+        bundleInRelease: true
 ]
+//Fix for bundle not getting included in APK or AAB with android gradle plugin 4+
+//Seems like there's a task ordering issue and the assets get computed before the bundle is copied
+//This forces the copy task to run before merge resources
+project.afterEvaluate {
+    tasks.findAll { task ->
+        task.name.startsWith('merge') && task.name.endsWith('Resources')
+    }.each { t -> t.dependsOn "copyReleaseBundledJs" }
+}
+
 
 def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
