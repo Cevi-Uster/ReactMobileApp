@@ -147,7 +147,7 @@ export default class InfoBoxScreen extends React.Component {
                     borderWidth: 0,
                     borderRadius: BORDER_RADIUS
                   }}
-                  title='Abmelden!'
+                  title='Abmelden'
                 />
             </View>
           </View>
