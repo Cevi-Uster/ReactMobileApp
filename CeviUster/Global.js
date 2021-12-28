@@ -1,6 +1,6 @@
 export default {
   CONTACT_URL: 'https://cevi-uster.ch/mobile-pages/kontakt/',
-  WELCOME_URL: 'https://cevi-uster.ch/iApp/welcome_new.html',
+  WELCOME_URL: 'https://cevi-uster.ch/iApp/welcome.html',
   PRIVACY_STATEMENT_URL: 'https://cevi-uster.ch/mobile-pages/datenschutzerklaerung-mobile/',
   AGENDA_BASE_URL: 'https://cevi-uster.ch/wp-json/tribe/events/v1/',
   INFOBOX_BASE_URL: 'https://cevi-uster.ch/wp-json/chaeschtlizettel/v1/',
