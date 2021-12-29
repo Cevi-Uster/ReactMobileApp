@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -105,6 +105,8 @@ function PrivacyStatementStackScreen() {
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar
+        barStyle="inverted"/>
       <TabNavigator.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -140,5 +142,5 @@ export default function App() {
         <TabNavigator.Screen name="Privacy" component={PrivacyStatementStackScreen} options={{title: 'Datenschutz' } }/>
       </TabNavigator.Navigator>
     </NavigationContainer>
-  );
+   );
 }
