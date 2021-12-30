@@ -106,7 +106,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar
-        barStyle="inverted"/>
+        barStyle="light-content"/>
       <TabNavigator.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
