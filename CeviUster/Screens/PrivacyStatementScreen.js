@@ -1,4 +1,5 @@
 import React from 'react';
+import { AppState, StyleSheet, Text, View } from "react-native";
 import { WebView } from 'react-native-webview';
 import GLOBALS from '../Global';
 

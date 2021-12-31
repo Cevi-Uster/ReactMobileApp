@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from "react";
+import { AppState } from "react-native";
 import { WebView } from 'react-native-webview';
 import GLOBALS from '../Global';
 
@@ -6,6 +7,7 @@ export default class WelcomeScreen extends React.Component {
   
   webView = null;
   focusListener = null;
+  appStateListener = null;
 
   constructor(props){
     super(props);
@@ -17,9 +19,13 @@ export default class WelcomeScreen extends React.Component {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener('focus', () => {
       console.log("WelcomeScreen focus")
-      if (this.webView){
-        console.log("WelcomeScreen reload webView")
-        this.webView.reload();
+      this.refresh();
+    });
+
+    this.appStateListener = AppState.addEventListener("change", nextAppState => {
+      if (AppState.currentState.match(/inactive|background/) &&  nextAppState === "active") {
+        console.log("App has come to the foreground!");
+        this.refresh();
       }
     });
   }
@@ -27,6 +33,14 @@ export default class WelcomeScreen extends React.Component {
   componentWillUnmount() {
     // Remove the event listener
     this.focusListener.remove();
+    this.appStateListener.remove();
+  }
+
+  refresh() {
+    if (this.webView){
+        console.log("WelcomeScreen reload webView")
+        this.webView.reload();
+    }
   }
 
   render() {
