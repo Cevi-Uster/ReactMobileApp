@@ -4,15 +4,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import WelcomeScreen from './Screens/WelcomeScreen';
+import WebScreen from './Screens/WebScreen';
 import AgendaScreen from './Screens/AgendaScreen';
 import AgendaEntryScreen from './Screens/AgendaEntryScreen';
 import StufenScreen from './Screens/StufenScreen';
 import InfoBoxScreen from './Screens/InfoBoxScreen';
 import DropOutScreen from './Screens/DropOutScreen';
 import AgendaEntrySaveScreen from './Screens/AgendaEntrySaveScreen';
-import ContactScreen from './Screens/ContactScreen';
-import PrivacyStatementScreen from './Screens/PrivacyStatementScreen';
+import GLOBALS from './Global';
 
 
 const TabNavigator = createBottomTabNavigator();
@@ -22,13 +21,20 @@ const InfoBoxStack = createStackNavigator();
 const ContactStack = createStackNavigator();
 const PrivacyStatementStack = createStackNavigator();
 
+const WELCOME_TITLE = 'Willkommen';
+const AGENDA_TITLE = 'Agenda';
+const INFOBOX_TITLE = 'Chäschtli';
+const CONTACT_TITLE= 'Kontakt';
+const PRIVACY_TITLE = 'Datenschutz';
+
 function WelcomeStackScreen() {
   return (
     <WelcomeStack.Navigator>
       <WelcomeStack.Screen
-        name='Welcome'
-        component={WelcomeScreen}
-        options={{ tabBarLabel: 'Willkommen'}}
+        name={WELCOME_TITLE}
+        component={WebScreen}
+        options={{ tabBarLabel: WELCOME_TITLE}}
+        initialParams={{ url: GLOBALS.WELCOME_URL, title: WELCOME_TITLE }}
       />
     </WelcomeStack.Navigator>
   );
@@ -40,17 +46,17 @@ function AgendaStackScreen() {
       <AgendaStack.Screen
         name='Agenda'
         component={AgendaScreen}
-        options={{ tabBarLabel: 'Agenda' }}
+        options={{ tabBarLabel: AGENDA_TITLE}}
       />
       <AgendaStack.Screen
         name='AgendaEntry'
         component={AgendaEntryScreen}
-        options={{ tabBarLabel: 'Agenda' }}
+        options={{ tabBarLabel: AGENDA_TITLE }}
       />
       <AgendaStack.Screen
         name='AgendaEntrySave'
         component={AgendaEntrySaveScreen}
-        options={{ tabBarLabel: 'Agenda' }}
+        options={{ tabBarLabel: AGENDA_TITLE }}
       />
     </AgendaStack.Navigator>
   );
@@ -62,17 +68,17 @@ function InfoboxStackScreen() {
       <InfoBoxStack.Screen
         name='Stufen'
         component={StufenScreen}
-        options={{ tabBarLabel: 'Chäschtli' }}
+        options={{ tabBarLabel: INFOBOX_TITLE }}
       />
        <InfoBoxStack.Screen
         name='InfoBox'
         component={InfoBoxScreen}
-        options={{ tabBarLabel: 'Chäschtli' }}
+        options={{ tabBarLabel: INFOBOX_TITLE }}
       />
        <InfoBoxStack.Screen
         name='DropOut'
         component={DropOutScreen}
-        options={{ tabBarLabel: 'Chäschtli' }}
+        options={{ tabBarLabel: INFOBOX_TITLE }}
       />
     </InfoBoxStack.Navigator>
   );
@@ -82,9 +88,10 @@ function ContactStackScreen() {
   return (
     <ContactStack.Navigator>
       <ContactStack.Screen
-        name='Contact'
-        component={ContactScreen}
-        options={{ tabBarLabel: 'Kontakt' }}
+        name={CONTACT_TITLE}
+        component={WebScreen}
+        options={{ tabBarLabel: CONTACT_TITLE}}
+        initialParams={{ url: GLOBALS.CONTACT_URL, title: CONTACT_TITLE }}
       />
     </ContactStack.Navigator>
   );
@@ -94,9 +101,10 @@ function PrivacyStatementStackScreen() {
   return (
     <PrivacyStatementStack.Navigator>
       <PrivacyStatementStack.Screen
-        name='Privacy'
-        component={PrivacyStatementScreen}
-        options={{ tabBarLabel: 'Datenschutz' }}
+        name={PRIVACY_TITLE}
+        component={WebScreen}
+        options={{ tabBarLabel: PRIVACY_TITLE}}
+        initialParams={{ url: GLOBALS.PRIVACY_STATEMENT_URL, title: PRIVACY_TITLE }}
       />
     </PrivacyStatementStack.Navigator>
   );
@@ -112,19 +120,19 @@ export default function App() {
           tabBarIcon: ({ focused, color, size }) => {
             console.log('route.name: ' + route.name);
             let iconName = 'warning-outline';
-            if (route.name === 'Welcome') {
+            if (route.name === WELCOME_TITLE) {
               //iconName = `ios-information-circle${focused ? '' : '-outline'}`;
               return <Image 
                 source={require('./Ressources/Home_Icon.png')} 
                 style={[{resizeMode: 'contain'}, {tintColor: color}]} 
                 />;
-            }  else if (route.name === 'Agenda') {
+            }  else if (route.name === AGENDA_TITLE) {
               iconName = `ios-calendar${focused ? '' : '-outline'}`;
-            } else if (route.name === 'Infobox') {
+            } else if (route.name === INFOBOX_TITLE) {
               iconName = `ios-bonfire${focused ? '' : '-outline'}`;
-            } else if (route.name === 'Contact') {
+            } else if (route.name === CONTACT_TITLE) {
               iconName = `ios-at${focused ? '' : '-outline'}`;
-            }else if (route.name === 'Privacy') {
+            }else if (route.name === PRIVACY_TITLE) {
               iconName = `shield${focused ? '' : '-outline'}`;
             }
             // You can return any component that you like here!
@@ -135,11 +143,11 @@ export default function App() {
           activeTintColor: 'navy',
           inactiveTintColor: 'grey',
         }}>
-        <TabNavigator.Screen name="Welcome" component={WelcomeStackScreen} options={{title: 'Willkommen' }} />
-        <TabNavigator.Screen name="Agenda" component={AgendaStackScreen} options={{title: 'Agenda' }} />
-        <TabNavigator.Screen name="Infobox" component={InfoboxStackScreen} options={{title: 'Chäschtli' }} />
-        <TabNavigator.Screen name="Contact" component={ContactStackScreen} options={{title: 'Kontakt' }} />
-        <TabNavigator.Screen name="Privacy" component={PrivacyStatementStackScreen} options={{title: 'Datenschutz' } }/>
+        <TabNavigator.Screen name={WELCOME_TITLE} component={WelcomeStackScreen} options={{title: WELCOME_TITLE }} />
+        <TabNavigator.Screen name={AGENDA_TITLE} component={AgendaStackScreen} options={{title: AGENDA_TITLE }} />
+        <TabNavigator.Screen name={INFOBOX_TITLE} component={InfoboxStackScreen} options={{title: INFOBOX_TITLE }} />
+        <TabNavigator.Screen name={CONTACT_TITLE} component={ContactStackScreen} options={{title: CONTACT_TITLE }} />
+        <TabNavigator.Screen name={PRIVACY_TITLE} component={PrivacyStatementStackScreen} options={{title: PRIVACY_TITLE } }/>
       </TabNavigator.Navigator>
     </NavigationContainer>
    );
