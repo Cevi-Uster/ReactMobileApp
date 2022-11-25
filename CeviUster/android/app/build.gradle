@@ -124,13 +124,17 @@ android {
     def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)
     defaultConfig {
         applicationId "com.ceviuster"
-        minSdkVersion 16
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 31
         versionCode 10
         versionName "3.0"
         ndk {
             abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     signingConfigs {
         release {
