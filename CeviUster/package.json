@@ -20,15 +20,15 @@
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
     "flow": "^0.2.3",
-    "flow-bin": "^0.113.0",
+    "flow-bin": "^0.122.0",
     "flowtype": "^2.0.0",
     "html-entities": "^2.1.0",
     "jsc-android": "241213.1.0",
     "mobx": "^6.1.6",
     "mobx-react": "^7.1.0",
     "moment": "^2.29.1",
-    "react": "16.11.0",
-    "react-native": "0.62.3",
+    "react": "16.13.1",
+    "react-native": "0.63.4",
     "react-native-alert-async": "^1.0.5",
     "react-native-calendar-events": "^2.2.0",
     "react-native-elements": "^3.2.0",
@@ -45,14 +45,14 @@
     "schedule": "0.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/runtime": "^7.6.2",
-    "@react-native-community/eslint-config": "^0.0.5",
-    "babel-jest": "^24.9.0",
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
-    "jest": "^24.9.0",
-    "metro-react-native-babel-preset": "^0.58.0",
-    "react-test-renderer": "16.11.0"
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-test-renderer": "16.13.1"
   },
   "jest": {
     "preset": "react-native"

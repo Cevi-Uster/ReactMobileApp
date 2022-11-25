@@ -1,19 +1,22 @@
+
+require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
 # Uncomment the next line to define a global platform for your project
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 #Fix for XCode 12.5 and later
-post_install do |installer|
+#post_install do |installer|
   ## Fix for XCode 12.5
-  find_and_replace("../node_modules/react-native/React/CxxBridge/RCTCxxBridge.mm",
-  "_initializeModules:(NSArray<id<RCTBridgeModule>> *)modules", "_initializeModules:(NSArray<Class> *)modules")
-  find_and_replace("../node_modules/react-native/ReactCommon/turbomodule/core/platform/ios/RCTTurboModuleManager.mm",
-      "RCTBridgeModuleNameForClass(module))", "RCTBridgeModuleNameForClass(Class(module)))")
+  #find_and_replace("../node_modules/react-native/React/CxxBridge/RCTCxxBridge.mm",
+  #"_initializeModules:(NSArray<id<RCTBridgeModule>> *)modules", "_initializeModules:(NSArray<Class> *)modules")
+  #find_and_replace("../node_modules/react-native/ReactCommon/turbomodule/core/platform/ios/RCTTurboModuleManager.mm",
+  #    "RCTBridgeModuleNameForClass(module))", "RCTBridgeModuleNameForClass(Class(module)))")
   
   ##this fix is available in react-native > 0.63.2 versions
-  find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
-      "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
-end
+  #find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
+  #    "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
+#end
 # End Fix for XCode 12.5 and later
 
 def pods()
@@ -39,7 +42,7 @@ def pods()
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-  pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'React-callinvoker', :path => "../node_modules/react-native/ReactCommon/callinvoker"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
@@ -49,8 +52,8 @@ def pods()
 end
 
 target 'CeviUster' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  #use_frameworks!
+  config = use_native_modules!
+  use_react_native!(:path => config["reactNativePath"])
 
   pods()
 
