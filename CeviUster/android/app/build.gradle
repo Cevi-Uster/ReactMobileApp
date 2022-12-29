@@ -117,8 +117,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 31
     def username = System.properties['user.name']
     def pass = getPassword(username, MYAPP_KEYSTORE_KEYCHAIN_NAME)
     def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)

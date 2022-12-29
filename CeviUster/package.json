@@ -39,7 +39,7 @@
     "react-native-screens": "2.11.0",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^8.0.0",
-    "react-native-webview": "^11.2.3",
+    "react-native-webview": "^11.26.0",
     "react-navigation": "^4.4.3",
     "react-redux": "^7.2.2",
     "schedule": "0.5.0"
