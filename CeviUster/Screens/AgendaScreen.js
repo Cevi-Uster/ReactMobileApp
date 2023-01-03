@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, SafeAreaView, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { FlatList, StyleSheet, View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { decode } from 'html-entities';
 import moment from 'moment';
@@ -153,14 +153,14 @@ export default class AgendaScreen extends React.Component {
   render() {
     console.log('render data = ' + this.state.data);
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <FlatList
           data={this.state.data}
           renderItem={this.renderListItem.bind(this)}
           keyExtractor={(item, index) => ''+ index}
           extraData={this.state}
         />
-      </SafeAreaView>
+      </View>
     )
   }
 }
@@ -168,7 +168,6 @@ export default class AgendaScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
   },
   item: {
     backgroundColor: '#f9c2ff',

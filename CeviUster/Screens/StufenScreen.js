@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, SafeAreaView, Text, TouchableOpacity, View, StatusBar } from 'react-native';
+import { FlatList, StyleSheet,  Text, TouchableOpacity, View, StatusBar } from 'react-native';
 import { Avatar, List, ListItem, Icon} from 'react-native-elements';
 import { decode } from 'html-entities';
 import GLOBALS from '../Global';
@@ -70,14 +70,14 @@ export default class StufenScreen extends React.Component {
   render() {
     console.log('render stufen = ' + this.state.stufen);
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <FlatList
           data={this.state.stufen}
           renderItem={this.renderListItem.bind(this)}
           keyExtractor={(item, index) => ''+ index}
           extraData={this.state}
         />
-      </SafeAreaView>
+      </View>
     )
   }
 }
@@ -85,6 +85,5 @@ export default class StufenScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
   },
 });
