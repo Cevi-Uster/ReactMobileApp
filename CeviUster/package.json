@@ -26,7 +26,7 @@
     "jsc-android": "241213.1.0",
     "mobx": "^6.1.6",
     "mobx-react": "^7.1.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "react": "16.13.1",
     "react-native": "0.63.5",
     "react-native-alert-async": "^1.0.5",
