@@ -3,3 +3,4 @@
 build/
 CeviUster.code-workspace
 CeviUster/android/local.properties
+*.hprof
