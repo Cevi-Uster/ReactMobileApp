@@ -1,4 +1,4 @@
-package com.ceviuster;
+package ch.ceviuster.android;
 
 import com.calendarevents.RNCalendarEventsPackage;
 import com.facebook.react.ReactActivity;

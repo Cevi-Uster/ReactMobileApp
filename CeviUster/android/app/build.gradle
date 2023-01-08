@@ -122,11 +122,11 @@ android {
     def pass = getPassword(username, MYAPP_KEYSTORE_KEYCHAIN_NAME)
     def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)
     defaultConfig {
-        applicationId "com.ceviuster"
+        applicationId "ch.ceviuster.android"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 10
-        versionName "3.0"
+        versionCode 16
+        versionName "3.3"
         ndk {
             abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
