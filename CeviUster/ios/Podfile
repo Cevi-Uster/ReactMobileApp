@@ -6,18 +6,21 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '10.0'
 
 #Fix for XCode 12.5 and later
-#post_install do |installer|
+post_install do |installer|
   ## Fix for XCode 12.5
-  #find_and_replace("../node_modules/react-native/React/CxxBridge/RCTCxxBridge.mm",
-  #"_initializeModules:(NSArray<id<RCTBridgeModule>> *)modules", "_initializeModules:(NSArray<Class> *)modules")
-  #find_and_replace("../node_modules/react-native/ReactCommon/turbomodule/core/platform/ios/RCTTurboModuleManager.mm",
-  #    "RCTBridgeModuleNameForClass(module))", "RCTBridgeModuleNameForClass(Class(module)))")
-  
-  ##this fix is available in react-native > 0.63.2 versions
-  #find_and_replace("../node_modules/react-native/Libraries/Image/RCTUIImageViewAnimated.m",
-  #    "_currentFrame.CGImage;","_currentFrame.CGImage ;} else { [super displayLayer:layer];")
-#end
-# End Fix for XCode 12.5 and later
+
+  find_and_replace("../node_modules/react-native/React/Base/RCTKeyCommands-m", "_modifierFlags", "_modifierEventFlags")
+  find_and_replace("../node_modules/react-native/React/Base/RCTKeyCommands.m", "modifiedInput", "_modifiedEventInput" )
+  find_and_replace("../node_modules/react-native/React/Base/RCTKeyCommands.m", "_isKeyDown", "_isKeyEventDown")
+  find_and_replace("../node_modules/react-native/React/DevSupport/RCTPackagerClient.h", "handleNotification", "handlePackageNotification")
+  find_and_replace("../node_modules/react-native/React/DevSupport/RCTPackagerConnection.mm", "handleNotification", "handlePackageNotification")
+  find_and_replace("../node_modules/react-native/Libraries/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h", "(void)setColor:(double)color", "(void)setColor2:(double)color")
+  find_and_replace("../node_modules/react-native/Libraries/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec-generated.mm", "setColor", "setColor2")
+  find_and_replace("../node_modules/react-native/Libraries/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec.h", "onSuccess", "onSuccessEvent")
+  find_and_replace("../node_modules/react-native/Libraries/FBReactNativeSpec/FBReactNativeSpec/FBReactNativeSpec-generated.mm", "onSuccess", "onSuccessEvent")
+                   
+end
+#End Fix for XCode 12.5 and later
 
 def pods()
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
@@ -83,3 +86,4 @@ def find_and_replace(dir, findstr, replacestr)
   Dir[dir + '*/'].each(&method(:find_and_replace))
 end
 # End Fix for XCode 12.5 and later
+

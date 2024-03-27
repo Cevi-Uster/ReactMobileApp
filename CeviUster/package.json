@@ -8,7 +8,7 @@
     "ios": "react-native run-ios",
     "test": "jest",
     "lint": "eslint .",
-    "postinstall": "rm -f ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json",
+    "postinstall": "rm -f ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json && patch-package",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/CeviUster/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
     "android-dev": "ENVFILE=.env react-native run-android",
     "android-prod": "ENVFILE=.env.prod react-native run-android"
@@ -52,7 +52,8 @@
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
-    "react-test-renderer": "16.13.1"
+    "react-test-renderer": "16.13.1",
+    "patch-package": "8.0.0"
   },
   "jest": {
     "preset": "react-native"
