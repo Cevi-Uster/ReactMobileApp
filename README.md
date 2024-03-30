@@ -12,6 +12,6 @@ Die ReactMobileApp besteht aus einer Hautpsicht mit fünf Tabs. Die Tabs Welcome
 
 Im Tab Agenda werden Agendaeinträge und Eventkategorien aus dem Word Press Plugin [The Events Calendar](https://theeventscalendar.com/) angezeigt.
 
-Im Tab Chäschtli werden Informationen des Word Press Plugins [Chaeschtlizettel](https://github.com/Cevi-Uster/infobox) angezeigt. Dieses erlaubt Stufen oder Gruppen im Word Press Backend zu erfassen und für jede Stufe/Gruppe Informationen für nächste Treffen zu hinterlegen.
+Im Tab Chäschtli werden Informationen des Word Press Plugins [Chaeschtlizettel](https://github.com/Cevi-Uster/infobox) angezeigt. Dieses erlaubt Stufen oder Gruppen im Word Press Backend zu erfassen und für jede Stufe/Gruppe Informationen für das nächste Treffen zu hinterlegen.
 
 ![Cevi Uster App auf dem iPhone](https://www.cevi-uster.ch/wp-content/uploads/2019/03/CeviUsterApp_iPhone8Plus.png)
