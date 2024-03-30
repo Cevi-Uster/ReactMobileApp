@@ -1,6 +1,8 @@
 import React from "react";
 import {
+    ActivityIndicator,
 	Alert,
+    Modal,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -23,6 +25,7 @@ import GLOBALS from "../Global";
 
 export default class DropOutScreen extends React.Component {
 	state = {
+        isLoading: false,
 		stufe: null,
 		destinationEmail: null,
 		your_name: null,
@@ -89,7 +92,7 @@ export default class DropOutScreen extends React.Component {
 						title="Ich stimme der Datenverwendung für diese Nachricht zu"
 					/>
 				</View>
-				<View style={styles.buttonview}>
+				<View style={styles.buttonView}>
 					<Button
 						style={styles.sendButton}
 						onPress={() => {
@@ -106,6 +109,7 @@ export default class DropOutScreen extends React.Component {
 						title="Senden"
 					/>
 				</View>
+				{this.state.isLoading && (<ActivityIndicator size="large"	color={COLOR_PRIMARY} style={styles.waitOverlay}/>)}
 			</ScrollView>
 		);
 	};
@@ -119,12 +123,14 @@ export default class DropOutScreen extends React.Component {
 					enabled
 					keyboardVerticalOffset={100}
 				>
-					{this.renderContent()}
+                    {this.renderContent()}
 				</KeyboardAvoidingView>
 			);
 		} else {
 			return (
-				<KeyboardAvoidingView>{this.renderContent()}</KeyboardAvoidingView>
+				<KeyboardAvoidingView>
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
 			);
 		}
 	}
@@ -154,7 +160,7 @@ export default class DropOutScreen extends React.Component {
 		let formData = new FormData();
 		formData.append("_wpcf7", "1510");
 		formData.append("_wpcf7_unit_tag", "wpcf7-f1510-p286-o2");
-		formData.append('destination-email', this.state.destinationEmail);
+	    formData.append('destination-email', this.state.destinationEmail);
 		//formData.append("destination-email", "marc@mabaka.ch");
 		formData.append("your-name", this.state.your_name);
 		formData.append("your-email", this.state.your_email.toLowerCase());
@@ -164,6 +170,7 @@ export default class DropOutScreen extends React.Component {
 
 		const url = `${GLOBALS.DROP_OFF_FORM_URL}`;
 		console.log("FormData: " + JSON.stringify(formData, null, 4));
+        this.setState({ isLoading: true });
 		fetch(url, {
 			method: "POST",
 			headers: {
@@ -173,9 +180,11 @@ export default class DropOutScreen extends React.Component {
 		})
 			.then((response) => response.json())
 			.then((json) => {
+                this.setState({ isLoading: false });
 				this.handleSuccess(json);
 			})
 			.catch((error) => {
+                this.setState({ isLoading: false });
 				console.error(error);
 				Alert.alert("Fehler beim Senden!", error);
 			});
@@ -184,7 +193,7 @@ export default class DropOutScreen extends React.Component {
 	handleSuccess(json) {
 		console.log("Response: " + JSON.stringify(json, null, 4));
 		const showSuccessMessageAndGoBack = async () => {
-            if ('validation_failed' == json.status){
+            if ('mail_sent' !== json.status){
                 const choice = await AlertAsync(
                     "Senden fehlgeschlagen",
                     "Nachricht: " + json.message,
@@ -253,7 +262,10 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: "bold",
 	},
-	buttonview: {
+    centerText:{
+        textAlgin: 'center',
+    },
+	buttonView: {
 		marginTop: 10,
 		width: "100%",
 		justifyContent: "center",
@@ -262,4 +274,11 @@ const styles = StyleSheet.create({
 	sendButton: {
 		marginTop: 10,
 	},
+    waitOverlay: {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 0,
+     },
 });
