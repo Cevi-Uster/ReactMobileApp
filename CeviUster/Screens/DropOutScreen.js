@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
     centerText:{
-        textAlgin: 'center',
+        textAlign: 'center',
     },
 	buttonView: {
 		marginTop: 10,
