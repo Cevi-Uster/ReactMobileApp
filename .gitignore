@@ -5,3 +5,4 @@ CeviUster.code-workspace
 CeviUster/android/local.properties
 *.hprof
 CeviUster/android/app/release
+.DS_Store
