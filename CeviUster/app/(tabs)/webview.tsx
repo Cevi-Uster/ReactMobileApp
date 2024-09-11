@@ -7,8 +7,8 @@ export default function App() {
   const navigation = useNavigation();
   const router = useRouter();
   const params = useLocalSearchParams();
-  const { url } = params;
-  return (
+  const { url = '' } = params;
+    return (
     <WebView
       style={styles.container}
       source={{ uri: url}}

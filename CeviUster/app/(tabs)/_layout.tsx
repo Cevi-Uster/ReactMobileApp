@@ -36,7 +36,12 @@ export default function TabLayout() {
               style={[{ resizeMode: "contain" }, { tintColor: color }]}
             />
           ),
-          params: { url: URLs.WELCOME_URL },
+          href: {
+            pathname: '/webview/?url=[url]',
+            params: {
+              url: URLs.WELCOME_URL,
+            },
+          },
         }}
       />
       
