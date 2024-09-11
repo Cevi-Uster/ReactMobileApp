@@ -27,9 +27,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="home"
+        name="webview"
         options={{
-          title: 'Home',
+          title: 'Welcome',
           tabBarIcon: ({ color, focused }) => (
             <Image
               source={require("../../assets/images/Home_Icon.png")}
