@@ -6,6 +6,8 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 import URLs from '../../constants/URLs';
 
 export default function TabLayout() {
@@ -34,7 +36,7 @@ export default function TabLayout() {
         options={{
           title: 'Kontakt',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'at' : 'at-outline'} color={color} />
           ),
         }}
       />
@@ -43,7 +45,7 @@ export default function TabLayout() {
         options={{
           title: 'Datenschutz',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'shield' : 'shield-outline'} color={color} />
           ),
         }}
       />
