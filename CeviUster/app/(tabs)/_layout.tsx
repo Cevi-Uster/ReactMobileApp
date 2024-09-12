@@ -32,6 +32,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="box/stufen"
+        options={{
+          title: 'Chäschtli',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'bonfire' : 'bonfire-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="contact"
         options={{
           title: 'Kontakt',
