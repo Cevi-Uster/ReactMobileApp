@@ -3,15 +3,9 @@ import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import {decode} from 'html-entities';
-<<<<<<<< HEAD:CeviUster/app/(tabs)/box/infobox.tsx
+import { router, useLocalSearchParams, Link } from 'expo-router';
 import { COLOR_PRIMARY, BORDER_RADIUS } from '../../../constants/Colors';
 import URLs from '../../../constants/URLs';
-import { useLocalSearchParams } from 'expo-router';
-========
-import { router, useLocalSearchParams, Link } from 'expo-router';
-import { COLOR_PRIMARY, BORDER_RADIUS } from '../../../../constants/Colors';
-import URLs from '../../../../constants/URLs';
->>>>>>>> 26aff910368bb3649f247e9572265274564a8659:CeviUster/app/(tabs)/box/infobox/[...parameter].tsx
 
 
 
@@ -194,116 +188,6 @@ import URLs from '../../../../constants/URLs';
     console.log("dropOutButtonClicked");
     //this.props.navigation.navigate('DropOut', { parentStufe: this.state.stufe, destinationEmail: this.state.email });
   }
-
-<<<<<<<< HEAD:CeviUster/app/(tabs)/box/infobox.tsx
-  
-========
-  render() {
-    let dateTime = '';
-    if (this.state.von !== undefined && this.state.von !== null) {
-      let fromDay = ('0' + this.state.von.getDate()).slice(-2);
-      let fromMonth = ('0' + (this.state.von.getMonth() + 1)).slice(-2);
-      let fromHours = ('0' + this.state.von.getHours()).slice(-2);
-      let fromMinutes = ('0' + this.state.von.getMinutes()).slice(-2);
-      dateTime = `${fromDay}.${fromMonth}.${this.state.von.getFullYear()} ${fromHours}:${fromMinutes}`;
-    }
-
-    if (this.state.bis !== undefined && this.state.bis !== null) {
-      let toHours = ('0' + this.state.bis.getHours()).slice(-2);
-      let toMinutes = ('0' + this.state.bis.getMinutes()).slice(-2);
-      dateTime = `${dateTime} - ${toHours}:${toMinutes}`;
-    }
-
-    if (this.state.aktuell) {
-      return (
-        <ScrollView>
-          <View style={styles.container}>
-            <Image
-              style={styles.icon}
-              source={require('../../../../assets/images/CeviLogoTransparent.png')}
-            />
-            <View style={styles.content}>
-              <Text
-                style={styles.title}>
-                {this.state.stufe.name}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Treffpunkt:
-              </Text>
-              <Text
-                style={styles.date}>
-                {dateTime}
-              </Text>
-              <Text
-                style={styles.ort}>
-                {this.state.wo}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Infos:
-              </Text>
-              <Text
-                style={styles.info}>
-                {this.state.infos}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Mitnehmen:
-              </Text>
-              <Text
-                style={styles.mitnehmen}>
-                {this.state.mitnehmen}
-              </Text>
-            </View>
-            <View style={styles.buttonview}>
-                <Button
-                  style={styles.dropOutButton}
-                  onPress={() => { this.dropOutButtonClicked() }}
-                  buttonStyle={{
-                    backgroundColor: COLOR_PRIMARY,
-                    width: 140,
-                    height: 50,
-                    borderColor: "transparent",
-                    borderWidth: 0,
-                    borderRadius: BORDER_RADIUS
-                  }}
-                  title='Abmelden'
-                />
-            </View>
-          </View>
-        </ScrollView>
-      );
-    } else {
-      return (
-        <ScrollView>
-          <View style={styles.container}>
-            <Image
-              style={styles.icon}
-              source={require('../../../../assets/images/CeviLogoTransparent.png')}
-            />
-            <View style={styles.content}>
-              <Text
-                style={styles.title}>
-                {this.state.stufe.name}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Infos:
-              </Text>
-              <Text
-                style={styles.info}>
-                {this.state.infos}
-              </Text>
-            </View>
-          </View>
-        </ScrollView>
-      );
-    }
-  }
-
-}
->>>>>>>> 26aff910368bb3649f247e9572265274564a8659:CeviUster/app/(tabs)/box/infobox/[...parameter].tsx
 
 const styles = StyleSheet.create({
   container: {
