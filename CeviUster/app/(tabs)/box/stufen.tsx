@@ -41,7 +41,8 @@ export default class Stufen extends React.Component {
 
   onStufePressed(item) {
     console.log(item);
-    router.push('/infobox?parentStufe=' + item.id + '&title=' + item.name); //this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
+    router.push('./infobox?parentStufe=' + item.stufen_id + '&title=' + item.name);
+    //srouter.push('/infobox?parentStufe=' + item.id + '&title=' + item.name); //this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
     //this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
   }
   
