@@ -1,10 +1,11 @@
 import React from 'react';
 import { FlatList, StyleSheet,  Text, TouchableOpacity, View, StatusBar } from 'react-native';
 import { Avatar, List, ListItem, Icon} from 'react-native-elements';
+import { router, useLocalSearchParams, Link } from 'expo-router';
 import { decode } from 'html-entities';
 import URLs from '../../../constants/URLs';
 
-export default class StufenScreen extends React.Component {
+export default class Stufen extends React.Component {
 
   state = {
     stufen: [],
@@ -13,13 +14,6 @@ export default class StufenScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    //console.log(props);
-    // if (this.props.route.params && this.props.route.params.parentStufe) {
-    //   this.state.currentParentStufenId = this.props.route.params.parentStufe.id;
-    //   this.props.navigation.setOptions({ title: this.props.route.params.parentStufe.name });
-    // } else {
-    //   this.props.navigation.setOptions({ title: "Chäschtli" });
-    // }
     this.onStufePressed = this.onStufePressed.bind(this);
   }
 
@@ -47,7 +41,8 @@ export default class StufenScreen extends React.Component {
 
   onStufePressed(item) {
     console.log(item);
-    this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
+    router.push('/infobox?parentStufe=' + item.id + '&title=' + item.name); //this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
+    //this.props.navigation.navigate('InfoBox', { parentStufe: item, title: item.name });
   }
   
   renderListItem = ({ item, index, separators }) => {
