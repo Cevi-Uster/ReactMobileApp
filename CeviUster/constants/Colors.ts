@@ -6,6 +6,12 @@
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
 
+export const COLOR_PRIMARY = '#6495ed'; //cornflowerblue
+export const COLOR_SECONDARY = '#d3d3d3';
+export const COLOR_HIGHLIGHT = 'navy'
+export const BORDER_RADIUS = 20;
+
+
 export const Colors = {
   light: {
     text: '#11181C',

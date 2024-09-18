@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import {decode} from 'html-entities';
-import { COLOR_PRIMARY, BORDER_RADIUS } from '../styles/common.js'
+import { COLOR_PRIMARY, BORDER_RADIUS } from '../../../constants/Colors';
 import URLs from '../../../constants/URLs';
 
 export default class InfoBox extends React.Component {
@@ -23,14 +23,13 @@ export default class InfoBox extends React.Component {
   };
 
   constructor(props) {
-    super(props);
-    console.log(props);
-    if (this.props.route.params && this.props.route.params.parentStufe) {
-      this.state.stufe = this.props.route.params.parentStufe;
-      this.props.navigation.setOptions({ title: this.props.route.params.parentStufe.name });
-    } else {
-      this.props.navigation.setOptions({ title: "Unknown" });
-    }
+    const { parameter } = useLocalSearchParams<{
+      everything: string[];
+      parentStufeId?: string;
+      parentStufeName?: string;
+     }>();
+    this.state.stufe.stufen_id = parameter.parentStufeId;
+    this.state.stufe.name = parameter.parentStufeName;
   }
 
   componentDidMount() {

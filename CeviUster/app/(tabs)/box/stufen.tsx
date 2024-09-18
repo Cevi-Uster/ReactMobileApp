@@ -64,6 +64,7 @@ export default class Stufen extends React.Component {
 
   render() {
     console.log('render stufen = ' + this.state.stufen);
+    const styles = require('../../../constants/ViewStyles');
     return (
       <View style={styles.container}>
         <FlatList
@@ -76,9 +77,3 @@ export default class Stufen extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
