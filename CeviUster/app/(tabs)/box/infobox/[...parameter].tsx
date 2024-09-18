@@ -3,8 +3,9 @@ import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import {decode} from 'html-entities';
-import { COLOR_PRIMARY, BORDER_RADIUS } from '../../../constants/Colors';
-import URLs from '../../../constants/URLs';
+import { router, useLocalSearchParams, Link } from 'expo-router';
+import { COLOR_PRIMARY, BORDER_RADIUS } from '../../../../constants/Colors';
+import URLs from '../../../../constants/URLs';
 
 export default class InfoBox extends React.Component {
 
@@ -98,7 +99,7 @@ export default class InfoBox extends React.Component {
           <View style={styles.container}>
             <Image
               style={styles.icon}
-              source={require('../../../assets/images/CeviLogoTransparent.png')}
+              source={require('../../../../assets/images/CeviLogoTransparent.png')}
             />
             <View style={styles.content}>
               <Text
@@ -158,7 +159,7 @@ export default class InfoBox extends React.Component {
           <View style={styles.container}>
             <Image
               style={styles.icon}
-              source={require('../../../assets/images/CeviLogoTransparent.png')}
+              source={require('../../../../assets/images/CeviLogoTransparent.png')}
             />
             <View style={styles.content}>
               <Text
