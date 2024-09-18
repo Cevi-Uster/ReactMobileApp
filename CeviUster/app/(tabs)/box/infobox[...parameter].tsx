@@ -98,7 +98,7 @@ export default class InfoBox extends React.Component {
           <View style={styles.container}>
             <Image
               style={styles.icon}
-              source={require('../Ressources/CeviLogoTransparent.png')}
+              source={require('../../../assets/images/CeviLogoTransparent.png')}
             />
             <View style={styles.content}>
               <Text
@@ -158,7 +158,7 @@ export default class InfoBox extends React.Component {
           <View style={styles.container}>
             <Image
               style={styles.icon}
-              source={require('../Ressources/CeviLogoTransparent.png')}
+              source={require('../../../assets/images/CeviLogoTransparent.png')}
             />
             <View style={styles.content}>
               <Text
