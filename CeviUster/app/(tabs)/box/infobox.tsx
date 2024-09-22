@@ -3,23 +3,31 @@ import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import {decode} from 'html-entities';
-import { router, useLocalSearchParams, Link } from 'expo-router';
+import { router, useLocalSearchParams, useNavigation, Link } from 'expo-router';
+import { useState, useRef, useLayoutEffect } from 'react';
 import { COLOR_PRIMARY, BORDER_RADIUS } from '../../../constants/Colors';
 import URLs from '../../../constants/URLs';
 
 
 
   export default function InfoBox (props) {
-  
+      
     const param = {
       // The route parameter
       parentStufe,
       // An optional search parameter.
       title
     } = useLocalSearchParams<{ parentStufe: string; title: string }>();
-
+ 
     console.log(param.title);
     console.log(param.parentStufe);
+
+    const navigation = useNavigation();
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        title: param.title,
+      });
+    }, [navigation]);
 
     state = {
       stufe: {name: param.title},
