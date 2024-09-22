@@ -41,6 +41,12 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="box/infobox"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
         name="contact"
         options={{
           title: 'Kontakt',
