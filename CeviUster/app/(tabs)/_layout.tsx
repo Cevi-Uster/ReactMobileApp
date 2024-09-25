@@ -32,18 +32,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="box/stufen"
+        name="box"
         options={{
           title: 'Chäschtli',
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'bonfire' : 'bonfire-outline'} color={color} />
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="box/infobox"
-        options={{
-          href: null,
         }}
       />
       <Tabs.Screen
