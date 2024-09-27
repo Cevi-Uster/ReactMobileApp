@@ -7,8 +7,99 @@ import { router, useLocalSearchParams, useNavigation, Link } from 'expo-router';
 import { useState, useRef, useLayoutEffect } from 'react';
 import { COLOR_PRIMARY, BORDER_RADIUS } from '../../../constants/Colors';
 import URLs from '../../../constants/URLs';
+import { useEffect } from 'react';
 
+function ChaeschtliInfo( info ){
+  console.log("render scrollview");
+  console.log(info);
 
+  if (info.aktuell) {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <Image
+            style={styles.icon}
+            source={require('../../../assets/images/CeviLogoTransparent.png')}
+          />
+          <View style={styles.content}>
+            <Text
+              style={styles.title}>
+              {info.stufe.name}
+            </Text>
+            <Text
+              style={styles.header}>
+              {"\n"}Treffpunkt:
+            </Text>
+            <Text
+              style={styles.date}>
+              {dateTime}
+            </Text>
+            <Text
+              style={styles.ort}>
+              {info.wo}
+            </Text>
+            <Text
+              style={styles.header}>
+              {"\n"}Infos:
+            </Text>
+            <Text
+              style={styles.info}>
+              {info.infos}
+            </Text>
+            <Text
+              style={styles.header}>
+              {"\n"}Mitnehmen:
+            </Text>
+            <Text
+              style={styles.mitnehmen}>
+              {info.mitnehmen}
+            </Text>
+          </View>
+          <View style={styles.buttonview}>
+              <Button
+                style={styles.dropOutButton}
+                onPress={() => { dropOutButtonClicked() }}
+                buttonStyle={{
+                  backgroundColor: COLOR_PRIMARY,
+                  width: 140,
+                  height: 50,
+                  borderColor: "transparent",
+                  borderWidth: 0,
+                  borderRadius: BORDER_RADIUS
+                }}
+                title='Abmelden'
+              />
+          </View>
+        </View>
+      </ScrollView>
+    );
+  } else {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <Image
+            style={styles.icon}
+            source={require('../../../assets/images/CeviLogoTransparent.png')}
+          />
+          <View style={styles.content}>
+            <Text
+              style={styles.title}>
+              {info.stufe.name}
+            </Text>
+            <Text
+              style={styles.header}>
+              {"\n"}Infos:
+            </Text>
+            <Text
+              style={styles.info}>
+              {info.infos}
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    );
+  }
+}
 
   export default function InfoBox (props) {
       
@@ -18,19 +109,9 @@ import URLs from '../../../constants/URLs';
       // An optional search parameter.
       title
     } = useLocalSearchParams<{ parentStufe: string; title: string }>();
- 
-    console.log(param.title);
-    console.log(param.parentStufe);
-
-    const navigation = useNavigation();
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        title: param.title,
-      });
-    }, [navigation]);
 
     state = {
-      stufe: {name: param.title},
+      stufe: {name: param.title, stufen_id: param.parentStufe},
       aktuell: false,
       von: null,
       bis: null,
@@ -39,6 +120,18 @@ import URLs from '../../../constants/URLs';
       mitnehmen: null,
       email: null,
     };
+
+    const [info, setState] = useState(state);
+ 
+    console.log("Title: " + param.title);
+    console.log("Stufen_Id: " + param.parentStufe);
+
+    const navigation = useNavigation();
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        title: param.title,
+      });
+    }, [navigation]);
     
     containerMargin = 10;
     contentMarginLeft = 38;
@@ -65,137 +158,67 @@ import URLs from '../../../constants/URLs';
       dateTime = `${dateTime} - ${toHours}:${toMinutes}`;
     }
 
-    if (state.aktuell) {
-      return (
-        <ScrollView>
-          <View style={styles.container}>
-            <Image
-              style={styles.icon}
-              source={require('../../../assets/images/CeviLogoTransparent.png')}
-            />
-            <View style={styles.content}>
-              <Text
-                style={styles.title}>
-                {state.stufe.name}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Treffpunkt:
-              </Text>
-              <Text
-                style={styles.date}>
-                {dateTime}
-              </Text>
-              <Text
-                style={styles.ort}>
-                {state.wo}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Infos:
-              </Text>
-              <Text
-                style={styles.info}>
-                {state.infos}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Mitnehmen:
-              </Text>
-              <Text
-                style={styles.mitnehmen}>
-                {state.mitnehmen}
-              </Text>
-            </View>
-            <View style={styles.buttonview}>
-                <Button
-                  style={styles.dropOutButton}
-                  onPress={() => { dropOutButtonClicked() }}
-                  buttonStyle={{
-                    backgroundColor: COLOR_PRIMARY,
-                    width: 140,
-                    height: 50,
-                    borderColor: "transparent",
-                    borderWidth: 0,
-                    borderRadius: BORDER_RADIUS
-                  }}
-                  title='Abmelden'
-                />
-            </View>
-          </View>
-        </ScrollView>
-      );
-    } else {
-      return (
-        <ScrollView>
-          <View style={styles.container}>
-            <Image
-              style={styles.icon}
-              source={require('../../../assets/images/CeviLogoTransparent.png')}
-            />
-            <View style={styles.content}>
-              <Text
-                style={styles.title}>
-                {state.stufe.name}
-              </Text>
-              <Text
-                style={styles.header}>
-                {"\n"}Infos:
-              </Text>
-              <Text
-                style={styles.info}>
-                {state.infos}
-              </Text>
-            </View>
-          </View>
-        </ScrollView>
-      );
+    useEffect(() => {
+      // code to run after render goes here
+      console.log("fetch called");
+      fetchData();
+    }, []); // <-- empty array means 'run once'
+
+    fetchData = () => {
+      fetchChaeschtli();
+
     }
+  
+    fetchChaeschtli = async () => {
+      const url = `${URLs.INFOBOX_BASE_URL}chaeschtlizettel/${state.stufe.stufen_id}`;
+      console.log(`Try to load chaeschtli from URL: ${url}`);
+      const chaeschliResponse = await fetch(url, {
+        headers: {
+          Accept: "application/json"
+        }
+      });
+      const json = await chaeschliResponse.json();
+      if (json !== undefined && json !== null) {
+        var expiryMoment = moment(Date.parse(json.bis)).endOf('day');
+        state.aktuell = moment().diff(expiryMoment) < 0;
+        console.log("aktuell: "+state.aktuell);
+        if (!state.aktuell) {
+          state.von = null;
+          state.bis = null;
+          state.wo = null;
+          state.infos = 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.';
+          state.mitnehmen = null;
+          state.email = null;
+        } else {
+          state.von = new Date(Date.parse(json.von));
+          state.bis = new Date(Date.parse(json.bis));
+          state.wo = decode(json.wo);
+          state.infos = decode(json.infos);
+          state.mitnehmen = decode(json.mitnehmen);
+          state.email = decode(json.email);
+        }
+        console.log(state);
+        setState(state);
+      }
+    }
+  
+    function dropOutButtonClicked() {
+      console.log("dropOutButtonClicked");
+      //this.props.navigation.navigate('DropOut', { parentStufe: this.state.stufe, destinationEmail: this.state.email });
+    }
+
+    return(
+      <ChaeschtliInfo info ={info}/>
+    )
   }
+
+
 
   /*componentDidMount() {
     fetchData();
   }*/
 
-  /*fetchData = () => {
-    fetchChaeschtli();
-  }*/
 
-  /*fetchChaeschtli = async () => {
-    const url = `${URLs.INFOBOX_BASE_URL}chaeschtlizettel/${this.state.stufe.stufen_id}`;
-    console.log(`Try to load chaeschtli from URL: ${url}`);
-    const chaeschliResponse = await fetch(url, {
-      headers: {
-        Accept: "application/json"
-      }
-    });
-    const json = await chaeschliResponse.json();
-    if (json !== undefined && json !== null) {
-      var expiryMoment = moment(Date.parse(json.bis)).endOf('day');
-      this.state.aktuell = moment().diff(expiryMoment) < 0;
-      if (!this.state.aktuell) {
-        this.setState({von: null});
-        this.setState({bis: null});
-        this.setState({wo: null});
-        this.setState({infos: 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.'});
-        this.setState({mitnehmen: null});
-        this.setState({email: null});
-      } else {
-        this.setState({von: new Date(Date.parse(json.von))});
-        this.setState({bis: new Date(Date.parse(json.bis))});
-        this.setState({wo: decode(json.wo)});
-        this.setState({infos: decode(json.infos)});
-        this.setState({mitnehmen: decode(json.mitnehmen)});
-        this.setState({email: decode(json.email)});
-      }
-      console.log(this.state.von);
-    }
-  }*/
-
-  function dropOutButtonClicked() {
-    console.log("dropOutButtonClicked");
-    //this.props.navigation.navigate('DropOut', { parentStufe: this.state.stufe, destinationEmail: this.state.email });
-  }
 
 const styles = StyleSheet.create({
   container: {
