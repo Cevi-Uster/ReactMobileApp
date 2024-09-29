@@ -7,17 +7,7 @@ import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
 import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
 import URLs from "../../../constants/URLs";
-
-type Info = {
-  stufe: string;
-  aktuell: boolean;
-  von?: Date;
-  bis?: Date;
-  wo?: string;
-  infos?: string;
-  mitnehmen?: string;
-  email?: string;
-};
+import Info from "../../types/info.ts"
 
 async function getInfo(stufenId: string, stufenName: string) {
   var promise = new Promise(function(resolve, reject) {
