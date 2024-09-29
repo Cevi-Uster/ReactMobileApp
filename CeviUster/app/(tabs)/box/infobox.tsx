@@ -1,54 +1,11 @@
 import React from "react";
 import { StyleSheet, ScrollView, View, Text, Image } from "react-native";
 import { Button } from "react-native-elements";
-import moment from "moment";
-import { decode } from "html-entities";
 import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
 import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
-import URLs from "../../../constants/URLs";
-import Info from "../../types/info.ts"
-
-async function getInfo(stufenId: string, stufenName: string) {
-  var promise = new Promise(function(resolve, reject) {
-    const url = `${URLs.INFOBOX_BASE_URL}chaeschtlizettel/${stufenId}`;
-    console.log(`Try to load info from URL: ${url}`);
-    const load = async () => {
-      const chaeschliResponse = await fetch(url, {
-        headers: {
-          Accept: "application/json"
-        }
-      });
-      console.log("Fetch finished");
-      const json = await chaeschliResponse.json();
-      if (json !== undefined && json !== null) {
-        var expiryMoment = moment(Date.parse(json.bis)).endOf('day');
-        let isActual: boolean = moment().diff(expiryMoment) < 0;
-        const info: Info = {
-          stufe: stufenName,
-          aktuell: isActual,
-          infos: isActual ? decode(json.infos) : 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.',
-          von: isActual ? new Date(Date.parse(json.von)) : null,
-          bis: isActual ? new Date(Date.parse(json.bis)) : null,
-          wo: isActual ? decode(json.wo) : null,
-        }
-        console.log(info.von);
-        resolve(info);
-      } else {
-        const info: Info = {
-          stufe: stufenName,
-          aktuell: isActual,
-          infos: 'Bei der Dateabfrage ist ein Fehler aufgetreten. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.',
-        }
-        resolve(info);
-      }
-    }
-    load(); 
-  });
-  
-  return promise;   
-}
-
+import Info from "../../types/Info"
+import getInfo from "../../service/getInfo"
 
 export default function InfoBox(props) {
 	const param = ({
@@ -152,45 +109,6 @@ export default function InfoBox(props) {
 		);
 	}
 }
-
-/*componentDidMount() {
-    fetchData();
-  }*/
-
-/*fetchData = () => {
-    fetchChaeschtli();
-  }*/
-
-/*fetchChaeschtli = async () => {
-    const url = `${URLs.INFOBOX_BASE_URL}chaeschtlizettel/${this.state.stufe.stufen_id}`;
-    console.log(`Try to load chaeschtli from URL: ${url}`);
-    const chaeschliResponse = await fetch(url, {
-      headers: {
-        Accept: "application/json"
-      }
-    });
-    const json = await chaeschliResponse.json();
-    if (json !== undefined && json !== null) {
-      var expiryMoment = moment(Date.parse(json.bis)).endOf('day');
-      this.state.aktuell = moment().diff(expiryMoment) < 0;
-      if (!this.state.aktuell) {
-        this.setState({von: null});
-        this.setState({bis: null});
-        this.setState({wo: null});
-        this.setState({infos: 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.'});
-        this.setState({mitnehmen: null});
-        this.setState({email: null});
-      } else {
-        this.setState({von: new Date(Date.parse(json.von))});
-        this.setState({bis: new Date(Date.parse(json.bis))});
-        this.setState({wo: decode(json.wo)});
-        this.setState({infos: decode(json.infos)});
-        this.setState({mitnehmen: decode(json.mitnehmen)});
-        this.setState({email: decode(json.email)});
-      }
-      console.log(this.state.von);
-    }
-  }*/
 
 function dropOutButtonClicked() {
 	console.log("dropOutButtonClicked");
