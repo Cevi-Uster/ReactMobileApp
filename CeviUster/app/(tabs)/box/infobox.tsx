@@ -7,7 +7,7 @@ import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
 import Info from "../../types/Info"
 import getInfo from "../../service/getInfo"
 
-export default function InfoBox(props) {
+export default function infoBox(props) {
 	const param = ({
 		// ID der Stufe
 		parentStufe,
@@ -15,7 +15,7 @@ export default function InfoBox(props) {
 		title,
 	} = useLocalSearchParams<{ parentStufe: string; title: string }>());
 
-  const [info, setInfo] = useState([])
+  let [info, setInfo] = useState([]);
 
 	console.log(param.title);
 	console.log(param.parentStufe);
@@ -75,7 +75,7 @@ export default function InfoBox(props) {
 						<Button
 							style={styles.dropOutButton}
 							onPress={() => {
-								dropOutButtonClicked();
+								dropOutButtonClicked(info);
 							}}
 							buttonStyle={{
 								backgroundColor: COLOR_PRIMARY,
@@ -110,9 +110,11 @@ export default function InfoBox(props) {
 	}
 }
 
-function dropOutButtonClicked() {
+function dropOutButtonClicked(info: Info) {
 	console.log("dropOutButtonClicked");
 	//this.props.navigation.navigate('DropOut', { parentStufe: this.state.stufe, destinationEmail: this.state.email });
+	//router.push('/box/dropout?info=' + info);
+	router.push({ pathname: `/box/dropout`, params: info });
 }
 
 const styles = StyleSheet.create({

@@ -25,6 +25,8 @@ export default async function getInfo(stufenId: string, stufenName: string) {
           von: isActual ? new Date(Date.parse(json.von)) : null,
           bis: isActual ? new Date(Date.parse(json.bis)) : null,
           wo: isActual ? decode(json.wo) : null,
+          mitnehmen: decode(decode(json.mitnehmen)),
+          email: decode(decode(json.email)),
         }
         console.log(info.von);
         resolve(info);
