@@ -150,9 +150,26 @@ function dropOutImpl(info: Info){
   );
 }
 
+function validateData(senderName: string, senderEmail: string, acceptance: boolean) {
+  if (!senderName) {
+    Alert.alert("Bitte gibt deinen Namen ein. ");
+    return false;
+  } else if (!senderEmail) {
+    Alert.alert("Bitte gibt deine E-Mailadresse ein.");
+    return false;
+  }
+  if (!acceptance) {
+    Alert.alert("Bitte stimme der Datenverwendung zu.");
+    return false;
+  }
+  return true;
+}
+
 function handleSubmit() {
   console.log("dropOutButtonClicked");
-  router.back();
+  if (validateData){
+    router.back();
+  }
 }
 
 const styles = StyleSheet.create({
