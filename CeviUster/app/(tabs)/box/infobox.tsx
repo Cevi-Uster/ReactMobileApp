@@ -53,7 +53,7 @@ export default function infoBox(props) {
     dateTime = `${dateTime} - ${toHours}:${toMinutes}`;
   }
 
-	if (info.aktuell) {
+	if (/*info.aktuell*/true) {
 		return (
 			<ScrollView>
 				<View style={styles.container}>

@@ -18,6 +18,8 @@ import AlertAsync from "react-native-alert-async";
 import { COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from  "../../../constants/Colors";
 import Info from "../../types/Info"
 import DropOutMessage from "../../types/DropOutMessage"
+import URLs from "../../../constants/URLs";
+import validator from "validator";
 
 export default function dropOut(props) {  
   
@@ -79,9 +81,99 @@ function dropOutImpl(info: Info){
   const [isSending, setIsSending] =  useState(false);
   const [senderName, setSenderName] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
-  const [subject, setSubject] = useState("Ich möchte mich für das nächste Programm abmelden");
+  const [subject, setSubject] = useState("ich möchte mich für das nächste Programm abmelden");
   const [message, setMessage] = useState("");
   const [acceptance, setAcceptance] = useState(false);
+
+  function validateData() {
+		if (!senderName) {
+			Alert.alert("Bitte gibt deinen Namen ein. ");
+			return false;
+		} else if (!validator.isEmail(senderEmail)) {
+			Alert.alert("Bitte gibt deine E-Mailadresse ein.");
+			return false;
+		}
+		if (!acceptance) {
+			Alert.alert("Bitte stimme der Datenverwendung zu.");
+			return false;
+		}
+		return true;
+	}
+
+  function sendData() {
+		let formData = new FormData();
+		formData.append("_wpcf7", "1510");
+		formData.append("_wpcf7_unit_tag", "wpcf7-f1510-p286-o2");
+	  //formData.append('destination-email', this.state.destinationEmail);
+		//formData.append("destination-email", "marc@mabaka.ch");
+    formData.append("destination-email", "matthias@kunz.family");
+		formData.append("your-name", senderName);
+		formData.append("your-email", senderEmail.toLowerCase());
+		formData.append("your-subject", subject);
+		formData.append("your-message", message);
+		formData.append("acceptance", acceptance);
+
+		const url = `${URLs.DROP_OFF_FORM_URL}`;
+		console.log("FormData: " + JSON.stringify(formData, null, 4));
+		
+    fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+			body: formData,
+		})
+			.then((response) => response.json())
+			.then((json) => {
+        console.log("Message sent");
+				handleSuccess(json);
+			})
+			.catch((error) => {
+				console.error(error);
+				Alert.alert("Fehler beim Senden!", error);
+			});
+	}
+
+	function handleSuccess(json) {
+		console.log("Response: " + JSON.stringify(json, null, 4));
+		const showSuccessMessageAndGoBack = async () => {
+            if ('mail_sent' !== json.status){
+                const choice = await AlertAsync(
+                    "Senden fehlgeschlagen",
+                    "Nachricht: " + json.message,
+                    [{ text: "Ok", onPress: () => "ok" }],
+                    {
+                        cancelable: true,
+                        onDismiss: () => "ok",
+                    }
+                );
+            } else {
+                const choice = await AlertAsync(
+                    "Gesendet",
+                    "Vielen Dank für deine Abmeldung.",
+                    [{ text: "Ok", onPress: () => "ok" }],
+                    {
+                        cancelable: true,
+                        onDismiss: () => "ok",
+                    }
+                );
+    
+                if (choice === "ok") {
+                  router.back();
+                }
+            }
+			
+		};
+		showSuccessMessageAndGoBack();
+	}
+
+  async function handleSubmit() {
+    console.log("dropOutButtonClicked");
+    if (validateData()) {
+      sendData();
+    }
+    //await router.back();
+  }
   
   
   return (
@@ -148,28 +240,6 @@ function dropOutImpl(info: Info){
       {isSending && (<ActivityIndicator size="large"	color={COLOR_PRIMARY} style={styles.waitOverlay}/>)}
     </ScrollView>
   );
-}
-
-function validateData(senderName: string, senderEmail: string, acceptance: boolean) {
-  if (!senderName) {
-    Alert.alert("Bitte gibt deinen Namen ein. ");
-    return false;
-  } else if (!senderEmail) {
-    Alert.alert("Bitte gibt deine E-Mailadresse ein.");
-    return false;
-  }
-  if (!acceptance) {
-    Alert.alert("Bitte stimme der Datenverwendung zu.");
-    return false;
-  }
-  return true;
-}
-
-function handleSubmit() {
-  console.log("dropOutButtonClicked");
-  if (validateData){
-    router.back();
-  }
 }
 
 const styles = StyleSheet.create({
