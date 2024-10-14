@@ -53,7 +53,7 @@ export default function infoBox(props) {
     dateTime = `${dateTime} - ${toHours}:${toMinutes}`;
   }
 
-	if (/*info.aktuell*/true) {
+	if (info.aktuell) {
 		return (
 			<ScrollView>
 				<View style={styles.container}>
@@ -112,8 +112,6 @@ export default function infoBox(props) {
 
 function dropOutButtonClicked(info: Info) {
 	console.log("dropOutButtonClicked");
-	//this.props.navigation.navigate('DropOut', { parentStufe: this.state.stufe, destinationEmail: this.state.email });
-	//router.push('/box/dropout?info=' + info);
 	router.push({ pathname: `/box/dropout`, params: info });
 }
 
