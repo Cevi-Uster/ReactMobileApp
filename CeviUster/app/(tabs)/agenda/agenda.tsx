@@ -1,47 +1,67 @@
 import React from 'react';
+import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
+import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { FlatList, StyleSheet, View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { decode } from 'html-entities';
 import moment from 'moment';
 import URLs from "../../../constants/URLs";
 
-export default class AgendaScreen extends React.Component {
+export default function AgendaScreen(props) {
 
-  state = {
-    categories: [],
-    events:[],
-    data:[],
-    currentParentId: 0,
-  };
+    const param = ({
+        // ID der agenda
+        parentCategorieId,
+        // Name der Stufe für die Anzeige im Titel
+        title,
+    } = useLocalSearchParams<{ parentCategorieId: Int ; title: string }>());
 
-  constructor(props){
+  const [categories, setCategories] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [data, setData] = useState([]);
+  const [currentParentId, setCurrentParentId] = useState(param.parentCategorieId);
+
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    if(!param.title){
+        navigation.setOptions({
+            title: "Agenda",
+        });
+    }else{
+      navigation.setOptions({
+          title: parentCategorieId.name,
+      });
+    }
+  }, [navigation]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  /*constructor(props){
      super(props);
      console.log('AgendaScreen#constructor');
      console.log(props);
-     /*if (this.props.route.params && this.props.route.params.parentCategory){
+     if (this.props.route.params && this.props.route.params.parentCategory){
        let parentCategory = this.props.route.params.parentCategory;
        console.log('parentCategory=' + parentCategory);
        this.state.currentParentId = parentCategory.id;
        this.props.navigation.setOptions({ title: parentCategory.name });
      } else {
        this.props.navigation.setOptions({ title: "Agenda" });
-     }*/
+     }
      console.log('currentParentId=' + this.state.currentParentId);
      this.onCategoryPressed = this.onCategoryPressed.bind(this);
      this.onEventPressed = this.onEventPressed.bind(this);
+  }*/
+
+  function fetchData(){
+    useState({data: []});
+    fetchCategories();
+    fetchEvents();
   }
 
-  componentDidMount(){
-    this.fetchData();
-  }
-
-  fetchData = () => {
-    this.setState({data: []});
-    this.fetchCategories();
-    this.fetchEvents();
-  }
-
-  fetchCategories = async () => {
+  async function fetchCategories() {
     console.log('fetchCategories');
     const categoryResponse = await fetch(`${URLs.AGENDA_BASE_URL}categories/?hide_empty=false&orderby=parent&per_page=10000`, {
       headers: {
@@ -50,18 +70,18 @@ export default class AgendaScreen extends React.Component {
     });
     const json = await categoryResponse.json();
     if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
-      const filteredCategories = json.categories.filter(category => category.parent == this.state.currentParentId);
-      this.setState({categories: filteredCategories});
-      const newData = this.state.data;
+      const filteredCategories = json.categories.filter(category => category.parent == currentParentId);
+      useState({categories: filteredCategories});
+      const newData = data;
       Array.prototype.unshift.apply(newData, filteredCategories);
-      this.setState({data: newData});
+      useState({data: newData});
       console.log('filteredCategories = ' + filteredCategories);
     } else {
-      this.setState({categories: new Array(0)});
+      useState({categories: new Array(0)});
     }
   }
 
-  fetchEvents = async () => {
+  async function fetchEvents(){
     console.log('fetchEvents');
     const startDate = moment().format("YYYY-MM-DD 00:00:00");
     const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${this.state.currentParentId}&per_page=10000`, {
@@ -75,37 +95,40 @@ export default class AgendaScreen extends React.Component {
       let filteredEvents = new Array(0);
       for (event of json.events){
         for (category of event.categories){
-          if (category.id == this.state.currentParentId){
+          if (category.id == currentParentId){
             filteredEvents.push(event);
           }
         }
       }
       console.log(filteredEvents);
-      this.setState({events: filteredEvents});
-      const newData = this.state.data;
+      useState({events: filteredEvents});
+      const newData = data;
       Array.prototype.push.apply(newData, filteredEvents);
-      this.setState({data: newData});
+      useState({data: newData});
       console.log('filteredEvents = ' + filteredEvents);
     } else {
-      this.setState({events: new Array(0)});
+      useState({events: new Array(0)});
     }
   }
 
-  onCategoryPressed(item){
+  function onCategoryPressed(item){
      console.log('onCategoryPressed: selectedItem: ' + item.id + ', ' + item.name);
-     console.log('navigation: ' + this.props.navigation);
-     this.props.navigation.push('Agenda', {
+     console.log('navigation: ' + navigation);
+     /*this.props.navigation.push('Agenda', {
       parentCategory: item, 
       title: item.name
-    });
+    });*/
+    router.push('/agenda/agenda?Agenda=' + item.stufen_id + '&title=' + item.name);
+
   }
 
-  onEventPressed(item){
+  function onEventPressed(item){
      console.log(item);
-     this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
+     //this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
+     router.push('/agenda/agendaEntry?selectedEvent=' + item);
   }
   
-  renderListItem = ({ item, index, separators }) => {
+  function renderListItem (item){
     console.log('renderListItem: ' + item);
     if (typeof item.name !== 'undefined') {
       console.log('render category');
@@ -113,7 +136,7 @@ export default class AgendaScreen extends React.Component {
       return (<TouchableOpacity>
         <ListItem 
           bottomDivider
-          onPress={ () => this.onCategoryPressed(item)}>
+          onPress={ () => onCategoryPressed(item)}>
           <Icon name={'folder'}/>
           <ListItem.Content>
             <ListItem.Title>{decode(item.name)}</ListItem.Title>
@@ -138,7 +161,7 @@ export default class AgendaScreen extends React.Component {
       return (<TouchableOpacity>
         <ListItem 
           bottomDivider
-          onPress={ () => this.onEventPressed(item)}>
+          onPress={ () => onEventPressed(item)}>
           <ListItem.Content>
             <ListItem.Title>{decode(agendaEntryTitle)}</ListItem.Title>
             <ListItem.Subtitle>{decode(timeText)}</ListItem.Subtitle>
@@ -151,20 +174,18 @@ export default class AgendaScreen extends React.Component {
     }
   }
 
-  render() {
-    console.log('render data = ' + this.state.data);
+    console.log('render data = ' + data);
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.data}
-          renderItem={this.renderListItem.bind(this)}
+          data={data}
+          renderItem={renderListItem(data)}
           keyExtractor={(item, index) => ''+ index}
-          extraData={this.state}
+          //extraData={this.state}
         />
       </View>
     )
-  }
-}
+} // end of function component
 
 const styles = StyleSheet.create({
   container: {
