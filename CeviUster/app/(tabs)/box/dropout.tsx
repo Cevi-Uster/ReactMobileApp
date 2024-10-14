@@ -103,8 +103,8 @@ function dropOutImpl(info: Info){
 		let formData = new FormData();
 		formData.append("_wpcf7", "1510");
 		formData.append("_wpcf7_unit_tag", "wpcf7-f1510-p286-o2");
-	  //formData.append('destination-email', info.email);
-		formData.append("destination-email", "simba.uster@gmail.com");
+	  formData.append('destination-email', info.email);
+		//formData.append("destination-email", "simba.uster@gmail.com");
     //formData.append("destination-email", "matthias@kunz.family");
 		formData.append("your-name", senderName);
 		formData.append("your-email", senderEmail.toLowerCase());
