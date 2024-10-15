@@ -11,32 +11,52 @@ export default function AgendaScreen(props) {
 
     const param = ({
         // ID der agenda
-        parentCategorieId,
+        agendaId,
         // Name der Stufe für die Anzeige im Titel
         title,
-    } = useLocalSearchParams<{ parentCategorieId: Int ; title: string }>());
+    } = useLocalSearchParams<{ agendaId: Int ; title: string }>());
+
+    enum states {
+      init,
+      rendered,
+      newData,
+      requestData
+    }
 
   const [categories, setCategories] = useState([]);
   const [events, setEvents] = useState([]);
   const [data, setData] = useState([]);
-  const [currentParentId, setCurrentParentId] = useState(param.parentCategorieId);
+  const [currentParentId, setCurrentParentId] = useState(param.agendaId);
+  const [componentState, setComponentState] = useState(states.init);
 
   const navigation = useNavigation();
   useLayoutEffect(() => {
+    console.log("UseLayoutEffect ComponentState: "+componentState);
     if(!param.title){
         navigation.setOptions({
             title: "Agenda",
         });
     }else{
       navigation.setOptions({
-          title: parentCategorieId.name,
+          title: param.title,
       });
     }
   }, [navigation]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+      console.log("ComponentState: "+componentState);
+
+      const unsubscribe = navigation.addListener('focus', () => {
+        // The screen is focused
+        setComponentState(states.requestData);
+      });
+
+      fetchData();
+
+      return unsubscribe;
+  }, [componentState]);
+
+  //fetchData();
 
   /*constructor(props){
      super(props);
@@ -56,9 +76,22 @@ export default function AgendaScreen(props) {
   }*/
 
   function fetchData(){
-    useState({data: []});
-    fetchCategories();
-    fetchEvents();
+
+    console.log("currentParentId: "+currentParentId);
+    if(componentState === states.requestData){
+      setData([]);
+      fetchCategories();
+    }
+    //fetchEvents();
+    if(componentState === states.init){ 
+      if(currentParentId == undefined){
+        setCurrentParentId(0);
+      }
+      setComponentState(states.requestData);
+    }
+    if(componentState === states.newData){
+      setComponentState(states.rendered);
+    }
   }
 
   async function fetchCategories() {
@@ -69,15 +102,19 @@ export default function AgendaScreen(props) {
       }
     });
     const json = await categoryResponse.json();
+    console.log("categorie Id: "+ currentParentId );
+    //console.log(json.categories);
     if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
       const filteredCategories = json.categories.filter(category => category.parent == currentParentId);
-      useState({categories: filteredCategories});
+      console.log(filteredCategories);
+      setCategories(filteredCategories);
       const newData = data;
       Array.prototype.unshift.apply(newData, filteredCategories);
-      useState({data: newData});
+      setData(newData);
       console.log('filteredCategories = ' + filteredCategories);
+      setComponentState(states.newData);
     } else {
-      useState({categories: new Array(0)});
+      setCategories(new Array(0));
     }
   }
 
@@ -118,8 +155,10 @@ export default function AgendaScreen(props) {
       parentCategory: item, 
       title: item.name
     });*/
-    router.push('/agenda/agenda?Agenda=' + item.stufen_id + '&title=' + item.name);
-
+    setData([]);
+    router.push('/agenda/agendaCategories?agendaId=' + item.id + '&title=' + item.name);
+    //setCurrentParentId(item.id);
+    //setComponentState(states.requestData);
   }
 
   function onEventPressed(item){
@@ -128,8 +167,9 @@ export default function AgendaScreen(props) {
      router.push('/agenda/agendaEntry?selectedEvent=' + item);
   }
   
-  function renderListItem (item){
-    console.log('renderListItem: ' + item);
+  //function renderListItem (item){
+  renderListItem = ({ item, index, separators }) => {
+    console.log('renderListItem: ' + JSON.stringify(item));
     if (typeof item.name !== 'undefined') {
       console.log('render category');
       // Handle category
@@ -172,19 +212,23 @@ export default function AgendaScreen(props) {
     } else {
       console.log('render unknown item ' + item);
     }
-  }
+  };
 
-    console.log('render data = ' + data);
+
+    if(componentState === states.rendered){
+    console.log('render data = ' + JSON.stringify(data));
+
     return (
       <View style={styles.container}>
         <FlatList
           data={data}
-          renderItem={renderListItem(data)}
-          keyExtractor={(item, index) => ''+ index}
-          //extraData={this.state}
+          renderItem={renderListItem.bind(data)}
+          //keyExtractor={(item, index) => ''+ index}
+          //extraData={data}
         />
       </View>
     )
+  }
 } // end of function component
 
 const styles = StyleSheet.create({

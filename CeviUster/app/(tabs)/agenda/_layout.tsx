@@ -4,7 +4,7 @@ export default function AgendaStack() {
   return (
     <Stack>
       <Stack.Screen 
-        name="agenda" 
+        name="agendaCategories" 
         options={{
           title: "Kalender"
         }} 
