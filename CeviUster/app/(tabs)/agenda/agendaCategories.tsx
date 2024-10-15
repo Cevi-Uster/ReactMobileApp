@@ -81,8 +81,9 @@ export default function AgendaScreen(props) {
     if(componentState === states.requestData){
       setData([]);
       fetchCategories();
+      fetchEvents();
     }
-    //fetchEvents();
+
     if(componentState === states.init){ 
       if(currentParentId == undefined){
         setCurrentParentId(0);
@@ -121,12 +122,13 @@ export default function AgendaScreen(props) {
   async function fetchEvents(){
     console.log('fetchEvents');
     const startDate = moment().format("YYYY-MM-DD 00:00:00");
-    const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${this.state.currentParentId}&per_page=10000`, {
+    const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${currentParentId}&per_page=10000`, {
       headers: {
         Accept: "application/json"
       }
     });
     const json = await eventsResponse.json();
+    console.log("fetchEvents: "+json);
     if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
 
       let filteredEvents = new Array(0);
@@ -137,14 +139,16 @@ export default function AgendaScreen(props) {
           }
         }
       }
-      console.log(filteredEvents);
-      useState({events: filteredEvents});
+      console.log("filteredEvents: "+ JSON.stringify(filteredEvents));
+      //useState({events: filteredEvents});
+      setEvents(filteredEvents);
       const newData = data;
       Array.prototype.push.apply(newData, filteredEvents);
-      useState({data: newData});
+      //useState({data: newData});
+      setData(newData);
       console.log('filteredEvents = ' + filteredEvents);
     } else {
-      useState({events: new Array(0)});
+      setEvents([]);
     }
   }
 
