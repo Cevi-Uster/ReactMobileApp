@@ -166,9 +166,9 @@ export default function AgendaScreen(props) {
   }
 
   function onEventPressed(item){
-     console.log(item);
+     console.log("onEventPressed: item: "+JSON.stringify(item));
      //this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
-     router.push('/agenda/agendaEntry?selectedEvent=' + item);
+     router.push('/agenda/agendaEntry?selectedEventId=' + item.id + '&title=' + item.title);
   }
   
   //function renderListItem (item){

@@ -1,53 +1,106 @@
 import React from 'react';
+import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
+import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from "../../../constants/Colors";
 import {decode} from 'html-entities';
 import LocalCalendarModalComponent from '../../../components/LocalCalendarModalComponent';
 import {addCalendarEvent} from '../../../services/LocalCalendarService';
+import URLs from "../../../constants/URLs";
 
-export default class AgendaEntryScreen extends React.Component {
+export default function AgendaEntryScreen(props) {
 
   containerMargin = 10;
   contentMarginLeft = 38;
 
-  state = {
-    event: null,
-    isVisibleCalendars: false,
-  };
+    const param = ({
+        // ID des events
+        selectedEventId,
+        title,
+    } = useLocalSearchParams<{ selectedEventId: Int ; title: string  }>());
 
-  constructor(props){
-     super(props);
-     console.log(props);
-     if (this.props.route.params && this.props.route.params.selectedEvent){
-       this.state.event = this.props.route.params.selectedEvent;
-       this.props.navigation.setOptions({ title: this.props.route.params.selectedEvent.title });
-     } else {
-       this.props.navigation.setOptions({ title: "Agenda" });
-     }
-  }
+    enum states {
+      init,
+      rendered,
+      newData,
+      requestData
+    }
 
-  componentDidMount(){
-  }
+    const [event, setEvent] = useState(null);
+    const [isVisibleCalendars, setIsVisibleCalendars] = useState(false);
+    const [componentState, setComponentState] = useState(states.init);
 
-  saveButtonClicked(){
+    const navigation = useNavigation();
+    /*if (param && param.selectedEvent){*/
+        //setEvent(param.selectedEvent);
+        //navigation.setOptions({ title: event.title });
+    /*} else {*/
+        navigation.setOptions({ title: param.title + "(" + param.selectedEventId +")" });
+        console.log("Event title: "+ param.title)
+    //}
+
+        useEffect(() => {
+          console.log("ComponentState: "+componentState);
+    
+          /*const unsubscribe = navigation.addListener('focus', () => {
+            // The screen is focused
+            setComponentState(states.requestData);
+          });*/
+
+          if(componentState === states.requestData){
+            fetchEvent(event);
+          }
+      
+          if(componentState === states.init){ 
+            setComponentState(states.requestData);
+          }
+          if(componentState === states.newData){
+            setComponentState(states.rendered);
+          }
+          
+          //return unsubscribe;
+      }, [componentState]);
+        
+
+    async function fetchEvent(id){
+      console.log('fetchEvent: '+id);
+      const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events?id=${id}`, {
+        headers: {
+          Accept: "application/json"
+        }
+      });
+      const json = await eventsResponse.json();
+      console.log("param.event: "+JSON.stringify(json));
+      if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
+        setComponentState(states.newData);
+        setEvent(json.events[0]);
+        console.log("event: "+ JSON.stringify(event));
+        navigation.setOptions({ title: event.title });
+      } else {
+        console.log("event: "+ json);
+        setEvent(null);
+      }
+    }
+  
+  function saveButtonClicked(){
     //this.props.navigation.navigate('AgendaEntrySave', {selectedEvent: this.state.event});
-    this.setState({ isVisibleCalendars: true });
+    setIsVisibleCalendars(true);
   }
 
-  closeLocalCalendarModal(){
-    this.setState({ isVisibleCalendars: false });
+  function closeLocalCalendarModal(){
+    setIsVisibleCalendars(false);
   }
 
   saveEvent = async (calendar) => { 
-    console.log('saveEvent: ' + this.state.event + ' to calendar: ' + calendar );
+    console.log('saveEvent: ' + event + ' to calendar: ' + calendar );
     
-    addCalendarEvent(this.state.event, calendar, () => {
+    addCalendarEvent(event, calendar, () => {
       Alert.alert(
         "Gespeichert",
         "Der Kalendereintrag wurde gespeichert.",
         [
-          { text: "OK", onPress: () => this.closeLocalCalendarModal() }
+          { text: "OK", onPress: () => closeLocalCalendarModal() }
         ]
       )
     }, (e) => {
@@ -55,14 +108,15 @@ export default class AgendaEntryScreen extends React.Component {
         "Fehler",
         "Fehler beim Speichern im Kalender: " + e,
         [
-          { text: "OK", onPress: () => this.closeLocalCalendarModal() }
+          { text: "OK", onPress: () => closeLocalCalendarModal() }
         ]
       )
     });
   };
 
-  render() {
-    const event = this.state.event;
+  if(componentState === states.rendered && event !== null){
+    //const event = this.state.event;
+    console.log("event: "+ JSON.stringify(event))
     let dateTime = '';
     dateTime = `${event.start_date_details.day}.${event.start_date_details.month}.${event.start_date_details.year}`;
     if (!event.all_day){
@@ -80,7 +134,7 @@ export default class AgendaEntryScreen extends React.Component {
     }
 
     const dimensions = Dimensions.get('window');
-    let imageScaledWidth = dimensions.width - (2 * this.containerMargin) - this.contentMarginLeft;
+    let imageScaledWidth = dimensions.width - (2 * containerMargin) - contentMarginLeft;
     let imageScaledHeight = 0;
     console.log(`event.image ${event.image}`);
     if (event.image == false){
@@ -88,8 +142,8 @@ export default class AgendaEntryScreen extends React.Component {
     } else {
       imageScaledHeight = Math.round(event.image.height * (imageScaledWidth  / event.image.width));
     }
-    console.log(`containerMargin ${this.containerMargin}`);
-    console.log(`contentMarginLeft ${this.contentMarginLeft}`);
+    console.log(`containerMargin ${containerMargin}`);
+    console.log(`contentMarginLeft ${contentMarginLeft}`);
     console.log(`event.image.height ${event.image.height}`);
     console.log(`imageScaledWidth ${imageScaledWidth}`);
     console.log(`event.image.width ${event.image.width}`);
@@ -100,9 +154,9 @@ export default class AgendaEntryScreen extends React.Component {
     return (
       <ScrollView>
         <LocalCalendarModalComponent
-          isVisible={this.state.isVisibleCalendars}
-          closeModal={() => this.closeLocalCalendarModal()}
-          handleCalendarSelected={(calendar) => this.saveEvent(calendar)}
+          isVisible={isVisibleCalendars}
+          closeModal={() => closeLocalCalendarModal()}
+          handleCalendarSelected={(calendar) => saveEvent(calendar)}
           label={'Kalender wählen'}
         />
         <View style={styles.container}>
@@ -139,7 +193,7 @@ export default class AgendaEntryScreen extends React.Component {
           <View style={styles.buttonview}>
             <Button
               style={styles.savebutton}
-              onPress={() => {this.saveButtonClicked()}}
+              onPress={() => {saveButtonClicked()}}
               icon={{
                 name: 'save',
                 size: 20,
