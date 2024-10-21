@@ -7,7 +7,7 @@ import { decode } from 'html-entities';
 import moment from 'moment';
 import URLs from "../../../constants/URLs";
 
-export default function AgendaScreen(props) {
+export default function AgendaScreen() {
 
     const param = ({
         // ID der agenda
@@ -121,6 +121,7 @@ export default function AgendaScreen(props) {
 
   async function fetchEvents(){
     console.log('fetchEvents');
+
     const startDate = moment().format("YYYY-MM-DD 00:00:00");
     const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${currentParentId}&per_page=10000`, {
       headers: {
@@ -139,7 +140,7 @@ export default function AgendaScreen(props) {
           }
         }
       }
-      console.log("filteredEvents: "+ JSON.stringify(filteredEvents));
+      //console.log("filteredEvents: "+ JSON.stringify(filteredEvents));
       //useState({events: filteredEvents});
       setEvents(filteredEvents);
       const newData = data;
@@ -166,14 +167,18 @@ export default function AgendaScreen(props) {
   }
 
   function onEventPressed(item){
-     console.log("onEventPressed: item: "+JSON.stringify(item));
+     console.log("onEventPressed: item: "+item.id);
      //this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
-     router.push('/agenda/agendaEntry?selectedEventId=' + item.id + '&title=' + item.title);
+     router.push({
+      pathname: "/agenda/[agendaEntry]",
+      params: { agendaEntry: item.id },
+    })
+     //router.push('/agenda/[agendaEntry]/${item.id}');
   }
   
   //function renderListItem (item){
   renderListItem = ({ item, index, separators }) => {
-    console.log('renderListItem: ' + JSON.stringify(item));
+    //console.log('renderListItem: ' + JSON.stringify(item));
     if (typeof item.name !== 'undefined') {
       console.log('render category');
       // Handle category
@@ -189,7 +194,7 @@ export default function AgendaScreen(props) {
         </ListItem>
       </TouchableOpacity>)
     } else if (typeof item.title !== 'undefined') {
-      console.log('render event');
+      console.log('render event: '+ item.title + ' / ' + item.id);
       // Handle event
       let dateText = `${item.start_date_details.day}.${item.start_date_details.month}.${item.start_date_details.year}`;
       let timeText = ``;
@@ -220,7 +225,7 @@ export default function AgendaScreen(props) {
 
 
     if(componentState === states.rendered){
-    console.log('render data = ' + JSON.stringify(data));
+    //(data));
 
     return (
       <View style={styles.container}>

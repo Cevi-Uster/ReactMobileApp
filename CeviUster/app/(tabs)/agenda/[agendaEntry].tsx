@@ -1,6 +1,9 @@
+"use client";
+
 import React from 'react';
 import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
 import { useState, useRef, useLayoutEffect, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from "../../../constants/Colors";
@@ -8,80 +11,61 @@ import {decode} from 'html-entities';
 import LocalCalendarModalComponent from '../../../components/LocalCalendarModalComponent';
 import {addCalendarEvent} from '../../../services/LocalCalendarService';
 import URLs from "../../../constants/URLs";
+import { isLoaded } from 'expo-font';
 
-export default function AgendaEntryScreen(props) {
+export default function AgendaEntryScreen() {
 
-  containerMargin = 10;
-  contentMarginLeft = 38;
+  let containerMargin = 10;
+  let contentMarginLeft = 38;
 
     const param = ({
         // ID des events
-        selectedEventId,
-        title,
-    } = useLocalSearchParams<{ selectedEventId: Int ; title: string  }>());
+        agendaEntry,
+    } = useLocalSearchParams<{ agendaEntry : string}>());
+    //const { eventId } = useLocalSearchParams<{ agendaEntry: string }>();
 
-    enum states {
-      init,
-      rendered,
-      newData,
-      requestData
-    }
-
-    const [event, setEvent] = useState(null);
+    //const [event, setEvent] = useState(null);
+    console.log("EventId: "+ param.agendaEntry);
+    const [eventId, setEventId] = useState(Number(param.agendaEntry));
+    console.log("EventId: "+ eventId);
+    
     const [isVisibleCalendars, setIsVisibleCalendars] = useState(false);
-    const [componentState, setComponentState] = useState(states.init);
 
     const navigation = useNavigation();
-    /*if (param && param.selectedEvent){*/
-        //setEvent(param.selectedEvent);
-        //navigation.setOptions({ title: event.title });
-    /*} else {*/
-        navigation.setOptions({ title: param.title + "(" + param.selectedEventId +")" });
-        console.log("Event title: "+ param.title)
-    //}
 
-        useEffect(() => {
-          console.log("ComponentState: "+componentState);
-    
-          /*const unsubscribe = navigation.addListener('focus', () => {
-            // The screen is focused
-            setComponentState(states.requestData);
-          });*/
-
-          if(componentState === states.requestData){
-            fetchEvent(event);
-          }
-      
-          if(componentState === states.init){ 
-            setComponentState(states.requestData);
-          }
-          if(componentState === states.newData){
-            setComponentState(states.rendered);
-          }
-          
-          //return unsubscribe;
-      }, [componentState]);
+    const {
+      data: event,
+      isError,
+      isPending,
+      isFetched,
+    } = useQuery({
+      queryKey: ["event", { eventId }],
+      queryFn: async () => {
+        const response = await fetch(`${URLs.AGENDA_BASE_URL}events/${eventId}`);
+        return (await response.json() as object);
+      },
+    });
         
 
-    async function fetchEvent(id){
+    /*async function fetchEvent(id){
       console.log('fetchEvent: '+id);
-      const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events?id=${id}`, {
+      const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events/${id}`, {
         headers: {
           Accept: "application/json"
         }
       });
       const json = await eventsResponse.json();
-      console.log("param.event: "+JSON.stringify(json));
+      //console.log("param.event: "+JSON.stringify(json));
       if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
         setComponentState(states.newData);
-        setEvent(json.events[0]);
-        console.log("event: "+ JSON.stringify(event));
+        setEvent(json);
+        //console.log("event: "+ JSON.stringify(event));
         navigation.setOptions({ title: event.title });
       } else {
         console.log("event: "+ json);
         setEvent(null);
       }
-    }
+    }*/
   
   function saveButtonClicked(){
     //this.props.navigation.navigate('AgendaEntrySave', {selectedEvent: this.state.event});
@@ -114,9 +98,12 @@ export default function AgendaEntryScreen(props) {
     });
   };
 
-  if(componentState === states.rendered && event !== null){
+  if(isFetched && !isError){
+    navigation.setOptions({
+      title: event.title,
+  });
     //const event = this.state.event;
-    console.log("event: "+ JSON.stringify(event))
+    //console.log("event: "+ JSON.stringify(event))
     let dateTime = '';
     dateTime = `${event.start_date_details.day}.${event.start_date_details.month}.${event.start_date_details.year}`;
     if (!event.all_day){
