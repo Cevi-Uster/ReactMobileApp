@@ -1,6 +1,9 @@
+"use client";
+
 import React from 'react';
 import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
-import { useState, useRef, useLayoutEffect, useEffect } from "react";
+import { useState, useCallback, useRef, useLayoutEffect, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { FlatList, StyleSheet, View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { decode } from 'html-entities';
@@ -14,24 +17,19 @@ export default function AgendaScreen() {
         agendaId,
         // Name der Stufe für die Anzeige im Titel
         title,
-    } = useLocalSearchParams<{ agendaId: Int ; title: string }>());
+    } = useLocalSearchParams<{ agendaId: string ; title: string }>());
 
-    enum states {
-      init,
-      rendered,
-      newData,
-      requestData
-    }
+    console.log("AgendaScreen ParentId: "+ param.agendaId);
 
-  const [categories, setCategories] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [data, setData] = useState([]);
   const [currentParentId, setCurrentParentId] = useState(param.agendaId);
-  const [componentState, setComponentState] = useState(states.init);
 
-  const navigation = useNavigation();
+  if(currentParentId == undefined){
+    setCurrentParentId('0');
+    console.log("AgendaScreen ParentId = 0");
+  }
+  console.log("AgendaScreen ParentId: "+ param.agendaId);
+  /*const navigation = useNavigation();
   useLayoutEffect(() => {
-    console.log("UseLayoutEffect ComponentState: "+componentState);
     if(!param.title){
         navigation.setOptions({
             title: "Agenda",
@@ -41,142 +39,50 @@ export default function AgendaScreen() {
           title: param.title,
       });
     }
-  }, [navigation]);
+  }, [navigation]);*/
 
-  useEffect(() => {
-      console.log("ComponentState: "+componentState);
+    return (
+      <View style={styles.container}>
+        <Categories categorieParentId={currentParentId}/>
+        <Events eventParentId={currentParentId}/>       
+      </View>
+    )
+} // end of function component
 
-      const unsubscribe = navigation.addListener('focus', () => {
-        // The screen is focused
-        setComponentState(states.requestData);
-      });
+function Categories({categorieParentId}){
+  const [categories, setCategories] = useState([]);
 
-      fetchData();
-
-      return unsubscribe;
-  }, [componentState]);
-
-  //fetchData();
-
-  /*constructor(props){
-     super(props);
-     console.log('AgendaScreen#constructor');
-     console.log(props);
-     if (this.props.route.params && this.props.route.params.parentCategory){
-       let parentCategory = this.props.route.params.parentCategory;
-       console.log('parentCategory=' + parentCategory);
-       this.state.currentParentId = parentCategory.id;
-       this.props.navigation.setOptions({ title: parentCategory.name });
-     } else {
-       this.props.navigation.setOptions({ title: "Agenda" });
-     }
-     console.log('currentParentId=' + this.state.currentParentId);
-     this.onCategoryPressed = this.onCategoryPressed.bind(this);
-     this.onEventPressed = this.onEventPressed.bind(this);
-  }*/
-
-  function fetchData(){
-
-    console.log("currentParentId: "+currentParentId);
-    if(componentState === states.requestData){
-      setData([]);
-      fetchCategories();
-      fetchEvents();
-    }
-
-    if(componentState === states.init){ 
-      if(currentParentId == undefined){
-        setCurrentParentId(0);
-      }
-      setComponentState(states.requestData);
-    }
-    if(componentState === states.newData){
-      setComponentState(states.rendered);
-    }
+  console.log("Enter Categories: "+ JSON.stringify(categorieParentId));
+  if(categorieParentId == null){
+    categorieParentId = 0;
   }
 
-  async function fetchCategories() {
-    console.log('fetchCategories');
-    const categoryResponse = await fetch(`${URLs.AGENDA_BASE_URL}categories/?hide_empty=false&orderby=parent&per_page=10000`, {
-      headers: {
-        Accept: "application/json"
-      }
-    });
-    const json = await categoryResponse.json();
-    console.log("categorie Id: "+ currentParentId );
-    //console.log(json.categories);
-    if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
-      const filteredCategories = json.categories.filter(category => category.parent == currentParentId);
-      console.log(filteredCategories);
-      setCategories(filteredCategories);
-      const newData = data;
-      Array.prototype.unshift.apply(newData, filteredCategories);
-      setData(newData);
-      console.log('filteredCategories = ' + filteredCategories);
-      setComponentState(states.newData);
-    } else {
-      setCategories(new Array(0));
-    }
-  }
+  const {
+    data: json,
+    isError,
+    isPending,
+    isFetched,
+  } = useQuery({
+    queryKey: ["categorieParentId", { categorieParentId }],
+    queryFn: async () => {
+      const response = await fetch(`${URLs.AGENDA_BASE_URL}categories/?hide_empty=false&orderby=parent&per_page=10000`);
+      return (await response.json());
+    },
+  });
 
-  async function fetchEvents(){
-    console.log('fetchEvents');
+    function onCategoryPressed(item){
+      console.log('onCategoryPressed: selectedItem: ' + item.id + ', ' + item.name);
+      //console.log('navigation: ' + navigation);
+      /*this.props.navigation.push('Agenda', {
+       parentCategory: item, 
+       title: item.name
+     });*/
+     //setData([]);
+     router.push('/agenda/agendaCategories?agendaId=' + item.id + '&title=' + item.name);
+     //setCurrentParentId(item.id);
+     //setComponentState(states.requestData);
+   }
 
-    const startDate = moment().format("YYYY-MM-DD 00:00:00");
-    const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${currentParentId}&per_page=10000`, {
-      headers: {
-        Accept: "application/json"
-      }
-    });
-    const json = await eventsResponse.json();
-    console.log("fetchEvents: "+json);
-    if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
-
-      let filteredEvents = new Array(0);
-      for (event of json.events){
-        for (category of event.categories){
-          if (category.id == currentParentId){
-            filteredEvents.push(event);
-          }
-        }
-      }
-      //console.log("filteredEvents: "+ JSON.stringify(filteredEvents));
-      //useState({events: filteredEvents});
-      setEvents(filteredEvents);
-      const newData = data;
-      Array.prototype.push.apply(newData, filteredEvents);
-      //useState({data: newData});
-      setData(newData);
-      console.log('filteredEvents = ' + filteredEvents);
-    } else {
-      setEvents([]);
-    }
-  }
-
-  function onCategoryPressed(item){
-     console.log('onCategoryPressed: selectedItem: ' + item.id + ', ' + item.name);
-     console.log('navigation: ' + navigation);
-     /*this.props.navigation.push('Agenda', {
-      parentCategory: item, 
-      title: item.name
-    });*/
-    setData([]);
-    router.push('/agenda/agendaCategories?agendaId=' + item.id + '&title=' + item.name);
-    //setCurrentParentId(item.id);
-    //setComponentState(states.requestData);
-  }
-
-  function onEventPressed(item){
-     console.log("onEventPressed: item: "+item.id);
-     //this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
-     router.push({
-      pathname: "/agenda/[agendaEntry]",
-      params: { agendaEntry: item.id },
-    })
-     //router.push('/agenda/[agendaEntry]/${item.id}');
-  }
-  
-  //function renderListItem (item){
   renderListItem = ({ item, index, separators }) => {
     //console.log('renderListItem: ' + JSON.stringify(item));
     if (typeof item.name !== 'undefined') {
@@ -193,7 +99,83 @@ export default function AgendaScreen() {
           <ListItem.Chevron />
         </ListItem>
       </TouchableOpacity>)
-    } else if (typeof item.title !== 'undefined') {
+    } else {
+      console.log('render unknown item ' + item);
+    }
+  };
+  if(isFetched && !isError){
+
+    console.log("categorie json: "+ JSON.stringify(json) );
+    //console.log(json.categories);
+    //if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
+      const filteredCategories = json.categories.filter(category => category.parent == categorieParentId);
+      console.log(filteredCategories);
+      //setCategories(filteredCategories);
+      //const newData = data;
+      //Array.prototype.unshift.apply(newData, filteredCategories);
+      //setData(newData);
+      console.log('filteredCategories = ' + filteredCategories);
+    //} else {
+      //setCategories(new Array(0));
+    //}
+
+    if(filteredCategories != ""){
+    return (
+      
+      <FlatList
+      style={styles.container}
+      data={filteredCategories}
+      renderItem={renderListItem.bind(filteredCategories)}
+      keyExtractor={(item, index) => ''+ index}
+      //extraData={data}
+    />
+  )}};
+}
+
+function Events({eventParentId}){
+  const [events, setEvents] = useState([]);
+
+  //if(eventParentId == null || eventParentId == undefined || eventParentId == Number.NaN){
+    //eventParentId = 11;
+  //}
+
+  console.log("Enter Events: "+ eventParentId);
+
+  const startDate = moment().format("YYYY-MM-DD 00:00:00");
+
+  let uri:string = `${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${eventParentId}&per_page=10000`;
+  console.log(uri);
+  
+
+  console.log("Parent id: "+eventParentId);
+
+  const {
+    data: json,
+    isError,
+    isPending,
+    isFetched,
+    
+  } = useQuery({
+    queryKey: ["events", { eventParentId }],
+    queryFn: async () => {
+      const response = await fetch(uri);
+      return (await response.json());
+    },
+  });
+
+  function onEventPressed(item){
+    console.log("onEventPressed: item: "+item.id);
+    //this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
+    router.push({
+     pathname: "/agenda/[agendaEntry]",
+     params: { agendaEntry: item.id },
+   })
+    //router.push('/agenda/[agendaEntry]/${item.id}');
+ }
+
+  renderListItem = ({ item, index, separators }) => {
+    //console.log('renderListItem: ' + JSON.stringify(item));
+    if (typeof item.title !== 'undefined') {
       console.log('render event: '+ item.title + ' / ' + item.id);
       // Handle event
       let dateText = `${item.start_date_details.day}.${item.start_date_details.month}.${item.start_date_details.year}`;
@@ -223,26 +205,44 @@ export default function AgendaScreen() {
     }
   };
 
+  if(isFetched && !isError && json.events != undefined){
 
-    if(componentState === states.rendered){
-    //(data));
-
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={data}
-          renderItem={renderListItem.bind(data)}
-          //keyExtractor={(item, index) => ''+ index}
-          //extraData={data}
-        />
-      </View>
-    )
-  }
-} // end of function component
+    console.log("fetchEvents: "+JSON.stringify(json));
+    //if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
+  
+      let filteredEvents = new Array(0);
+      for (event of json.events){
+        for (category of event.categories){
+          if (category.id == eventParentId){
+            filteredEvents.push(event);
+          }
+        }
+      }
+      //console.log("filteredEvents: "+ JSON.stringify(filteredEvents));
+      //useState({events: filteredEvents});
+      //setEvents(filteredEvents);
+      //const newData = data;
+      //Array.prototype.push.apply(newData, filteredEvents);
+      //useState({data: newData});
+      //setData(newData);
+      console.log('filteredEvents = ' + filteredEvents);
+    /*} else {
+      setEvents([]);
+    }*/
+  return (
+    <FlatList
+    style={styles.container}
+    data={filteredEvents} 
+    renderItem={renderListItem.bind(filteredEvents)}
+    //keyExtractor={(item, index) => ''+ index}
+    //extraData={data}
+  />
+  )};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
   },
   item: {
     backgroundColor: '#f9c2ff',
