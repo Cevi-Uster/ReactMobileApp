@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, ScrollView, View, Text, Image } from "react-native";
+import { StyleSheet, ScrollView, View, Text, Image, useColorScheme } from "react-native";
 import { Button } from "react-native-elements";
-import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
+import { router, useLocalSearchParams, useNavigation, Link} from "expo-router";
 import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
 import Info from "../../types/Info"
@@ -14,6 +14,8 @@ export default function infoBox(props) {
 		// Name der Stufe für die Anzeige im Titel
 		title,
 	} = useLocalSearchParams<{ parentStufe: string; title: string }>());
+
+	const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
 
   let [info, setInfo] = useState([]);
 
@@ -115,43 +117,50 @@ function dropOutButtonClicked(info: Info) {
 	router.push({ pathname: `/box/dropout`, params: info });
 }
 
-const styles = StyleSheet.create({
+const lightstyles = StyleSheet.create({
 	container: {
 		margin: 10,
 	},
 	icon: {
 		width: 60,
 		height: 60,
+		color: 'black',
 	},
 	content: {
 		marginTop: 5,
 		marginLeft: 38,
+		color: 'black',
 	},
 	title: {
 		fontSize: 22,
 		fontWeight: "bold",
+		color: 'black',
 	},
 	header: {
 		fontSize: 16,
 		fontWeight: "bold",
+		color: 'black',
 	},
 	date: {
 		marginTop: 10,
 		fontSize: 14,
 		fontWeight: "bold",
-		color: 0x023eff,
+		color: '#0097fe',
 	},
 	ort: {
 		marginTop: 5,
 		fontSize: 14,
+		color: 'black',
 	},
 	info: {
 		marginTop: 5,
 		fontSize: 14,
+		color: 'black',
 	},
 	mitnehmen: {
 		marginTop: 5,
 		fontSize: 14,
+		color: 'black',
 	},
 	buttonview: {
 		marginTop: 10,
@@ -163,3 +172,61 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 	},
 });
+
+const darkstyles = StyleSheet.create({
+	container: {
+		margin: 10,
+	},
+	icon: {
+		width: 60,
+		height: 60,
+		color: 'white',
+	},
+	content: {
+		marginTop: 5,
+		marginLeft: 38,
+		color: 'white',
+	},
+	title: {
+		fontSize: 22,
+		fontWeight: "bold",
+		color: 'white',
+	},
+	header: {
+		fontSize: 16,
+		fontWeight: "bold",
+		color: 'white',
+	},
+	date: {
+		marginTop: 10,
+		fontSize: 14,
+		fontWeight: "bold",
+		color: '#0097fe',
+	},
+	ort: {
+		marginTop: 5,
+		fontSize: 14,
+		color: 'white',
+	},
+	info: {
+		marginTop: 5,
+		fontSize: 14,
+		color: 'white',
+	},
+	mitnehmen: {
+		marginTop: 5,
+		fontSize: 14,
+		color: 'white',
+	},
+	buttonview: {
+		marginTop: 10,
+		width: "100%",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	dropOutButton: {
+		marginTop: 10,
+	},
+});
+
+

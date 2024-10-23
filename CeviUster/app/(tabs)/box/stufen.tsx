@@ -12,6 +12,8 @@ export default class Stufen extends React.Component {
     currentParentStufenId: -1,
   };
 
+  //styles = useColorScheme() === 'dark' ? darkstyles : lightstyles
+
   constructor(props) {
     super(props);
     this.onStufePressed = this.onStufePressed.bind(this);
@@ -76,3 +78,56 @@ export default class Stufen extends React.Component {
     )
   }
 }
+
+const lightstyles = StyleSheet.create({
+  container: {
+    flex: 0,
+    backgroundColor: 'white',
+  },
+  item: {
+    backgroundColor: 'white',
+    padding: 12,
+    paddingBottom: 15,
+    paddingTop: 15,
+    marginVertical: 0,
+    marginHorizontal: 0,
+  },
+  icon: {
+    color: 'black',
+  },
+  title: {
+    fontSize: 16,   
+    color: 'black',
+    backgroundColor: 'white',
+  },
+  subtitle: {
+    fontSize: 14,   
+    color: 'white',
+  },
+});
+
+const darkstyles = StyleSheet.create({
+  container: {
+    flex: 0,
+    backgroundColor: 'black',
+  },
+  item: {
+    backgroundColor: 'black',
+    padding: 12,
+    paddingBottom: 15,
+    paddingTop: 15,
+    marginVertical: 0,
+    marginHorizontal: 0,
+  },
+  icon: {
+    color: 'white',
+  },
+  title: {
+    fontSize: 16,   
+    color: 'white',
+  },
+  subtitle: {
+    fontSize: 14,   
+    color: 'white',
+  },
+});

@@ -4,7 +4,7 @@ import React from 'react';
 import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
 import { useState, useCallback, useRef, useLayoutEffect, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { FlatList, StyleSheet, View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { FlatList, StyleSheet, View, Text, TouchableOpacity, StatusBar, useColorScheme } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { decode } from 'html-entities';
 import moment from 'moment';
@@ -19,6 +19,8 @@ export default function AgendaScreen() {
         title,
     } = useLocalSearchParams<{ agendaId: string ; title: string }>());
 
+    const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
+
     console.log("AgendaScreen ParentId: "+ param.agendaId);
 
   const [currentParentId, setCurrentParentId] = useState(param.agendaId);
@@ -28,18 +30,18 @@ export default function AgendaScreen() {
     console.log("AgendaScreen ParentId = 0");
   }
   console.log("AgendaScreen ParentId: "+ param.agendaId);
-  /*const navigation = useNavigation();
-  useLayoutEffect(() => {
-    if(!param.title){
-        navigation.setOptions({
-            title: "Agenda",
-        });
-    }else{
+  const navigation = useNavigation();
+
+  // set title
+  if(!param.title){
       navigation.setOptions({
-          title: param.title,
+          title: "Agenda",
       });
-    }
-  }, [navigation]);*/
+  }else{
+    navigation.setOptions({
+        title: param.title,
+    });
+  }
 
     return (
       <View style={styles.container}>
@@ -51,6 +53,8 @@ export default function AgendaScreen() {
 
 function Categories({categorieParentId}){
   const [categories, setCategories] = useState([]);
+
+  const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
 
   console.log("Enter Categories: "+ JSON.stringify(categorieParentId));
   if(categorieParentId == null){
@@ -72,15 +76,7 @@ function Categories({categorieParentId}){
 
     function onCategoryPressed(item){
       console.log('onCategoryPressed: selectedItem: ' + item.id + ', ' + item.name);
-      //console.log('navigation: ' + navigation);
-      /*this.props.navigation.push('Agenda', {
-       parentCategory: item, 
-       title: item.name
-     });*/
-     //setData([]);
      router.push('/agenda/agendaCategories?agendaId=' + item.id + '&title=' + item.name);
-     //setCurrentParentId(item.id);
-     //setComponentState(states.requestData);
    }
 
   renderListItem = ({ item, index, separators }) => {
@@ -89,14 +85,14 @@ function Categories({categorieParentId}){
       console.log('render category');
       // Handle category
       return (<TouchableOpacity>
-        <ListItem 
+        <ListItem containerStyle={styles.item}
           bottomDivider
           onPress={ () => onCategoryPressed(item)}>
-          <Icon name={'folder'}/>
+          <Icon color={styles.icon.color} name={'folder'}/>
           <ListItem.Content>
-            <ListItem.Title>{decode(item.name)}</ListItem.Title>
+            <ListItem.Title style={styles.title}>{decode(item.name)}</ListItem.Title>
           </ListItem.Content>
-          <ListItem.Chevron />
+          <ListItem.Chevron/>
         </ListItem>
       </TouchableOpacity>)
     } else {
@@ -106,18 +102,9 @@ function Categories({categorieParentId}){
   if(isFetched && !isError){
 
     console.log("categorie json: "+ JSON.stringify(json) );
-    //console.log(json.categories);
-    //if (json !== undefined && json !== null && json.categories !== undefined && json.categories !== null){
       const filteredCategories = json.categories.filter(category => category.parent == categorieParentId);
       console.log(filteredCategories);
-      //setCategories(filteredCategories);
-      //const newData = data;
-      //Array.prototype.unshift.apply(newData, filteredCategories);
-      //setData(newData);
       console.log('filteredCategories = ' + filteredCategories);
-    //} else {
-      //setCategories(new Array(0));
-    //}
 
     if(filteredCategories != ""){
     return (
@@ -135,9 +122,7 @@ function Categories({categorieParentId}){
 function Events({eventParentId}){
   const [events, setEvents] = useState([]);
 
-  //if(eventParentId == null || eventParentId == undefined || eventParentId == Number.NaN){
-    //eventParentId = 11;
-  //}
+  const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
 
   console.log("Enter Events: "+ eventParentId);
 
@@ -190,12 +175,12 @@ function Events({eventParentId}){
       }
       let agendaEntryTitle = dateText + ' ' + item.title
       return (<TouchableOpacity>
-        <ListItem 
+        <ListItem containerStyle={styles.item}
           bottomDivider
           onPress={ () => onEventPressed(item)}>
           <ListItem.Content>
-            <ListItem.Title>{decode(agendaEntryTitle)}</ListItem.Title>
-            <ListItem.Subtitle>{decode(timeText)}</ListItem.Subtitle>
+            <ListItem.Title style={styles.title}>{decode(agendaEntryTitle)}</ListItem.Title>
+            <ListItem.Subtitle style={styles.subtitle}>{decode(timeText)}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>
@@ -208,8 +193,7 @@ function Events({eventParentId}){
   if(isFetched && !isError && json.events != undefined){
 
     console.log("fetchEvents: "+JSON.stringify(json));
-    //if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
-  
+    
       let filteredEvents = new Array(0);
       for (event of json.events){
         for (category of event.categories){
@@ -218,17 +202,8 @@ function Events({eventParentId}){
           }
         }
       }
-      //console.log("filteredEvents: "+ JSON.stringify(filteredEvents));
-      //useState({events: filteredEvents});
-      //setEvents(filteredEvents);
-      //const newData = data;
-      //Array.prototype.push.apply(newData, filteredEvents);
-      //useState({data: newData});
-      //setData(newData);
       console.log('filteredEvents = ' + filteredEvents);
-    /*} else {
-      setEvents([]);
-    }*/
+
   return (
     <FlatList
     style={styles.container}
@@ -240,17 +215,55 @@ function Events({eventParentId}){
   )};
 }
 
-const styles = StyleSheet.create({
+const lightstyles = StyleSheet.create({
   container: {
     flex: 0,
+    backgroundColor: 'white',
   },
   item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    backgroundColor: 'white',
+    padding: 12,
+    paddingBottom: 15,
+    paddingTop: 15,
+    marginVertical: 0,
+    marginHorizontal: 0,
+  },
+  icon: {
+    color: 'black',
   },
   title: {
-    fontSize: 32,
+    fontSize: 16,   
+    color: 'black',
+    backgroundColor: 'white',
+  },
+  subtitle: {
+    fontSize: 14,   
+    color: 'white',
+  },
+});
+
+const darkstyles = StyleSheet.create({
+  container: {
+    flex: 0,
+    backgroundColor: 'black',
+  },
+  item: {
+    backgroundColor: 'black',
+    padding: 12,
+    paddingBottom: 15,
+    paddingTop: 15,
+    marginVertical: 0,
+    marginHorizontal: 0,
+  },
+  icon: {
+    color: 'white',
+  },
+  title: {
+    fontSize: 16,   
+    color: 'white',
+  },
+  subtitle: {
+    fontSize: 14,   
+    color: 'white',
   },
 });

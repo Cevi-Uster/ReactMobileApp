@@ -4,7 +4,7 @@ import React from 'react';
 import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
 import { useState, useRef, useLayoutEffect, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Alert } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Alert, useColorScheme } from 'react-native';
 import { Button } from 'react-native-elements';
 import {COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from "../../../constants/Colors";
 import {decode} from 'html-entities';
@@ -12,19 +12,20 @@ import LocalCalendarModalComponent from '../../../components/LocalCalendarModalC
 import {addCalendarEvent} from '../../../services/LocalCalendarService';
 import URLs from "../../../constants/URLs";
 import { isLoaded } from 'expo-font';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 
 export default function AgendaEntryScreen() {
 
   let containerMargin = 10;
   let contentMarginLeft = 38;
 
+  const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
+
     const param = ({
         // ID des events
         agendaEntry,
     } = useLocalSearchParams<{ agendaEntry : string}>());
-    //const { eventId } = useLocalSearchParams<{ agendaEntry: string }>();
 
-    //const [event, setEvent] = useState(null);
     console.log("EventId: "+ param.agendaEntry);
     const [eventId, setEventId] = useState(Number(param.agendaEntry));
     console.log("EventId: "+ eventId);
@@ -45,27 +46,6 @@ export default function AgendaEntryScreen() {
         return (await response.json() as object);
       },
     });
-        
-
-    /*async function fetchEvent(id){
-      console.log('fetchEvent: '+id);
-      const eventsResponse = await fetch(`${URLs.AGENDA_BASE_URL}events/${id}`, {
-        headers: {
-          Accept: "application/json"
-        }
-      });
-      const json = await eventsResponse.json();
-      //console.log("param.event: "+JSON.stringify(json));
-      if (json !== undefined && json !== null && json.events !== undefined && json.events !== null){
-        setComponentState(states.newData);
-        setEvent(json);
-        //console.log("event: "+ JSON.stringify(event));
-        navigation.setOptions({ title: event.title });
-      } else {
-        console.log("event: "+ json);
-        setEvent(null);
-      }
-    }*/
   
   function saveButtonClicked(){
     //this.props.navigation.navigate('AgendaEntrySave', {selectedEvent: this.state.event});
@@ -204,7 +184,7 @@ export default function AgendaEntryScreen() {
 }
 
 
-const styles = StyleSheet.create({
+const lightstyles = StyleSheet.create({
   container: {
     margin: 10,
   },
@@ -224,7 +204,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     fontWeight: 'bold',
-    color: 0x023EFF,
+    color: '#0097fe',
   },
   venue: {
     fontWeight: 'bold',
@@ -234,6 +214,53 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 5,
     fontSize: 14,
+  },
+  image: {
+    marginTop:5,
+  },
+  buttonview: {
+    marginTop: 10,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  savebutton: {
+    marginTop:10,
+  }
+});
+
+const darkstyles = StyleSheet.create({
+  container: {
+    margin: 10,
+  },
+  icon: {
+    width: 60,
+    height: 60
+  },
+  content: {
+    marginTop: 5,
+    marginLeft: 38,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#ffffff',
+  },
+  date: {
+    marginTop: 10,
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#0097fe',
+  },
+  venue: {
+    fontWeight: 'bold',
+    marginTop: 5,
+    fontSize: 14,
+  },
+  description: {
+    marginTop: 5,
+    fontSize: 14,
+    color: '#ffffff',
   },
   image: {
     marginTop:5,

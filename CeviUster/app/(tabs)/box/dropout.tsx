@@ -11,6 +11,7 @@ import {
 	Keyboard,
 	KeyboardAvoidingView,
 	Platform,
+  useColorScheme,
 } from "react-native";
 import { CheckBox, Button } from "react-native-elements";
 import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
@@ -20,7 +21,7 @@ import Info from "../../types/Info"
 import URLs from "../../../constants/URLs";
 import validator from "validator";
 
-export default function dropOut(props) {  
+export default function dropOut() {  
   
   console.log("Drop out");
 
@@ -83,6 +84,8 @@ function dropOutImpl(info: Info){
   const [subject, setSubject] = useState("ich möchte mich für das nächste Programm abmelden");
   const [message, setMessage] = useState("");
   const [acceptance, setAcceptance] = useState(false);
+
+  const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
 
   function validateData() {
 		if (!senderName) {
@@ -211,7 +214,7 @@ function dropOutImpl(info: Info){
           value={message}
           multiline={true}
         />
-        <CheckBox
+        <CheckBox containerStyle={styles.checkbox} textStyle={styles.checkbox}
           checked={acceptance}
           onPress={() =>
             setAcceptance(!acceptance)
@@ -241,7 +244,7 @@ function dropOutImpl(info: Info){
   );
 }
 
-const styles = StyleSheet.create({
+const lightstyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		margin: 10,
@@ -291,6 +294,74 @@ const styles = StyleSheet.create({
 	sendButton: {
 		marginTop: 10,
 	},
+    waitOverlay: {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        bottom: 0,
+        top: 0,
+     },
+});
+
+const darkstyles = StyleSheet.create({
+	container: {
+		flex: 1,
+		margin: 10,
+	},
+	inputContainer: {
+		paddingTop: 15,
+	},
+	text_input: {
+		borderColor: "#CCCCCC",
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
+		height: 36,
+		fontSize: 18,
+		paddingLeft: 20,
+		paddingRight: 20,
+	},
+	multiline_text_input: {
+		borderColor: "#CCCCCC",
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
+		height: 100,
+		fontSize: 18,
+		paddingLeft: 20,
+		paddingRight: 20,
+	},
+	title: {
+		fontSize: 22,
+		fontWeight: "bold",
+    color: 'white',
+	},
+	subtitle: {
+		fontSize: 20,
+    color: 'white',
+	},
+	text: {
+		paddingTop: 15,
+		fontSize: 18,
+		fontWeight: "bold",
+    color: 'white',
+	},
+  centerText:{
+      textAlign: 'center',
+      color: 'white',
+  },
+	buttonView: {
+		marginTop: 10,
+		width: "100%",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	sendButton: {
+		marginTop: 10,
+	},
+  checkbox:{
+    backgroundColor: 'black',
+    color: 'white',
+    borderColor: 'black',
+  },
     waitOverlay: {
         position: "absolute",
         left: 0,
