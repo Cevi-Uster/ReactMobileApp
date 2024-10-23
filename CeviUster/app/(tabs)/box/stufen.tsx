@@ -1,47 +1,34 @@
-import React from 'react';
-import { FlatList, StyleSheet,  Text, TouchableOpacity, View, StatusBar } from 'react-native';
+"use client";
+
+import React, { useState } from 'react';
+import { FlatList, StyleSheet,  Text, TouchableOpacity, View, StatusBar, useColorScheme } from 'react-native';
 import { Avatar, List, ListItem, Icon} from 'react-native-elements';
 import { router, useLocalSearchParams, Link } from 'expo-router';
+import { useQuery } from "@tanstack/react-query";
 import { decode } from 'html-entities';
 import URLs from '../../../constants/URLs';
 
-export default class Stufen extends React.Component {
+export default function Stufen() {
 
-  state = {
-    stufen: [],
-    currentParentStufenId: -1,
-  };
 
-  //styles = useColorScheme() === 'dark' ? darkstyles : lightstyles
+  const [currentParentStufenId, setcurrentParentStufenId] = useState(-1);
+ 
+  const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
+  
+  const {
+    data: stufen,
+    isError,
+    isPending,
+    isFetched,
+  } = useQuery({
+    queryKey: ["stufen", { currentParentStufenId }],
+    queryFn: async () => {
+      const response = await fetch(`${URLs.INFOBOX_BASE_URL}stufen/`);
+      return (await response.json());
+    },
+  });
 
-  constructor(props) {
-    super(props);
-    this.onStufePressed = this.onStufePressed.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData = () => {
-    this.fetchStufen();
-  }
-
-  fetchStufen = async () => {
-    const stufenResponse = await fetch(`${URLs.INFOBOX_BASE_URL}stufen/`, {
-        headers: {
-          Accept: "application/json"
-        }
-    } );
-    const json = await stufenResponse.json();
-    if (json !== undefined && json !== null && json.length > 0) {
-      this.setState({ stufen: json });
-    } else {
-      this.setState({ stufen: new Array(0) });
-    }
-  }
-
-  onStufePressed(item) {
+  function onStufePressed(item) {
     console.log(item);
     router.push('/box/infobox?parentStufe=' + item.stufen_id + '&title=' + item.name);
   }
@@ -49,12 +36,12 @@ export default class Stufen extends React.Component {
   renderListItem = ({ item, index, separators }) => {
     if (typeof item.name !== 'undefined') {
       return (<TouchableOpacity>
-        <ListItem 
+        <ListItem containerStyle={styles.item}
           bottomDivider
-          onPress={ () => this.onStufePressed(item)}>
-          <Avatar source={require('../../../assets/images/Home_Icon.png')} />
+          onPress={ () => onStufePressed(item)}>
+          <Avatar avatarStyle={styles.avatar} source={require('../../../assets/images/Home_Icon.png')} />
           <ListItem.Content>
-            <ListItem.Title>{decode(item.name)}</ListItem.Title>
+            <ListItem.Title style={styles.title}>{decode(item.name)}</ListItem.Title>
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>
@@ -63,20 +50,18 @@ export default class Stufen extends React.Component {
     return null;
   }
 
-  render() {
-    console.log('render stufen = ' + this.state.stufen);
-    const styles = require('../../../constants/ViewStyles');
+    console.log('render stufen = ' + stufen);
+    //const styles = require('../../../constants/ViewStyles');
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.stufen}
-          renderItem={this.renderListItem.bind(this)}
+          data={stufen}
+          renderItem={renderListItem.bind(stufen)}
           keyExtractor={(item, index) => ''+ index}
-          extraData={this.state}
+          //extraData={this.state}
         />
       </View>
     )
-  }
 }
 
 const lightstyles = StyleSheet.create({
@@ -92,8 +77,8 @@ const lightstyles = StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 0,
   },
-  icon: {
-    color: 'black',
+  avatar: {
+    tintColor: 'black',
   },
   title: {
     fontSize: 16,   
@@ -119,8 +104,8 @@ const darkstyles = StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 0,
   },
-  icon: {
-    color: 'white',
+  avatar: {
+    tintColor: 'white',
   },
   title: {
     fontSize: 16,   
