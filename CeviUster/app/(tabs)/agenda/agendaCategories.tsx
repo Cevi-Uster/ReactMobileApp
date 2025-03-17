@@ -58,32 +58,39 @@ export default function AgendaScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Categories categorieParentId={currentParentId} />
-			<Events eventParentId={currentParentId} />
+				<CombinedList parentId={currentParentId} />
 		</View>
 	);
 } // end of function component
 
-function Categories({ categorieParentId }) {
-	const [categories, setCategories] = useState([]);
-
+function CombinedList({ parentId = "0" }) {
 	const styles = useColorScheme() === "dark" ? darkstyles : lightstyles;
 
-	console.log("Enter Categories: " + JSON.stringify(categorieParentId));
-	if (categorieParentId == null) {
-		categorieParentId = 0;
-	}
-
 	const {
-		data: json,
-		isError,
-		isPending,
-		isFetched,
+		data: categoriesData,
+		isError: isCategoriesError,
+		isFetched: isCategoriesFetched,
 	} = useQuery({
-		queryKey: ["categorieParentId", { categorieParentId }],
+		queryKey: ["categories", { parentId }],
 		queryFn: async () => {
 			const response = await fetch(
 				`${URLs.AGENDA_BASE_URL}categories/?hide_empty=false&orderby=parent&per_page=10000`
+			);
+			return await response.json();
+		},
+	});
+
+	const startDate = moment().format("YYYY-MM-DD 00:00:00");
+
+	const {
+		data: eventsData,
+		isError: isEventsError,
+		isFetched: isEventsFetched,
+	} = useQuery({
+		queryKey: ["events", { parentId }],
+		queryFn: async () => {
+			const response = await fetch(
+				`${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${parentId}&per_page=10000`
 			);
 			return await response.json();
 		},
@@ -98,11 +105,16 @@ function Categories({ categorieParentId }) {
 		);
 	}
 
-	renderListItem = ({ item, index, separators }) => {
-		//console.log('renderListItem: ' + JSON.stringify(item));
-		if (typeof item.name !== "undefined") {
-			console.log("render category");
-			// Handle category
+	function onEventPressed(item) {
+		console.log("onEventPressed: item: " + item.id);
+		router.push({
+			pathname: "/agenda/[agendaEntry]",
+			params: { agendaEntry: item.id },
+		});
+	}
+
+	function renderListItem({ item }) {
+		if (item.type === "category") {
 			return (
 				<TouchableOpacity>
 					<ListItem
@@ -120,74 +132,7 @@ function Categories({ categorieParentId }) {
 					</ListItem>
 				</TouchableOpacity>
 			);
-		} else {
-			console.log("render unknown item " + item);
-		}
-	};
-	if (isFetched && !isError) {
-		console.log("categorie json: " + JSON.stringify(json));
-		const filteredCategories = json.categories.filter(
-			(category) => category.parent == categorieParentId
-		);
-		console.log(filteredCategories);
-		console.log("filteredCategories = " + filteredCategories);
-
-		if (filteredCategories != "") {
-			return (
-				<FlatList
-					style={styles.container}
-					data={filteredCategories}
-					renderItem={renderListItem.bind(filteredCategories)}
-					keyExtractor={(item, index) => "" + index}
-					//extraData={data}
-				/>
-			);
-		}
-	}
-}
-
-function Events({ eventParentId }) {
-	const [events, setEvents] = useState([]);
-
-	const styles = useColorScheme() === "dark" ? darkstyles : lightstyles;
-
-	console.log("Enter Events: " + eventParentId);
-
-	const startDate = moment().format("YYYY-MM-DD 00:00:00");
-
-	let uri: string = `${URLs.AGENDA_BASE_URL}events?start_date=${startDate}&categories=${eventParentId}&per_page=10000`;
-	console.log(uri);
-
-	console.log("Parent id: " + eventParentId);
-
-	const {
-		data: json,
-		isError,
-		isPending,
-		isFetched,
-	} = useQuery({
-		queryKey: ["events", { eventParentId }],
-		queryFn: async () => {
-			const response = await fetch(uri);
-			return await response.json();
-		},
-	});
-
-	function onEventPressed(item) {
-		console.log("onEventPressed: item: " + item.id);
-		//this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
-		router.push({
-			pathname: "/agenda/[agendaEntry]",
-			params: { agendaEntry: item.id },
-		});
-		//router.push('/agenda/[agendaEntry]/${item.id}');
-	}
-
-	renderListItem = ({ item, index, separators }) => {
-		//console.log('renderListItem: ' + JSON.stringify(item));
-		if (typeof item.title !== "undefined") {
-			console.log("render event: " + item.title + " / " + item.id);
-			// Handle event
+		} else if (item.type === "event") {
 			let dateText = `${item.start_date_details.day}.${item.start_date_details.month}.${item.start_date_details.year}`;
 			let timeText = ``;
 			if (!item.all_day) {
@@ -218,36 +163,35 @@ function Events({ eventParentId }) {
 					</ListItem>
 				</TouchableOpacity>
 			);
-		} else {
-			console.log("render unknown item " + item);
 		}
-	};
+	}
 
-	if (isFetched && !isError && json.events != undefined) {
-		console.log("fetchEvents: " + JSON.stringify(json));
-
-		let filteredEvents = new Array(0);
-		for (event of json.events) {
-			for (category of event.categories) {
-				if (category.id == eventParentId) {
-					filteredEvents.push(event);
-				}
-			}
-		}
-		console.log("filteredEvents = " + filteredEvents);
+	if (isCategoriesFetched && isEventsFetched && !isCategoriesError && !isEventsError) {
+		const filteredCategories = (categoriesData?.categories || []).filter(
+			(category) => category.parent == parentId
+		);
+		const filteredEvents = (eventsData?.events || []).filter(
+			(event) => event.categories.some((cat) => cat.id == parentId)
+		);
+		const combinedData = [
+			...filteredCategories.map((category) => ({ ...category, type: "category" })),
+			...filteredEvents.map((event) => ({ ...event, type: "event" })),
+		];
 
 		return (
 			<FlatList
 				style={styles.container}
-				data={filteredEvents}
-				renderItem={renderListItem.bind(filteredEvents)}
-				//keyExtractor={(item, index) => ''+ index}
-				//extraData={data}
+				data={combinedData}
+				renderItem={renderListItem}
+				keyExtractor={(item, index) => "" + index}
 			/>
 		);
 	}
+
+	return null;
 }
 
+// Light theme styles
 const lightstyles = StyleSheet.create({
 	container: {
 		flex: 0,
@@ -267,14 +211,14 @@ const lightstyles = StyleSheet.create({
 	title: {
 		fontSize: 16,
 		color: "black",
-		backgroundColor: "white",
 	},
 	subtitle: {
 		fontSize: 14,
-		color: "white",
+		color: "black",
 	},
 });
 
+// Dark theme styles
 const darkstyles = StyleSheet.create({
 	container: {
 		flex: 0,
