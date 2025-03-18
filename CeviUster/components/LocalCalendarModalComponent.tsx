@@ -12,23 +12,13 @@ import PropTypes from 'prop-types';
 
 import {listCalendars} from '../services/LocalCalendarService';
 
-LocalCalendarModalComponent.propTypes = {
-  isVisible: PropTypes.bool,
-  closeModal: PropTypes.func,
-  handleCalendarSelected: PropTypes.func,
-  label: PropTypes.string,
-  modalTestID: PropTypes.string,
-};
-
-LocalCalendarModalComponent.defaultProps = {
-  isVisible: false,
-  closeModal: () => {},
-  handleCalendarSelected: () => {},
-  label: 'Select a calendar',
-  modalTestID: 'localCalendarModal',
-};
-
-function LocalCalendarModalComponent(props) {
+function LocalCalendarModalComponent({
+  isVisible = false,
+  closeModal = () => {},
+  handleCalendarSelected = () => {},
+  label = 'Select a calendar',
+  modalTestID = 'localCalendarModal',
+}) {
   const [calendars, setCalendars] = useState([]);
 
   useEffect(() => {
@@ -36,24 +26,24 @@ function LocalCalendarModalComponent(props) {
       const calendarsTmp = await listCalendars();
       setCalendars(calendarsTmp);
     };
-    if (props.isVisible) {
+    if (isVisible) {
       loadCalendars();
     }
-  }, [props.isVisible]);
+  }, [isVisible]);
 
   return (
     <Modal
       transparent={true}
-      visible={props.isVisible}
-      onRequestClose={props.closeModal}
+      visible={isVisible}
+      onRequestClose={closeModal}
       animationType="slide">
       <TouchableWithoutFeedback
         accessible={false}
-        onPress={props.closeModal}
+        onPress={closeModal}
         style={styles.container}>
         <View style={styles.backdrop}>
           <View style={styles.agendaModalBody}>
-            <Text style={styles.title}>{props.label} :</Text>
+            <Text style={styles.title}>{label} :</Text>
             <View style={styles.agendaList}>
               <ScrollView>
                 {calendars.map((calendar, i) =>
@@ -64,7 +54,7 @@ function LocalCalendarModalComponent(props) {
                           {backgroundColor: calendar.color},
                         ]}/>
                       <TouchableOpacity
-                        onPress={() => props.handleCalendarSelected(calendar)}
+                        onPress={() => handleCalendarSelected(calendar)}
                         style={[
                           styles.calendarOption
                         ]}>
