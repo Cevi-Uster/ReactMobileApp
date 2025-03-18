@@ -48,7 +48,6 @@ export default function AgendaEntryScreen() {
     });
   
   function saveButtonClicked(){
-    //this.props.navigation.navigate('AgendaEntrySave', {selectedEvent: this.state.event});
     setIsVisibleCalendars(true);
   }
 
