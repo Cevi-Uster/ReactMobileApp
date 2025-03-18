@@ -175,12 +175,10 @@ function Events({ eventParentId }) {
 
 	function onEventPressed(item) {
 		console.log("onEventPressed: item: " + item.id);
-		//this.props.navigation.navigate('AgendaEntry', {selectedEvent: item});
 		router.push({
 			pathname: "/agenda/[agendaEntry]",
 			params: { agendaEntry: item.id },
 		});
-		//router.push('/agenda/[agendaEntry]/${item.id}');
 	}
 
 	renderListItem = ({ item, index, separators }) => {
@@ -242,8 +240,6 @@ function Events({ eventParentId }) {
 				style={styles.container}
 				data={filteredEvents}
 				renderItem={renderListItem.bind(filteredEvents)}
-				//keyExtractor={(item, index) => ''+ index}
-				//extraData={data}
 			/>
 		);
 	}
