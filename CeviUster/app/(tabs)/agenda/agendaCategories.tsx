@@ -46,16 +46,19 @@ export default function AgendaScreen() {
 	const navigation = useNavigation();
 
 	// set title
-	if (!param.title) {
-		navigation.setOptions({
-			title: "Agenda",
-		});
-	} else {
-		navigation.setOptions({
-			title: param.title,
-		});
-	}
-
+  useEffect(() => {
+    if (!param.title) {
+      navigation.setOptions({
+        title: "Agenda",
+      });
+    } else {
+      navigation.setOptions({
+        title: param.title,
+      });
+    }
+   
+  })
+	
 	return (
 		<View style={styles.container}>
 				<CombinedList parentId={currentParentId} />

@@ -77,11 +77,17 @@ export default function AgendaEntryScreen() {
     });
   };
 
+  useEffect(() => {
+    if (isFetched && !isError){
+      navigation.setOptions({title: event.title});
+    } else {
+      navigation.setOptions({title: "Loading..."});
+    }
+  })  
+
   if(isFetched && !isError){
-    navigation.setOptions({
-      title: event.title,
-  });
-    //const event = this.state.event;
+      
+    
     //console.log("event: "+ JSON.stringify(event))
     let dateTime = '';
     dateTime = `${event.start_date_details.day}.${event.start_date_details.month}.${event.start_date_details.year}`;
