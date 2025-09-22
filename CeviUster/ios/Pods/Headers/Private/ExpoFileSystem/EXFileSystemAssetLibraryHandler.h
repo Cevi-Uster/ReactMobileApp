@@ -1,1 +1,1 @@
-../../../../../node_modules/expo-file-system/ios/EXFileSystemAssetLibraryHandler.h
+../../../../../node_modules/expo-file-system/ios/Legacy/EXFileSystemAssetLibraryHandler.h

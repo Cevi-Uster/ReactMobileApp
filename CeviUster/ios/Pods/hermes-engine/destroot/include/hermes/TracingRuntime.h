@@ -23,16 +23,14 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
   using RD = RuntimeDecorator<jsi::Runtime>;
 
   TracingRuntime(
-      std::unique_ptr<jsi::Runtime> runtime,
-      uint64_t globalID,
+      std::shared_ptr<jsi::Runtime> runtime,
       const ::hermes::vm::RuntimeConfig &conf,
       std::unique_ptr<llvh::raw_ostream> traceStream);
 
-  virtual SynthTrace::ObjectID getUniqueID(const jsi::Object &o) = 0;
-  virtual SynthTrace::ObjectID getUniqueID(const jsi::BigInt &s) = 0;
-  virtual SynthTrace::ObjectID getUniqueID(const jsi::String &s) = 0;
-  virtual SynthTrace::ObjectID getUniqueID(const jsi::PropNameID &pni) = 0;
-  virtual SynthTrace::ObjectID getUniqueID(const jsi::Symbol &sym) = 0;
+  /// Assign a new ObjectID for given jsi::Pointer.
+  SynthTrace::ObjectID defObjectID(const jsi::Pointer &p);
+  /// Get the ObjectID for given jsi::Pointer.
+  SynthTrace::ObjectID useObjectID(const jsi::Pointer &p) const;
 
   virtual void flushAndDisableTrace() = 0;
 
@@ -46,7 +44,10 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
   void queueMicrotask(const jsi::Function &callback) override;
   bool drainMicrotasks(int maxMicrotasksHint = -1) override;
 
+  jsi::Object global() override;
+
   jsi::Object createObject() override;
+  jsi::Object createObjectWithPrototype(const jsi::Value &prototype) override;
   jsi::Object createObject(std::shared_ptr<jsi::HostObject> ho) override;
 
   // Note that the NativeState methods do not need to be traced since they
@@ -58,11 +59,34 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
 
   jsi::String createStringFromAscii(const char *str, size_t length) override;
   jsi::String createStringFromUtf8(const uint8_t *utf8, size_t length) override;
+  jsi::String createStringFromUtf16(const char16_t *utf16, size_t length)
+      override;
+  std::string utf8(const jsi::PropNameID &) override;
 
   jsi::PropNameID createPropNameIDFromAscii(const char *str, size_t length)
       override;
   jsi::PropNameID createPropNameIDFromUtf8(const uint8_t *utf8, size_t length)
       override;
+  jsi::PropNameID createPropNameIDFromUtf16(
+      const char16_t *utf16,
+      size_t length) override;
+  std::string utf8(const jsi::String &) override;
+
+  std::u16string utf16(const jsi::PropNameID &) override;
+  std::u16string utf16(const jsi::String &) override;
+
+  void getStringData(
+      const jsi::String &str,
+      void *ctx,
+      void (*cb)(void *ctx, bool ascii, const void *data, size_t num)) override;
+
+  void getPropNameIdData(
+      const jsi::PropNameID &sym,
+      void *ctx,
+      void (*cb)(void *ctx, bool ascii, const void *data, size_t num)) override;
+
+  std::string symbolToString(const jsi::Symbol &) override;
+
   jsi::PropNameID createPropNameIDFromString(const jsi::String &str) override;
   jsi::PropNameID createPropNameIDFromSymbol(const jsi::Symbol &sym) override;
 
@@ -83,6 +107,10 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
       const jsi::Object &obj,
       const jsi::PropNameID &name,
       const jsi::Value &value) override;
+
+  void setPrototypeOf(const jsi::Object &object, const jsi::Value &prototype)
+      override;
+  jsi::Value getPrototypeOf(const jsi::Object &object) override;
 
   jsi::Array getPropertyNames(const jsi::Object &o) override;
 
@@ -150,19 +178,42 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
   }
 
  private:
-  SynthTrace::TraceValue toTraceValue(const jsi::Value &value);
+  SynthTrace::TraceValue defTraceValue(const jsi::Value &value) {
+    return toTraceValue(value, true);
+  }
+  SynthTrace::TraceValue useTraceValue(const jsi::Value &value) {
+    return toTraceValue(value, false);
+  }
+  SynthTrace::TraceValue toTraceValue(
+      const jsi::Value &value,
+      bool assignNewUID = false);
 
   std::vector<SynthTrace::TraceValue> argStringifyer(
       const jsi::Value *args,
-      size_t count);
+      size_t count,
+      bool assignNewUID = false);
 
   SynthTrace::TimeSinceStart getTimeSinceStart() const;
 
-  std::unique_ptr<jsi::Runtime> runtime_;
+  std::shared_ptr<jsi::Runtime> runtime_;
   SynthTrace trace_;
   std::deque<jsi::Function> savedFunctions;
   const SynthTrace::TimePoint startTime_{std::chrono::steady_clock::now()};
   uint32_t numPreambleRecords_;
+
+  SynthTrace::ObjectID currentUniqueID_{0};
+
+  /// Map from PointerValue* to ObjectID. Except WeakRef case (see below), we
+  /// assign a new ObjectID whenever we see a new def of jsi::Pointer Value.
+  std::unordered_map<const jsi::Runtime::PointerValue *, SynthTrace::ObjectID>
+      uniqueIDs_;
+
+  /// WeakObject's PointerValue* to ObjectID mapping.
+  /// The key is the PointerValue of the WeakObject at the time of
+  /// it is created.
+  /// The value is newly assign ObjectID for that PointerValue.
+  std::unordered_map<const jsi::Runtime::PointerValue *, SynthTrace::ObjectID>
+      weakRefIDs_;
 };
 
 // TracingRuntime is *almost* vm independent.  This provides the
@@ -181,29 +232,13 @@ class TracingHermesRuntime final : public TracingRuntime {
   /// \p rollbackAction is invoked if the runtime is destructed prior to
   /// completion of tracing. It may or may not invoked if completion failed.
   TracingHermesRuntime(
-      std::unique_ptr<HermesRuntime> runtime,
+      std::shared_ptr<HermesRuntime> runtime,
       const ::hermes::vm::RuntimeConfig &runtimeConfig,
       std::unique_ptr<llvh::raw_ostream> traceStream,
       std::function<std::string()> commitAction,
       std::function<void()> rollbackAction);
 
   ~TracingHermesRuntime() override;
-
-  SynthTrace::ObjectID getUniqueID(const jsi::Object &o) override {
-    return static_cast<SynthTrace::ObjectID>(hermesRuntime().getUniqueID(o));
-  }
-  SynthTrace::ObjectID getUniqueID(const jsi::BigInt &b) override {
-    return static_cast<SynthTrace::ObjectID>(hermesRuntime().getUniqueID(b));
-  }
-  SynthTrace::ObjectID getUniqueID(const jsi::String &s) override {
-    return static_cast<SynthTrace::ObjectID>(hermesRuntime().getUniqueID(s));
-  }
-  SynthTrace::ObjectID getUniqueID(const jsi::PropNameID &pni) override {
-    return static_cast<SynthTrace::ObjectID>(hermesRuntime().getUniqueID(pni));
-  }
-  SynthTrace::ObjectID getUniqueID(const jsi::Symbol &sym) override {
-    return static_cast<SynthTrace::ObjectID>(hermesRuntime().getUniqueID(sym));
-  }
 
   void flushAndDisableTrace() override;
 
@@ -222,21 +257,6 @@ class TracingHermesRuntime final : public TracingRuntime {
   }
 
  private:
-  // Why do we have a private ctor executed from the public one,
-  // instead of just having a single public ctor which calls
-  // getUniqueID() to initialize the base class?  This one weird trick
-  // is needed to avoid undefined behavior in that case.  Otherwise,
-  // when calling the base class ctor, the order of evaluating the
-  // globalID value and the side effect of moving the runtime would be
-  // unspecified.
-  TracingHermesRuntime(
-      std::unique_ptr<HermesRuntime> &runtime,
-      uint64_t globalID,
-      const ::hermes::vm::RuntimeConfig &runtimeConfig,
-      std::unique_ptr<llvh::raw_ostream> traceStream,
-      std::function<std::string()> commitAction,
-      std::function<void()> rollbackAction);
-
   void crashCallback(int fd);
 
   const ::hermes::vm::RuntimeConfig conf_;
@@ -260,7 +280,7 @@ class TracingHermesRuntime final : public TracingRuntime {
 /// The return value of \p traceCompletionCallback indicates whether the
 /// invocation completed successfully.
 std::unique_ptr<TracingHermesRuntime> makeTracingHermesRuntime(
-    std::unique_ptr<HermesRuntime> hermesRuntime,
+    std::shared_ptr<HermesRuntime> hermesRuntime,
     const ::hermes::vm::RuntimeConfig &runtimeConfig,
     const std::string &traceScratchPath,
     const std::string &traceResultPath,
@@ -271,7 +291,7 @@ std::unique_ptr<TracingHermesRuntime> makeTracingHermesRuntime(
 /// The \p forReplay parameter indicates whether the runtime is being used
 /// in trace replay.  (Its behavior can differ slightly in that case.)
 std::unique_ptr<TracingHermesRuntime> makeTracingHermesRuntime(
-    std::unique_ptr<HermesRuntime> hermesRuntime,
+    std::shared_ptr<HermesRuntime> hermesRuntime,
     const ::hermes::vm::RuntimeConfig &runtimeConfig,
     std::unique_ptr<llvh::raw_ostream> traceStream,
     bool forReplay = false);

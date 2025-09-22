@@ -1,15 +1,15 @@
 {
   "name": "Expo",
-  "version": "51.0.32",
+  "version": "54.0.9",
   "summary": "The Expo SDK",
   "description": "The Expo SDK",
   "license": "MIT",
   "authors": "Expo",
   "homepage": "https://github.com/expo/expo/tree/main/packages/expo",
   "platforms": {
-    "ios": "13.4",
-    "osx": "10.15",
-    "tvos": "13.4"
+    "ios": "15.1",
+    "osx": "11.0",
+    "tvos": "15.1"
   },
   "source": {
     "git": "https://github.com/expo/expo.git"
@@ -19,7 +19,92 @@
   "dependencies": {
     "ExpoModulesCore": [
 
+    ],
+    "React-RCTAppDelegate": [
+
+    ],
+    "React-RCTFabric": [
+
+    ],
+    "ReactAppDependencyProvider": [
+
+    ],
+    "React-Core": [
+
+    ],
+    "ReactCodegen": [
+
+    ],
+    "RCTRequired": [
+
+    ],
+    "RCTTypeSafety": [
+
+    ],
+    "ReactCommon/turbomodule/bridging": [
+
+    ],
+    "ReactCommon/turbomodule/core": [
+
+    ],
+    "React-NativeModulesApple": [
+
+    ],
+    "Yoga": [
+
+    ],
+    "React-Fabric": [
+
+    ],
+    "React-graphics": [
+
+    ],
+    "React-utils": [
+
+    ],
+    "React-featureflags": [
+
+    ],
+    "React-debug": [
+
+    ],
+    "React-ImageManager": [
+
+    ],
+    "React-rendererdebug": [
+
+    ],
+    "React-jsi": [
+
+    ],
+    "React-renderercss": [
+
+    ],
+    "hermes-engine": [
+
+    ],
+    "ReactNativeDependencies": [
+
+    ],
+    "React-Core-prebuilt": [
+
     ]
   },
-  "source_files": "ios/**/*.{h,m,swift}"
+  "pod_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/React-Core\" \"$(PODS_ROOT)/DoubleConversion\" \"${PODS_CONFIGURATION_BUILD_DIR}/ExpoModulesCore/Swift Compatibility Header\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
+    "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 ",
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED"
+  },
+  "user_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": [
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/Expo/Swift Compatibility Header\"",
+      "\"$(PODS_ROOT)/Headers/Private/Yoga\""
+    ]
+  },
+  "compiler_flags": "-DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32",
+  "source_files": "ios/**/*.{h,m,mm,swift}",
+  "private_header_files": [
+    "ios/**/Swift.h"
+  ]
 }

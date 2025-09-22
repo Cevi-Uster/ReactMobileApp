@@ -1,27 +1,25 @@
 {
   "name": "React-Core",
-  "version": "0.74.5",
+  "version": "0.81.4",
   "summary": "The core of React Native.",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
   "authors": "Meta Platforms, Inc. and its affiliates",
   "platforms": {
-    "ios": "13.4"
+    "ios": "15.1"
   },
   "source": {
     "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.74.5"
+    "tag": "v0.81.4"
   },
   "resource_bundles": {
-    "RCTI18nStrings": [
-      "React/I18n/strings/*.lproj"
-    ]
+    "React-Core_privacy": "React/Resources/PrivacyInfo.xcprivacy"
   },
-  "compiler_flags": "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32 -Wno-documentation -DUSE_HERMES=1",
+  "compiler_flags": "-DUSE_HERMES=1",
   "header_dir": "React",
-  "frameworks": "JavaScriptCore",
+  "weak_frameworks": "JavaScriptCore",
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "$(PODS_TARGET_SRCROOT)/ReactCommon $(PODS_ROOT)/boost $(PODS_ROOT)/DoubleConversion $(PODS_ROOT)/fmt/include $(PODS_ROOT)/RCT-Folly ${PODS_ROOT}/Headers/Public/FlipperKit $(PODS_ROOT)/Headers/Public/ReactCommon $(PODS_ROOT)/Headers/Public/React-hermes $(PODS_ROOT)/Headers/Public/hermes-engine \"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector/jsinspector_modern.framework/Headers\" \"${PODS_CONFIGURATION_BUILD_DIR}/RCTDeprecation/RCTDeprecation.framework/Headers\"",
+    "HEADER_SEARCH_PATHS": "$(PODS_TARGET_SRCROOT)/ReactCommon ${PODS_ROOT}/Headers/Public/FlipperKit $(PODS_ROOT)/Headers/Public/ReactCommon $(PODS_ROOT)/Headers/Public/React-hermes $(PODS_ROOT)/Headers/Public/hermes-engine \"${PODS_ROOT}/React-runtimeexecutor\" \"${PODS_ROOT}/React-runtimeexecutor/platform/ios\" \"${PODS_ROOT}/React-jsinspector\" \"${PODS_ROOT}/React-jsinspectorcdp\" \"${PODS_ROOT}/React-jsitooling\" \"${PODS_ROOT}/React-utils\" \"${PODS_ROOT}/React-utils/react/utils/platform/ios\" \"${PODS_ROOT}/RCTDeprecation\"",
     "DEFINES_MODULE": "YES",
     "GCC_PREPROCESSOR_DEFINITIONS": "RCT_METRO_PORT=${RCT_METRO_PORT}",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
@@ -32,9 +30,6 @@
   },
   "default_subspecs": "Default",
   "dependencies": {
-    "RCT-Folly": [
-      "2024.01.01.00"
-    ],
     "React-cxxreact": [
 
     ],
@@ -47,14 +42,8 @@
     "React-jsiexecutor": [
 
     ],
-    "React-utils": [
-
-    ],
     "React-featureflags": [
 
-    ],
-    "SocketRocket": [
-      "0.7.0"
     ],
     "React-runtimescheduler": [
 
@@ -62,26 +51,41 @@
     "Yoga": [
 
     ],
-    "glog": [
+    "React-hermes": [
+
+    ],
+    "React-runtimeexecutor": [
 
     ],
     "React-jsinspector": [
 
     ],
+    "React-jsinspectorcdp": [
+
+    ],
+    "React-jsitooling": [
+
+    ],
+    "React-utils": [
+
+    ],
     "RCTDeprecation": [
 
     ],
-    "React-hermes": [
+    "hermes-engine": [
 
     ],
-    "hermes-engine": [
+    "ReactNativeDependencies": [
+
+    ],
+    "React-Core-prebuilt": [
 
     ]
   },
   "subspecs": [
     {
       "name": "Default",
-      "source_files": "React/**/*.{c,h,m,mm,S,cpp}",
+      "source_files": "React/**/*.h",
       "exclude_files": [
         "React/CoreModules/**/*",
         "React/DevSupport/**/*",
@@ -89,6 +93,7 @@
         "React/FBReactNativeSpec/**/*",
         "React/Tests/**/*",
         "React/Inspector/**/*",
+        "React/Runtime/**/*",
         "React/CxxBridge/JSCExecutorFactory.{h,mm}"
       ],
       "private_header_files": "React/Cxx*/*.h"
@@ -96,25 +101,25 @@
     {
       "name": "DevSupport",
       "source_files": [
-        "React/DevSupport/*.{h,mm,m}",
-        "React/Inspector/*.{h,mm,m}"
+        "React/DevSupport/*.h",
+        "React/Inspector/*.h"
       ],
       "dependencies": {
         "React-Core/Default": [
-          "0.74.5"
+          "0.81.4"
         ],
         "React-Core/RCTWebSocket": [
-          "0.74.5"
+          "0.81.4"
         ]
       },
       "private_header_files": "React/Inspector/RCTCxx*.h"
     },
     {
       "name": "RCTWebSocket",
-      "source_files": "Libraries/WebSocket/*.{h,m}",
+      "source_files": "Libraries/WebSocket/*.h",
       "dependencies": {
         "React-Core/Default": [
-          "0.74.5"
+          "0.81.4"
         ]
       }
     },

@@ -1,6 +1,6 @@
 {
   "name": "RCTDeprecation",
-  "version": "0.74.5",
+  "version": "0.81.4",
   "authors": "Meta Platforms, Inc. and its affiliates",
   "license": "MIT",
   "homepage": "https://reactnative.dev/",
@@ -9,10 +9,7 @@
     "tag": "v#{version}"
   },
   "summary": "Macros for marking APIs as deprecated",
-  "source_files": [
-    "Exported/*.h",
-    "RCTDeprecation.m"
-  ],
+  "source_files": "Exported/*.h",
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20"

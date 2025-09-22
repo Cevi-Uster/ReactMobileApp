@@ -1,1 +1,1 @@
-../../../../../node_modules/expo-file-system/ios/NSData+EXFileSystem.h
+../../../../../node_modules/expo-file-system/ios/Legacy/NSData+EXFileSystem.h

@@ -20,7 +20,7 @@
 #include <hermes/Public/HermesExport.h>
 #include <hermes/hermes.h>
 
-#if defined(__clang__) && (!defined(SWIG)) && \
+#if defined(__clang__) && (!defined(SWIG)) && defined(_LIBCPP_VERSION) && \
     defined(_LIBCPP_ENABLE_THREAD_SAFETY_ANNOTATIONS)
 #include <hermes/ThreadSafetyAnalysis.h>
 #else
@@ -116,6 +116,11 @@ class HERMES_EXPORT AsyncDebuggerAPI : private debugger::EventObserver {
   /// Whether the runtime is currently paused waiting for the next action.
   /// Should only be called from the runtime thread.
   bool isWaitingForCommand();
+
+  /// Whether the runtime is currently paused for any reason (e.g. script
+  /// parsed, running interrupts, or waiting for a command).
+  /// Should only be called from the runtime thread.
+  bool isPaused();
 
   /// Provide the next action to perform. Should only be called from the runtime
   /// thread and only if the next command is expected to be set.
@@ -274,6 +279,10 @@ class HERMES_EXPORT AsyncDebuggerAPI {
   void removeDebuggerEventCallback_TS(DebuggerEventCallbackID id) {}
 
   bool isWaitingForCommand() {
+    return false;
+  }
+
+  bool isPaused() {
     return false;
   }
 
