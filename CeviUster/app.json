@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.CeviUster"
+      "bundleIdentifier": "ch.ceviuster.android"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.CeviUster"
+      "package": "ch.ceviuster.android"
     },
     "web": {
       "output": "static",

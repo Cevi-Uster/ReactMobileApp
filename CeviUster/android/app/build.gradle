@@ -87,9 +87,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.CeviUster'
+    def username = System.properties['user.name']
+    def pass = getPassword(username, MYAPP_KEYSTORE_KEYCHAIN_NAME)
+    def keypass = getPassword(username, MYAPP_CERTIFICATE_KEYCHAIN_NAME)
+
+    namespace 'ch.ceviuster.android'
     defaultConfig {
-        applicationId 'com.anonymous.CeviUster'
+        applicationId 'ch.ceviuster.android'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -99,10 +103,16 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword pass
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword keypass
+        }
+        release {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword pass
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword keypass
         }
     }
     buildTypes {
