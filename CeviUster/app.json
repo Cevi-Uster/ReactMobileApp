@@ -2,7 +2,7 @@
   "expo": {
     "name": "CeviUster",
     "slug": "CeviUster",
-    "version": "1.0.0",
+    "version": "4.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "ceviuster",
@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "ch.ceviuster.android"
+      "bundleIdentifier": "ch.mabaka"
     },
     "android": {
       "adaptiveIcon": {
