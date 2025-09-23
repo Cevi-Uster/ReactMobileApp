@@ -112,7 +112,6 @@ const lightstyles = StyleSheet.create({
   icon: {
     width: 60,
     height: 60,
-    tintColor: "black",
   },
   content: {
     marginTop: 5,
@@ -167,7 +166,6 @@ const darkstyles = StyleSheet.create({
   icon: {
     width: 60,
     height: 60,
-    tintColor: "white",
   },
   content: {
     marginTop: 5,
