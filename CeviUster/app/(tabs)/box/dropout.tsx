@@ -20,7 +20,7 @@ import {
   COLOR_SECONDARY,
   BORDER_RADIUS,
 } from "../../../constants/Colors";
-import { Info } from "../../types/info";
+import { Info } from "../../../services/infoService.d";
 import URLs from "../../../constants/URLs";
 import validator from "validator";
 import { sharedStyles } from '../../../constants/sharedStyles';

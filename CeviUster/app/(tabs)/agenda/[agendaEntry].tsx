@@ -16,7 +16,7 @@ import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import { decode } from 'html-entities';
 import LocalCalendarModalComponent from '../../../components/local-calendar-modal-component';
-import { addCalendarEvent } from '../../../services/LocalCalendarService';
+import { addCalendarEvent } from '../../../services/agenda/localCalendarService';
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
 import URLs from "../../../constants/URLs";
 import { lightStyles, darkStyles } from '../../../constants/sharedStyles';

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import {listCalendars} from '../services/LocalCalendarService';
+import {listCalendars} from '../services/agenda/localCalendarService';
 
 function LocalCalendarModalComponent({
   isVisible = false,
