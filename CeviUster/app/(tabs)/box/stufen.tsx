@@ -46,7 +46,7 @@ export default function Stufen() {
       return (
         <TouchableOpacity>
           <ListItem
-            containerStyle={styles.item}
+            containerStyle={styles.tableItem}
             bottomDivider
             onPress={() => onStufePressed(item)}
           >
@@ -55,7 +55,7 @@ export default function Stufen() {
               source={require('../../../assets/images/Home_Icon.png')}
             />
             <ListItem.Content>
-              <ListItem.Title style={styles.title}>
+              <ListItem.Title style={styles.listItemTitle}>
                 {decode(item.name)}
               </ListItem.Title>
             </ListItem.Content>
@@ -68,7 +68,7 @@ export default function Stufen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.tableContainer}>
       <FlatList
         data={stufen}
         renderItem={renderListItem}
@@ -79,11 +79,11 @@ export default function Stufen() {
 }
 
 const lightstyles = StyleSheet.create({
-  container: {
+  tableContainer: {
     flex: 1,
     backgroundColor: 'white',
   },
-  item: {
+  tableItem: {
     backgroundColor: 'white',
     padding: 12,
     paddingBottom: 15,
@@ -94,23 +94,23 @@ const lightstyles = StyleSheet.create({
   avatar: {
     tintColor: 'black',
   },
-  title: {
+  listItemTitle: {
     fontSize: 16,
     color: 'black',
     backgroundColor: 'white',
   },
-  subtitle: {
+  listItemSubtitle: {
     fontSize: 14,
     color: 'white',
   },
 });
 
 const darkstyles = StyleSheet.create({
-  container: {
+  tableContainer: {
     flex: 1,
     backgroundColor: 'black',
   },
-  item: {
+  tableItem: {
     backgroundColor: 'black',
     padding: 12,
     paddingBottom: 15,
@@ -121,11 +121,11 @@ const darkstyles = StyleSheet.create({
   avatar: {
     tintColor: 'white',
   },
-  title: {
+  listItemTitle: {
     fontSize: 16,
     color: 'white',
   },
-  subtitle: {
+  listItemSubtitle: {
     fontSize: 14,
     color: 'white',
   },

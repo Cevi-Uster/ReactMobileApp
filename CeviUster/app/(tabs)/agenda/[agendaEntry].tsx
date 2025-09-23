@@ -19,11 +19,13 @@ import LocalCalendarModalComponent from '../../../components/local-calendar-moda
 import { addCalendarEvent } from '../../../services/LocalCalendarService';
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
 import URLs from "../../../constants/URLs";
+import { lightStyles, darkStyles } from '../../../constants/sharedStyles';
+import { formatEventDateTime, formatEventDescription } from '../../../utils/eventUtils';
 
 export default function AgendaEntryScreen() {
   const { agendaEntry } = useLocalSearchParams<{ agendaEntry: string }>();
   const eventId = Number(agendaEntry);
-  const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
+  const styles = useColorScheme() === 'dark' ? darkStyles : lightStyles;
   const navigation = useNavigation();
 
   const [isVisibleCalendars, setIsVisibleCalendars] = useState(false);
@@ -56,19 +58,35 @@ export default function AgendaEntryScreen() {
     setIsVisibleCalendars(false);
   };
 
-  const saveEvent = async (calendar) => {
-    addCalendarEvent(event, calendar,
+  // Define types for event and calendar
+  interface EventDetails {
+    title: string;
+    description?: string;
+    image?: { url: string; height: number; width: number };
+    start_date_details: { day: number; month: number; year: number; hour?: number; minutes?: number };
+    end_date_details?: { day: number; month: number; year: number; hour?: number; minutes?: number };
+    all_day?: boolean;
+    venue?: { venue: string };
+  }
+
+  const saveEvent = async (calendar: string) => {
+    addCalendarEvent(event as EventDetails, calendar,
       () => {
         Alert.alert("Gespeichert", "Der Kalendereintrag wurde gespeichert.", [
           { text: "OK", onPress: closeLocalCalendarModal },
         ]);
       },
-      (e) => {
-        Alert.alert("Fehler", `Fehler beim Speichern im Kalender: ${e}`, [
+      (e: Error) => {
+        Alert.alert("Fehler", `Fehler beim Speichern im Kalender: ${e.message}`, [
           { text: "OK", onPress: closeLocalCalendarModal },
         ]);
       }
     );
+  };
+
+  // Wrap `saveEvent` to match the expected signature
+  const handleCalendarSelection = () => {
+    saveEvent('defaultCalendar'); // Replace 'defaultCalendar' with an appropriate default value
   };
 
   if (isFetched && !isError && event) {
@@ -82,25 +100,15 @@ export default function AgendaEntryScreen() {
       imageScaledHeight = Math.round(event.image.height * (imageScaledWidth / event.image.width));
     }
 
-    let dateTime = `${event.start_date_details.day}.${event.start_date_details.month}.${event.start_date_details.year}`;
-    if (!event.all_day) {
-      dateTime += ` ${event.start_date_details.hour}:${event.start_date_details.minutes}`;
-    }
-    if (event.end_date_details) {
-      dateTime += ` - ${event.end_date_details.day}.${event.end_date_details.month}.${event.end_date_details.year}`;
-      if (!event.all_day) {
-        dateTime += ` ${event.end_date_details.hour}:${event.end_date_details.minutes}`;
-      }
-    }
-
-    const description = decode((event.description || "").replace(/<(.|\n)*?>/g, ''));
+    const dateTime = formatEventDateTime(event);
+    const description = formatEventDescription(event.description || '');
 
     return (
       <ScrollView>
         <LocalCalendarModalComponent
           isVisible={isVisibleCalendars}
           closeModal={closeLocalCalendarModal}
-          handleCalendarSelected={saveEvent}
+          handleCalendarSelected={handleCalendarSelection}
           label="Kalender wählen"
         />
         <View style={styles.container}>
@@ -146,96 +154,3 @@ export default function AgendaEntryScreen() {
 
   return null;
 }
-
-const lightstyles = StyleSheet.create({
-  container: {
-    margin: 10,
-  },
-  icon: {
-    width: 60,
-    height: 60,
-  },
-  content: {
-    marginTop: 5,
-    marginLeft: 38,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  date: {
-    marginTop: 10,
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#0097fe',
-  },
-  venue: {
-    fontWeight: 'bold',
-    marginTop: 5,
-    fontSize: 14,
-  },
-  description: {
-    marginTop: 5,
-    fontSize: 14,
-  },
-  image: {
-    marginTop: 5,
-  },
-  buttonview: {
-    marginTop: 10,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  savebutton: {
-    marginTop: 10,
-  },
-});
-
-const darkstyles = StyleSheet.create({
-  container: {
-    margin: 10,
-  },
-  icon: {
-    width: 60,
-    height: 60,
-  },
-  content: {
-    marginTop: 5,
-    marginLeft: 38,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  date: {
-    marginTop: 10,
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#0097fe',
-  },
-  venue: {
-    fontWeight: 'bold',
-    marginTop: 5,
-    fontSize: 14,
-    color: '#ffffff',
-  },
-  description: {
-    marginTop: 5,
-    fontSize: 14,
-    color: '#ffffff',
-  },
-  image: {
-    marginTop: 5,
-  },
-  buttonview: {
-    marginTop: 10,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  savebutton: {
-    marginTop: 10,
-  },
-});

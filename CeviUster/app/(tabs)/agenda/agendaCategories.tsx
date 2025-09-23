@@ -19,6 +19,34 @@ import { ListItem, Icon } from "react-native-elements";
 import { decode } from "html-entities";
 import moment from "moment";
 import URLs from "../../../constants/URLs";
+import { lightStyles, darkStyles } from '../../../constants/sharedStyles';
+
+// Extend types to include `type`
+interface Category {
+  id: string;
+  name: string;
+  parent: string;
+  type: "category";
+}
+
+interface Event {
+  id: string;
+  title: string;
+  start_date_details: {
+    day: number;
+    month: number;
+    year: number;
+    hour?: number;
+    minutes?: number;
+  };
+  end_date_details?: {
+    hour?: number;
+    minutes?: number;
+  };
+  all_day?: boolean;
+  categories: { id: string }[];
+  type: "event";
+}
 
 export default function AgendaScreen() {
   const { agendaId, title } = useLocalSearchParams<{
@@ -26,7 +54,7 @@ export default function AgendaScreen() {
     title: string;
   }>();
 
-  const styles = useColorScheme() === "dark" ? darkstyles : lightstyles;
+  const styles = useColorScheme() === "dark" ? darkStyles : lightStyles;
   const navigation = useNavigation();
 
   const [currentParentId, setCurrentParentId] = useState(agendaId ?? "0");
@@ -38,14 +66,14 @@ export default function AgendaScreen() {
   }, [navigation, title]);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.tableContainer}>
       <CombinedList parentId={currentParentId} />
     </View>
   );
 }
 
 function CombinedList({ parentId = "0" }) {
-  const styles = useColorScheme() === "dark" ? darkstyles : lightstyles;
+  const styles = useColorScheme() === "dark" ? darkStyles : lightStyles;
 
   const {
     data: categoriesData,
@@ -77,29 +105,29 @@ function CombinedList({ parentId = "0" }) {
     },
   });
 
-  function onCategoryPressed(item) {
+  function onCategoryPressed(item: Category) {
     router.push(`/agenda/agendaCategories?agendaId=${item.id}&title=${item.name}`);
   }
 
-  function onEventPressed(item) {
+  function onEventPressed(item: Event) {
     router.push({
       pathname: "/agenda/[agendaEntry]",
       params: { agendaEntry: item.id },
     });
   }
 
-  function renderListItem({ item }) {
+  function renderListItem({ item }: { item: Category | Event }) {
     if (item.type === "category") {
       return (
         <TouchableOpacity>
           <ListItem
-            containerStyle={styles.item}
+            containerStyle={styles.tableItem}
             bottomDivider
             onPress={() => onCategoryPressed(item)}
           >
             <Icon color={styles.icon.color} name="folder" />
             <ListItem.Content>
-              <ListItem.Title style={styles.title}>
+              <ListItem.Title style={styles.listItemTitle}>
                 {decode(item.name)}
               </ListItem.Title>
             </ListItem.Content>
@@ -113,7 +141,7 @@ function CombinedList({ parentId = "0" }) {
 
       if (!item.all_day) {
         timeText += `${item.start_date_details.hour}:${item.start_date_details.minutes}`;
-        if (item.end_date_details.hour !== undefined) {
+        if (item.end_date_details?.hour !== undefined) {
           timeText += ` - ${item.end_date_details.hour}:${item.end_date_details.minutes}`;
         }
       } else {
@@ -125,15 +153,15 @@ function CombinedList({ parentId = "0" }) {
       return (
         <TouchableOpacity>
           <ListItem
-            containerStyle={styles.item}
+            containerStyle={styles.tableItem}
             bottomDivider
             onPress={() => onEventPressed(item)}
           >
             <ListItem.Content>
-              <ListItem.Title style={styles.title}>
+              <ListItem.Title style={styles.listItemTitle}>
                 {decode(agendaEntryTitle)}
               </ListItem.Title>
-              <ListItem.Subtitle style={styles.subtitle}>
+              <ListItem.Subtitle style={styles.listItemSubtitle}>
                 {decode(timeText)}
               </ListItem.Subtitle>
             </ListItem.Content>
@@ -147,20 +175,20 @@ function CombinedList({ parentId = "0" }) {
 
   if (isCategoriesFetched && isEventsFetched && !isCategoriesError && !isEventsError) {
     const filteredCategories = (categoriesData?.categories || []).filter(
-      (category) => category.parent == parentId
+      (category: Category) => category.parent == parentId
     );
     const filteredEvents = (eventsData?.events || []).filter(
-      (event) => event.categories.some((cat) => cat.id == parentId)
+      (event: Event) => event.categories.some((cat: { id: string }) => cat.id == parentId)
     );
 
     const combinedData = [
-      ...filteredCategories.map((category) => ({ ...category, type: "category" })),
-      ...filteredEvents.map((event) => ({ ...event, type: "event" })),
+      ...filteredCategories.map((category: Category) => ({ ...category, type: "category" })),
+      ...filteredEvents.map((event: Event) => ({ ...event, type: "event" })),
     ];
 
     return (
       <FlatList
-        style={styles.container}
+        style={styles.tableContainer}
         data={combinedData}
         renderItem={renderListItem}
         keyExtractor={(item, index) => index.toString()}
@@ -170,59 +198,3 @@ function CombinedList({ parentId = "0" }) {
 
   return null;
 }
-
-// Light theme styles
-const lightstyles = StyleSheet.create({
-  container: {
-    flex: 0,
-    backgroundColor: "white",
-  },
-  item: {
-    backgroundColor: "white",
-    padding: 12,
-    paddingBottom: 15,
-    paddingTop: 15,
-    marginVertical: 0,
-    marginHorizontal: 0,
-  },
-  icon: {
-    color: "black",
-  },
-  title: {
-    fontSize: 16,
-    color: "black",
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "black",
-    marginTop: 2,
-  },
-});
-
-// Dark theme styles
-const darkstyles = StyleSheet.create({
-  container: {
-    flex: 0,
-    backgroundColor: "black",
-  },
-  item: {
-    backgroundColor: "black",
-    padding: 12,
-    paddingBottom: 15,
-    paddingTop: 15,
-    marginVertical: 0,
-    marginHorizontal: 0,
-  },
-  icon: {
-    color: "white",
-  },
-  title: {
-    fontSize: 16,
-    color: "white",
-  },
-  subtitle: {
-    fontSize: 14,
-    color: "white",
-    marginTop: 2,
-  },
-});
