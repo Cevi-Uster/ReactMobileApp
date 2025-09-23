@@ -23,6 +23,55 @@ import {
 import { Info } from "../../types/info";
 import URLs from "../../../constants/URLs";
 import validator from "validator";
+import { sharedStyles } from '../../../constants/sharedStyles';
+
+const baseStyles = StyleSheet.create({
+  ...sharedStyles,
+  text_input: {
+    borderColor: "#CCCCCC",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 36,
+    fontSize: 18,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  multiline_text_input: {
+    borderColor: "#CCCCCC",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 100,
+    fontSize: 18,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+
+  waitOverlay: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+  },
+});
+
+const lightstyles = StyleSheet.create({
+  ...baseStyles,
+  checkbox: {
+    backgroundColor: "white",
+    color: "black",
+    borderColor: "white",
+  },
+});
+
+const darkstyles = StyleSheet.create({
+  ...baseStyles,
+  checkbox: {
+    backgroundColor: "black",
+    color: "white",
+    borderColor: "black",
+  },
+});
 
 export default function DropOut() {
   const {
@@ -34,23 +83,14 @@ export default function DropOut() {
     wo,
     mit,
     email,
-  } = useLocalSearchParams<{
-    stufe: string;
-    aktuell: boolean;
-    infos: string;
-    von: string;
-    bis: string;
-    wo: string;
-    mit: string;
-    email: string;
-  }>();
+  } = useLocalSearchParams<Record<string, string>>(); // Adjusted type to Record<string, string>
 
   const info: Info = {
     stufe,
-    aktuell,
+    aktuell: aktuell === "true", // Convert string to boolean
     infos,
-    von: von ? new Date(Date.parse(von)) : null,
-    bis: bis ? new Date(Date.parse(bis)) : null,
+    von: von ? new Date(Date.parse(von)) : undefined, // Use undefined instead of null
+    bis: bis ? new Date(Date.parse(bis)) : undefined, // Use undefined instead of null
     wo,
     mitnehmen: mit,
     email,
@@ -111,12 +151,12 @@ function dropOutImpl(info: Info) {
     let formData = new FormData();
     formData.append("_wpcf7", "1510");
     formData.append("_wpcf7_unit_tag", "wpcf7-f1510-p286-o2");
-    formData.append("destination-email", info.email);
+    formData.append("destination-email", info.email || ""); // Ensure string value
     formData.append("your-name", senderName);
     formData.append("your-email", senderEmail.toLowerCase());
     formData.append("your-subject", subject);
     formData.append("your-message", message);
-    formData.append("acceptance", acceptance);
+    formData.append("acceptance", acceptance.toString()); // Convert boolean to string
 
     fetch(URLs.DROP_OFF_FORM_URL, {
       method: "POST",
@@ -126,7 +166,7 @@ function dropOutImpl(info: Info) {
       body: formData,
     })
       .then((response) => response.json())
-      .then((json) => {
+      .then((json: { status: string; message: string }) => {
         handleSuccess(json);
       })
       .catch((error) => {
@@ -135,7 +175,7 @@ function dropOutImpl(info: Info) {
       });
   }
 
-  async function handleSuccess(json) {
+  async function handleSuccess(json: { status: string; message: string }) {
     const message =
       json.status !== "mail_sent"
         ? `Nachricht: ${json.message}`
@@ -198,9 +238,9 @@ function dropOutImpl(info: Info) {
           title="Ich stimme der Datenverwendung für diese Nachricht zu"
         />
       </View>
-      <View style={styles.buttonView}>
+      <View style={styles.buttonview}>
         <Button
-          style={styles.sendButton}
+          style={styles.savebutton}
           onPress={handleSubmit}
           buttonStyle={{
             backgroundColor: COLOR_PRIMARY,
@@ -223,124 +263,3 @@ function dropOutImpl(info: Info) {
     </ScrollView>
   );
 }
-
-const lightstyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 10,
-  },
-  text_input: {
-    borderColor: "#CCCCCC",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    height: 36,
-    fontSize: 18,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  multiline_text_input: {
-    borderColor: "#CCCCCC",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    height: 100,
-    fontSize: 18,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 20,
-  },
-  text: {
-    paddingTop: 15,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  buttonView: {
-    marginTop: 10,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  sendButton: {
-    marginTop: 10,
-  },
-  waitOverlay: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-  },
-});
-
-const darkstyles = StyleSheet.create({
-	container: {
-		flex: 1,
-		padding: 20,
-	},
-	inputContainer: {
-		paddingTop: 15,
-	},
-	text_input: {
-		borderColor: "#CCCCCC",
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		height: 36,
-		fontSize: 18,
-		paddingLeft: 20,
-		paddingRight: 20,
-	},
-	multiline_text_input: {
-		borderColor: "#CCCCCC",
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		height: 100,
-		fontSize: 18,
-		paddingLeft: 20,
-		paddingRight: 20,
-	},
-	title: {
-		fontSize: 22,
-		fontWeight: "bold",
-    color: 'white',
-	},
-	subtitle: {
-		fontSize: 20,
-    color: 'white',
-	},
-	text: {
-		paddingTop: 15,
-		fontSize: 18,
-		fontWeight: "bold",
-    color: 'white',
-	},
-  centerText:{
-      textAlign: 'center',
-      color: 'white',
-  },
-	buttonView: {
-		marginTop: 10,
-		width: "100%",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	sendButton: {
-		marginTop: 10,
-	},
-  checkbox:{
-    backgroundColor: 'black',
-    color: 'white',
-    borderColor: 'black',
-  },
-    waitOverlay: {
-        position: "absolute",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        top: 0,
-     },
-});

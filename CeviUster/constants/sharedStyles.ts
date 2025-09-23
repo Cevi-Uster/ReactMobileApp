@@ -16,6 +16,14 @@ const sharedStyles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
   },
+  subtitle: {
+    fontSize: 20,
+  },
+  text: {
+    paddingTop: 15,
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   date: {
     marginTop: 10,
     fontSize: 14,
@@ -85,6 +93,14 @@ const lightStyles = StyleSheet.create({
   icon: {
     color: "black",
   },
+  subtitle: {
+    ...sharedStyles.subtitle,
+    color: "black",
+  },
+    text: {
+    ...sharedStyles.text,
+    color: "black",
+  },
   listItemTitle: {
     ...sharedStyles.listItemTitle,
     color: "black",
@@ -110,6 +126,14 @@ const darkStyles = StyleSheet.create({
     backgroundColor: "black",
   },
   icon: {
+    color: "white",
+  },
+  subtitle: {
+    ...sharedStyles.subtitle,
+    color: "white",
+  },
+  text: {
+    ...sharedStyles.text,
     color: "white",
   },
   listItemTitle: {
