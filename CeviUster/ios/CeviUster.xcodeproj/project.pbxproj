@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		626900F92E8273350008B964 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 626900F82E8273350008B964 /* SplashScreen.storyboard */; };
 		6C5A95BE1E0ACFC492D63C84 /* libPods-CeviUster.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B845304A73AC5DAF334BBC /* libPods-CeviUster.a */; };
 		8693073D63FEF3300A757FAC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 836567CDBEA5A7CA9F04EC09 /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
@@ -24,8 +24,8 @@
 		1C480C59DA27720C3575805B /* Pods-CeviUster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CeviUster.release.xcconfig"; path = "Target Support Files/Pods-CeviUster/Pods-CeviUster.release.xcconfig"; sourceTree = "<group>"; };
 		31EBCCA50680F0B737D6AFC4 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-CeviUster/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		4A42400D940C476970DC24B7 /* Pods-CeviUster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CeviUster.debug.xcconfig"; path = "Target Support Files/Pods-CeviUster/Pods-CeviUster.debug.xcconfig"; sourceTree = "<group>"; };
+		626900F82E8273350008B964 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		836567CDBEA5A7CA9F04EC09 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = CeviUster/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = CeviUster/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = CeviUster/AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,12 +47,12 @@
 		13B07FAE1A68108700A75B9A /* CeviUster */ = {
 			isa = PBXGroup;
 			children = (
+				626900F82E8273350008B964 /* SplashScreen.storyboard */,
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
 				F11748442D0722820044C1D9 /* CeviUster-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				836567CDBEA5A7CA9F04EC09 /* PrivacyInfo.xcprivacy */,
 			);
 			name = CeviUster;
@@ -193,8 +193,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
+				626900F92E8273350008B964 /* SplashScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				8693073D63FEF3300A757FAC /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
