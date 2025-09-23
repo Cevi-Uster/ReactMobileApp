@@ -1,7 +1,7 @@
 import { decode } from "html-entities";
 import moment from "moment";
-import URLs from "../constants/URLs";
-import Info from "./info";
+import URLs from "../../constants/URLs";
+import { Info } from "./infoService.d";
 
 export default async function fetchInfoData(stufenId: string, stufenName: string) {
   var promise = new Promise(function(resolve, reject) {

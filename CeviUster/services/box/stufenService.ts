@@ -1,4 +1,4 @@
-import URLs from '../constants/URLs';
+import URLs from '../../constants/URLs';
 
 export async function fetchStufenData() {
   const response = await fetch(`${URLs.INFOBOX_BASE_URL}stufen/`);

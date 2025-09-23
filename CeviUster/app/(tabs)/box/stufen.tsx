@@ -14,9 +14,8 @@ import { Avatar, ListItem, Icon } from 'react-native-elements';
 import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { decode } from 'html-entities';
-import URLs from '../../../constants/URLs';
 import { lightStyles, darkStyles } from '../../../constants/sharedStyles';
-import { fetchStufenData } from '../../../services/stufenService';
+import { fetchStufenData } from '../../../services/box/stufenService';
 
 export default function Stufen() {
   const [currentParentStufenId, setcurrentParentStufenId] = useState(-1);

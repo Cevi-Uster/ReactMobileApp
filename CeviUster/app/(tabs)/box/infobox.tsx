@@ -11,8 +11,8 @@ import { Button } from "react-native-elements";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
 import { sharedStyles } from "../../../constants/sharedStyles";
-import { Info } from "../../../services/infoService.d";
-import fetchInfoData from "../../../services/infoService";
+import { Info } from "../../../services/box/infoService.d";
+import fetchInfoData from "../../../services/box/infoService";
 
 const baseStyles = StyleSheet.create({
   ...sharedStyles,

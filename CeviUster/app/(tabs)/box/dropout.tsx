@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -17,10 +17,9 @@ import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import AlertAsync from "react-native-alert-async";
 import {
   COLOR_PRIMARY,
-  COLOR_SECONDARY,
   BORDER_RADIUS,
 } from "../../../constants/Colors";
-import { Info } from "../../../services/infoService.d";
+import { Info } from "../../../services/box/infoService";
 import URLs from "../../../constants/URLs";
 import validator from "validator";
 import { sharedStyles } from '../../../constants/sharedStyles';
