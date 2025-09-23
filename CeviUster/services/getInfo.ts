@@ -1,7 +1,7 @@
 import { decode } from "html-entities";
 import moment from "moment";
-import URLs from "../../constants/URLs";
-import Info from "../types/Info.ts"
+import URLs from "../constants/URLs";
+import Info from "./info";
 
 export default async function getInfo(stufenId: string, stufenName: string) {
   var promise = new Promise(function(resolve, reject) {
@@ -27,18 +27,18 @@ export default async function getInfo(stufenId: string, stufenName: string) {
           wo: isActual ? decode(json.wo) : null,
           mitnehmen: decode(decode(json.mitnehmen)),
           email: decode(decode(json.email)),
-        }
+        };
         console.log(info.von);
         resolve(info);
       } else {
         const info: Info = {
           stufe: stufenName,
-          aktuell: isActual,
+          aktuell: false,
           infos: 'Bei der Dateabfrage ist ein Fehler aufgetreten. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.',
-        }
+        };
         resolve(info);
       }
-    }
+    };
     load(); 
   });
   

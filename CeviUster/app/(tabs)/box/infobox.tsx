@@ -10,8 +10,8 @@ import {
 import { Button } from "react-native-elements";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
-import { Info } from "../../types/info";
-import getInfo from "../../service/getInfo";
+import { Info } from "../../../services/info";
+import getInfo from "../../../services/getInfo";
 import { sharedStyles } from '../../../constants/sharedStyles';
 
 const baseStyles = StyleSheet.create({

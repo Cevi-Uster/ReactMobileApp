@@ -16,6 +16,7 @@ import { useQuery } from '@tanstack/react-query';
 import { decode } from 'html-entities';
 import URLs from '../../../constants/URLs';
 import { lightStyles, darkStyles } from '../../../constants/sharedStyles';
+import { fetchStufenData } from '../../../services/stufenService';
 
 export default function Stufen() {
   const [currentParentStufenId, setcurrentParentStufenId] = useState(-1);
@@ -27,13 +28,14 @@ export default function Stufen() {
     isError,
     isPending,
     isFetched,
-  } = useQuery({
+  } = useQuery<Stufe[]>({
     queryKey: ['stufen', { currentParentStufenId }],
-    queryFn: async () => {
-      const response = await fetch(`${URLs.INFOBOX_BASE_URL}stufen/`);
-      return await response.json();
-    },
+    queryFn: () => fetchStufenData(),
   });
+
+  if (isError) {
+    console.error('Error fetching stufen data');
+  }
 
   // Define types for `item` and other parameters
   interface Stufe {
@@ -77,9 +79,9 @@ export default function Stufen() {
   return (
     <View style={styles.tableContainer}>
       <FlatList
-        data={stufen}
+        data={stufen || []}
         renderItem={renderListItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.stufen_id.toString()}
       />
     </View>
   );
