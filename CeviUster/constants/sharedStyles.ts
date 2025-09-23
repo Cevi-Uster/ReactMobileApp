@@ -68,6 +68,8 @@ const sharedStyles = StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 0,
   },
+  avatar: {
+  },
 });
 
 const lightStyles = StyleSheet.create({
@@ -91,6 +93,10 @@ const lightStyles = StyleSheet.create({
     ...sharedStyles.listItemSubtitle,
     color: "black",
   },
+  avatar: {
+    ...sharedStyles.avatar,
+    tintColor: 'black',
+  },
 });
 
 const darkStyles = StyleSheet.create({
@@ -113,6 +119,10 @@ const darkStyles = StyleSheet.create({
   listItemSubtitle: {
     ...sharedStyles.listItemSubtitle,
     color: "white",
+  },
+  avatar: {
+    ...sharedStyles.avatar,
+    tintColor: 'white',
   },
 });
 

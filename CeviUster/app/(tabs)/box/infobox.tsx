@@ -12,6 +12,78 @@ import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
 import { Info } from "../../types/info";
 import getInfo from "../../service/getInfo";
+import { sharedStyles } from '../../../constants/sharedStyles';
+
+const baseStyles = StyleSheet.create({
+  ...sharedStyles,
+  header: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  ort: {
+    marginTop: 5,
+    fontSize: 14,
+  },
+  info: {
+    marginTop: 5,
+    fontSize: 14,
+  },
+  mitnehmen: {
+    marginTop: 5,
+    fontSize: 14,
+  },
+  dropOutButton: {
+    marginTop: 10,
+  },
+});
+
+const lightstyles = StyleSheet.create({
+  ...baseStyles,
+  title: {
+    ...sharedStyles.title,
+    color: "black",
+  },
+  header: {
+    ...baseStyles.header,
+    color: "black",
+  },
+  ort: {
+    ...baseStyles.ort,
+    color: "black",
+  },
+  info: {
+    ...baseStyles.info,
+    color: "black",
+  },
+  mitnehmen: {
+    ...baseStyles.mitnehmen,
+    color: "black",
+  },
+});
+
+const darkstyles = StyleSheet.create({
+  ...baseStyles,
+  title: {
+    ...sharedStyles.title,
+    color: "white",
+  },
+  header: {
+    ...baseStyles.header,
+    color: "white",
+  },
+  ort: {
+    ...baseStyles.ort,
+    color: "white",
+  },
+  info: {
+    ...baseStyles.info,
+    color: "white",
+  },
+  mitnehmen: {
+    ...baseStyles.mitnehmen,
+    color: "white",
+  },
+});
 
 export default function InfoBox() {
   const { parentStufe, title } = useLocalSearchParams<{
@@ -32,7 +104,7 @@ export default function InfoBox() {
   useEffect(() => {
     if (parentStufe && title) {
       getInfo(parentStufe, title).then((res) => {
-        setInfo(res);
+        setInfo(res as Info); // Cast `res` to `Info` to resolve type error
       });
     }
   }, [parentStufe, title]);
@@ -102,113 +174,13 @@ export default function InfoBox() {
 }
 
 function dropOutButtonClicked(info: Info) {
-  router.push({ pathname: `/box/dropout`, params: info });
+  router.push({
+    pathname: `/box/dropout`,
+    params: {
+      ...info,
+      aktuell: info.aktuell.toString(), // Convert boolean to string
+      von: info.von ? info.von.toISOString() : undefined, // Format Date to ISO string
+      bis: info.bis ? info.bis.toISOString() : undefined, // Format Date to ISO string
+    },
+  });
 }
-
-const lightstyles = StyleSheet.create({
-  container: {
-    margin: 10,
-  },
-  icon: {
-    width: 60,
-    height: 60,
-  },
-  content: {
-    marginTop: 5,
-    marginLeft: 38,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "black",
-  },
-  header: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "black",
-  },
-  date: {
-    marginTop: 10,
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#0097fe",
-  },
-  ort: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "black",
-  },
-  info: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "black",
-  },
-  mitnehmen: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "black",
-  },
-  buttonview: {
-    marginTop: 10,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  dropOutButton: {
-    marginTop: 10,
-  },
-});
-
-const darkstyles = StyleSheet.create({
-  container: {
-    margin: 10,
-  },
-  icon: {
-    width: 60,
-    height: 60,
-  },
-  content: {
-    marginTop: 5,
-    marginLeft: 38,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "white",
-  },
-  header: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white",
-  },
-  date: {
-    marginTop: 10,
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#0097fe",
-  },
-  ort: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "white",
-  },
-  info: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "white",
-  },
-  mitnehmen: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "white",
-  },
-  buttonview: {
-    marginTop: 10,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  dropOutButton: {
-    marginTop: 10,
-  },
-});

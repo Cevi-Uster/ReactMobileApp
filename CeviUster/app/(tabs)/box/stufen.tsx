@@ -15,11 +15,12 @@ import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { decode } from 'html-entities';
 import URLs from '../../../constants/URLs';
+import { lightStyles, darkStyles } from '../../../constants/sharedStyles';
 
 export default function Stufen() {
   const [currentParentStufenId, setcurrentParentStufenId] = useState(-1);
   const colorScheme = useColorScheme();
-  const styles = colorScheme === 'dark' ? darkstyles : lightstyles;
+  const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
 
   const {
     data: stufen,
@@ -34,14 +35,20 @@ export default function Stufen() {
     },
   });
 
-  const onStufePressed = (item) => {
+  // Define types for `item` and other parameters
+  interface Stufe {
+    stufen_id: number;
+    name: string;
+  }
+
+  const onStufePressed = (item: Stufe) => {
     console.log(item);
     router.push(
       `/box/infobox?parentStufe=${item.stufen_id}&title=${encodeURIComponent(item.name)}`
     );
   };
 
-  const renderListItem = ({ item, index, separators }) => {
+  const renderListItem = ({ item, index, separators }: { item: Stufe; index: number; separators: any }) => {
     if (typeof item.name !== 'undefined') {
       return (
         <TouchableOpacity>
@@ -77,56 +84,3 @@ export default function Stufen() {
     </View>
   );
 }
-
-const lightstyles = StyleSheet.create({
-  tableContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  tableItem: {
-    backgroundColor: 'white',
-    padding: 12,
-    paddingBottom: 15,
-    paddingTop: 15,
-    marginVertical: 0,
-    marginHorizontal: 0,
-  },
-  avatar: {
-    tintColor: 'black',
-  },
-  listItemTitle: {
-    fontSize: 16,
-    color: 'black',
-    backgroundColor: 'white',
-  },
-  listItemSubtitle: {
-    fontSize: 14,
-    color: 'white',
-  },
-});
-
-const darkstyles = StyleSheet.create({
-  tableContainer: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  tableItem: {
-    backgroundColor: 'black',
-    padding: 12,
-    paddingBottom: 15,
-    paddingTop: 15,
-    marginVertical: 0,
-    marginHorizontal: 0,
-  },
-  avatar: {
-    tintColor: 'white',
-  },
-  listItemTitle: {
-    fontSize: 16,
-    color: 'white',
-  },
-  listItemSubtitle: {
-    fontSize: 14,
-    color: 'white',
-  },
-});
