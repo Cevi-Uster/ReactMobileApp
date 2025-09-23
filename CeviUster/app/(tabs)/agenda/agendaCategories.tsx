@@ -191,7 +191,7 @@ function CombinedList({ parentId = "0" }) {
         style={styles.tableContainer}
         data={combinedData}
         renderItem={renderListItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id}
       />
     );
   }

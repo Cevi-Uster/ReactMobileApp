@@ -10,9 +10,9 @@ import {
 import { Button } from "react-native-elements";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
-import { Info } from "../../../services/info";
-import getInfo from "../../../services/getInfo";
-import { sharedStyles } from '../../../constants/sharedStyles';
+import { sharedStyles } from "../../../constants/sharedStyles";
+import type { Info } from "../../../services/infoService";
+import fetchInfoData from "../../../services/infoService";
 
 const baseStyles = StyleSheet.create({
   ...sharedStyles,
@@ -103,7 +103,7 @@ export default function InfoBox() {
 
   useEffect(() => {
     if (parentStufe && title) {
-      getInfo(parentStufe, title).then((res) => {
+      fetchInfoData(parentStufe, title).then((res) => {
         setInfo(res as Info); // Cast `res` to `Info` to resolve type error
       });
     }

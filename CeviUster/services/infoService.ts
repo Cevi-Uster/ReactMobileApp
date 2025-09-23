@@ -3,7 +3,7 @@ import moment from "moment";
 import URLs from "../constants/URLs";
 import Info from "./info";
 
-export default async function getInfo(stufenId: string, stufenName: string) {
+export default async function fetchInfoData(stufenId: string, stufenName: string) {
   var promise = new Promise(function(resolve, reject) {
     const url = `${URLs.INFOBOX_BASE_URL}chaeschtlizettel/${stufenId}`;
     console.log(`Try to load info from URL: ${url}`);
