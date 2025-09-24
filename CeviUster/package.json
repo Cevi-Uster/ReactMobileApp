@@ -41,7 +41,6 @@
     "html-entities": "^2.6.0",
     "moment": "^2.30.1",
     "react-native-alert-async": "^1.0.5",
-    "react-native-appearance": "^0.3.4",
     "react-native-calendar-events": "^2.2.0",
     "react-native-elements": "^3.4.3",
     "react-native-vector-icons": "^10.2.0",
