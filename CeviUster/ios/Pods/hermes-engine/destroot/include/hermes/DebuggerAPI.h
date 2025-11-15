@@ -22,6 +22,7 @@ namespace hermes {
 namespace vm {
 class CodeBlock;
 class Debugger;
+class Runtime;
 struct DebugCommand;
 class HermesValue;
 } // namespace vm
@@ -30,6 +31,9 @@ class HermesValue;
 namespace facebook {
 namespace hermes {
 class HermesRuntime;
+// Forward declaration of the internal Root API class, which is marked as a
+// friend of the Debugger.
+class HermesRootAPI;
 
 namespace debugger {
 
@@ -216,6 +220,11 @@ class HERMES_EXPORT Debugger {
   /// \return list of loaded scripts
   std::vector<SourceLocation> getLoadedScripts() const;
 
+  /// Gets the current stack trace.
+  /// \return stack trace with call frames if runtime is in the interpreter
+  /// loop, otherwise return no call frames
+  StackTrace captureStackTrace() const;
+
   /// -- Breakpoint Management --
 
   /// Sets a breakpoint on a given SourceLocation.
@@ -258,7 +267,12 @@ class HERMES_EXPORT Debugger {
   /// \return whether the debugger should pause after a script was loaded.
   bool getShouldPauseOnScriptLoad() const;
 
+  /// \return the thrown value if paused on an exception, or
+  /// jsi::Value::undefined() if not.
+  ::facebook::jsi::Value getThrownValue();
+
  private:
+  friend HermesRootAPI;
   friend std::unique_ptr<HermesRuntime> hermes::makeHermesRuntime(
       const ::hermes::vm::RuntimeConfig &);
   friend std::unique_ptr<jsi::ThreadSafeRuntime>
@@ -276,10 +290,11 @@ class HERMES_EXPORT Debugger {
 
   explicit Debugger(
       ::facebook::hermes::HermesRuntime *runtime,
-      ::hermes::vm::Debugger *impl);
+      ::hermes::vm::Runtime &vmRuntime);
 
   ::facebook::hermes::HermesRuntime *const runtime_;
   EventObserver *eventObserver_ = nullptr;
+  ::hermes::vm::Runtime &vmRuntime_;
   ::hermes::vm::Debugger *impl_;
   ProgramState state_;
 };
@@ -430,6 +445,12 @@ class Debugger {
   String getSourceMappingUrl(uint32_t fileId) const {
     return "";
   };
+  std::vector<SourceLocation> getLoadedScripts() const {
+    return {};
+  }
+  StackTrace captureStackTrace() const {
+    return StackTrace{};
+  }
   BreakpointID setBreakpoint(SourceLocation loc) {
     return 0;
   }
@@ -452,6 +473,9 @@ class Debugger {
   void setShouldPauseOnScriptLoad(bool flag) {}
   bool getShouldPauseOnScriptLoad() const {
     return false;
+  }
+  ::facebook::jsi::Value getThrownValue() {
+    return ::facebook::jsi::Value::undefined();
   }
 
  private:

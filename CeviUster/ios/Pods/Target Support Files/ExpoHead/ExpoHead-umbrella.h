@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "LinkPreviewNativeNavigation.h"
 
 FOUNDATION_EXPORT double ExpoHeadVersionNumber;
 FOUNDATION_EXPORT const unsigned char ExpoHeadVersionString[];

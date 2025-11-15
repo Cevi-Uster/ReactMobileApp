@@ -1,32 +1,29 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Image } from "react-native";
+import { Image, StyleSheet, useColorScheme } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-import Ionicons from "react-native-vector-icons/Ionicons";
-
-import URLs from '../../constants/URLs';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const tintColor = Colors[colorScheme ?? 'light'].tint;
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: tintColor,
         headerShown: true,
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Willkommen',
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color }) => (
             <Image
-              source={require("../../assets/images/Home_Icon.png")}
-              style={[{ resizeMode: "contain" }, { tintColor: color }]}
+              source={require('../../assets/images/Home_Icon.png')}
+              style={[styles.icon, { tintColor: color }]}
             />
           ),
         }}
@@ -37,7 +34,11 @@ export default function TabLayout() {
           title: 'Agenda',
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
+            <Ionicons
+              name={focused ? 'calendar' : 'calendar-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -47,7 +48,11 @@ export default function TabLayout() {
           title: 'Chäschtli',
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'bonfire' : 'bonfire-outline'} color={color} />
+            <Ionicons
+              name={focused ? 'bonfire' : 'bonfire-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -56,7 +61,11 @@ export default function TabLayout() {
         options={{
           title: 'Kontakt',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'at' : 'at-outline'} color={color} />
+            <Ionicons
+              name={focused ? 'at' : 'at-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
@@ -65,10 +74,22 @@ export default function TabLayout() {
         options={{
           title: 'Datenschutz',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'shield' : 'shield-outline'} color={color} />
+            <Ionicons
+              name={focused ? 'shield' : 'shield-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+});

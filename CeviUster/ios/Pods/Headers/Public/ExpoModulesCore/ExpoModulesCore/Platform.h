@@ -1,1 +1,1 @@
-../../../../../../node_modules/expo-modules-core/ios/Platform.h
+../../../../../../node_modules/expo-modules-core/ios/Platform/Platform.h

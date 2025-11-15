@@ -6,78 +6,60 @@
  */
 
 import ExpoModulesCore
+import Expo
 import ExpoAsset
 import EXConstants
 import ExpoFileSystem
 import ExpoFont
+import ExpoHaptics
+import ExpoImage
 import ExpoKeepAwake
+import ExpoLinking
 import ExpoHead
+import ExpoSplashScreen
+import ExpoSymbols
 import ExpoSystemUI
 import ExpoWebBrowser
-#if EXPO_CONFIGURATION_DEBUG
-import EXDevLauncher
-import EXDevMenu
-#endif
 
 @objc(ExpoModulesProvider)
 public class ExpoModulesProvider: ModulesProvider {
   public override func getModuleClasses() -> [AnyModule.Type] {
-    #if EXPO_CONFIGURATION_DEBUG
     return [
+      ExpoFetchModule.self,
       AssetModule.self,
       ConstantsModule.self,
       FileSystemModule.self,
+      FileSystemLegacyModule.self,
       FontLoaderModule.self,
+      FontUtilsModule.self,
+      HapticsModule.self,
+      ImageModule.self,
       KeepAwakeModule.self,
+      ExpoLinkingModule.self,
       ExpoHeadModule.self,
-      ExpoSystemUIModule.self,
-      WebBrowserModule.self,
-      DevLauncherInternal.self,
-      DevLauncherAuth.self,
-      RNCSafeAreaProviderManager.self,
-      DevMenuModule.self,
-      DevMenuInternalModule.self,
-      DevMenuPreferences.self,
-      RNCSafeAreaProviderManager.self
-    ]
-    #else
-    return [
-      AssetModule.self,
-      ConstantsModule.self,
-      FileSystemModule.self,
-      FontLoaderModule.self,
-      KeepAwakeModule.self,
-      ExpoHeadModule.self,
+      LinkPreviewNativeModule.self,
+      SplashScreenModule.self,
+      SymbolModule.self,
       ExpoSystemUIModule.self,
       WebBrowserModule.self
     ]
-    #endif
   }
 
   public override func getAppDelegateSubscribers() -> [ExpoAppDelegateSubscriber.Type] {
-    #if EXPO_CONFIGURATION_DEBUG
     return [
       FileSystemBackgroundSessionHandler.self,
+      LinkingAppDelegateSubscriber.self,
       ExpoHeadAppDelegateSubscriber.self,
-      ExpoDevLauncherAppDelegateSubscriber.self
+      SplashScreenAppDelegateSubscriber.self
     ]
-    #else
-    return [
-      FileSystemBackgroundSessionHandler.self,
-      ExpoHeadAppDelegateSubscriber.self
-    ]
-    #endif
   }
 
   public override func getReactDelegateHandlers() -> [ExpoReactDelegateHandlerTupleType] {
-    #if EXPO_CONFIGURATION_DEBUG
-    return [
-      (packageName: "expo-dev-launcher", handler: ExpoDevLauncherReactDelegateHandler.self),
-      (packageName: "expo-dev-menu", handler: ExpoDevMenuReactDelegateHandler.self)
-    ]
-    #else
     return [
     ]
-    #endif
+  }
+
+  public override func getAppCodeSignEntitlements() -> AppCodeSignEntitlements {
+    return AppCodeSignEntitlements.from(json: #"{}"#)
   }
 }

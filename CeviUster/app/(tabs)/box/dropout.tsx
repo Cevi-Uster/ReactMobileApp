@@ -1,183 +1,204 @@
-import { React, useState, useRef, useLayoutEffect, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   ActivityIndicator,
-	Alert,
-  Modal,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TextInput,
-	View,
-	Keyboard,
-	KeyboardAvoidingView,
-	Platform,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   useColorScheme,
 } from "react-native";
 import { CheckBox, Button } from "react-native-elements";
-import { router, useLocalSearchParams, useNavigation, Link } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import AlertAsync from "react-native-alert-async";
-import { COLOR_PRIMARY, COLOR_SECONDARY, BORDER_RADIUS} from  "../../../constants/Colors";
-import Info from "../../types/Info"
+import {
+  COLOR_PRIMARY,
+  BORDER_RADIUS,
+} from "../../../constants/Colors";
+import { Info } from "../../../services/box/infoService";
 import URLs from "../../../constants/URLs";
 import validator from "validator";
+import { sharedStyles } from '../../../constants/sharedStyles';
 
-export default function dropOut() {  
-  
-  console.log("Drop out");
+const baseStyles = StyleSheet.create({
+  ...sharedStyles,
+  text_input: {
+    borderColor: "#CCCCCC",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 36,
+    fontSize: 18,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  multiline_text_input: {
+    borderColor: "#CCCCCC",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 100,
+    fontSize: 18,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
 
-  const param = ({
-		stufe,
+  waitOverlay: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+  },
+});
+
+const lightstyles = StyleSheet.create({
+  ...baseStyles,
+  checkbox: {
+    backgroundColor: "white",
+    color: "black",
+    borderColor: "white",
+  },
+});
+
+const darkstyles = StyleSheet.create({
+  ...baseStyles,
+  checkbox: {
+    backgroundColor: "black",
+    color: "white",
+    borderColor: "black",
+  },
+});
+
+export default function DropOut() {
+  const {
+    stufe,
     aktuell,
     infos,
     von,
     bis,
     wo,
     mit,
-    email
-	} = useLocalSearchParams<{ stufe: string; aktuell: boolean; infos: string; von: string; bis: string; wo: string; mit: string; email: string }>());
+    email,
+  } = useLocalSearchParams<Record<string, string>>(); // Adjusted type to Record<string, string>
 
   const info: Info = {
-    stufe: param.stufe,
-    aktuell: param.aktuell,
-    infos: param.infos,
-    von: param.von ? new Date(Date.parse(param.von)) : null,
-    bis: param.bis ? new Date(Date.parse(param.bis)) : null,
-    wo: param.wo,
-    mitnehmen: param.mit,
-    email: param.email,
-  }
+    stufe,
+    aktuell: aktuell === "true", // Convert string to boolean
+    infos,
+    von: von ? new Date(Date.parse(von)) : undefined, // Use undefined instead of null
+    bis: bis ? new Date(Date.parse(bis)) : undefined, // Use undefined instead of null
+    wo,
+    mitnehmen: mit,
+    email,
+  };
 
   const navigation = useNavigation();
 
-	useLayoutEffect(() => {
-		navigation.setOptions({
-			title: param.stufe,
-		});
-	}, [navigation]);
-  
-  if (Platform.OS === "ios") {
-    return (
-      <KeyboardAvoidingView
-        style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
-        behavior="padding"
-        enabled
-        keyboardVerticalOffset={100}
-      >
-        {dropOutImpl(info)}
-      </KeyboardAvoidingView>
-    );
-  } else {
-    return (
-      <KeyboardAvoidingView>
-        {dropOutImpl(info)}
-      </KeyboardAvoidingView>
-    );
-  }
+  useLayoutEffect(() => {
+    if (stufe) {
+      navigation.setOptions({ title: stufe });
+    }
+  }, [navigation, stufe]);
 
+  const content = dropOutImpl(info);
+
+  return Platform.OS === "ios" ? (
+    <KeyboardAvoidingView
+      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
+      behavior="padding"
+      enabled
+      keyboardVerticalOffset={100}
+    >
+      {content}
+    </KeyboardAvoidingView>
+  ) : (
+    <KeyboardAvoidingView>{content}</KeyboardAvoidingView>
+  );
 }
 
-function dropOutImpl(info: Info){
-  console.log("Drop out Impl");
-  const [isSending, setIsSending] =  useState(false);
+function dropOutImpl(info: Info) {
+  const [isSending, setIsSending] = useState(false);
   const [senderName, setSenderName] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
-  const [subject, setSubject] = useState("ich möchte mich für das nächste Programm abmelden");
+  const [subject, setSubject] = useState(
+    "ich möchte mich für das nächste Programm abmelden"
+  );
   const [message, setMessage] = useState("");
   const [acceptance, setAcceptance] = useState(false);
 
-  const styles = useColorScheme() === 'dark' ? darkstyles : lightstyles;
+  const styles = useColorScheme() === "dark" ? darkstyles : lightstyles;
 
   function validateData() {
-		if (!senderName) {
-			Alert.alert("Bitte gibt deinen Namen ein. ");
-			return false;
-		} else if (!validator.isEmail(senderEmail)) {
-			Alert.alert("Bitte gibt deine E-Mailadresse ein.");
-			return false;
-		}
-		if (!acceptance) {
-			Alert.alert("Bitte stimme der Datenverwendung zu.");
-			return false;
-		}
-		return true;
-	}
+    if (!senderName) {
+      Alert.alert("Bitte gib deinen Namen ein.");
+      return false;
+    } else if (!validator.isEmail(senderEmail)) {
+      Alert.alert("Bitte gib eine gültige E-Mailadresse ein.");
+      return false;
+    }
+    if (!acceptance) {
+      Alert.alert("Bitte stimme der Datenverwendung zu.");
+      return false;
+    }
+    return true;
+  }
 
   function sendData() {
-		let formData = new FormData();
-		formData.append("_wpcf7", "1510");
-		formData.append("_wpcf7_unit_tag", "wpcf7-f1510-p286-o2");
-	  formData.append('destination-email', info.email);
-		//formData.append("destination-email", "simba.uster@gmail.com");
-    //formData.append("destination-email", "matthias@kunz.family");
-		formData.append("your-name", senderName);
-		formData.append("your-email", senderEmail.toLowerCase());
-		formData.append("your-subject", subject);
-		formData.append("your-message", message);
-		formData.append("acceptance", acceptance);
+    let formData = new FormData();
+    formData.append("_wpcf7", "1510");
+    formData.append("_wpcf7_unit_tag", "wpcf7-f1510-p286-o2");
+    formData.append("destination-email", info.email || ""); // Ensure string value
+    formData.append("your-name", senderName);
+    formData.append("your-email", senderEmail.toLowerCase());
+    formData.append("your-subject", subject);
+    formData.append("your-message", message);
+    formData.append("acceptance", acceptance.toString()); // Convert boolean to string
 
-		const url = `${URLs.DROP_OFF_FORM_URL}`;
-		console.log("FormData: " + JSON.stringify(formData, null, 4));
-		
-    fetch(url, {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data",
-			},
-			body: formData,
-		})
-			.then((response) => response.json())
-			.then((json) => {
-        console.log("Message sent");
-				handleSuccess(json);
-			})
-			.catch((error) => {
-				console.error(error);
-				Alert.alert("Fehler beim Senden!", error);
-			});
-	}
+    fetch(URLs.DROP_OFF_FORM_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((json: { status: string; message: string }) => {
+        handleSuccess(json);
+      })
+      .catch((error) => {
+        console.error(error);
+        Alert.alert("Fehler beim Senden!", error.message);
+      });
+  }
 
-	function handleSuccess(json) {
-		console.log("Response: " + JSON.stringify(json, null, 4));
-		const showSuccessMessageAndGoBack = async () => {
-            if ('mail_sent' !== json.status){
-                const choice = await AlertAsync(
-                    "Senden fehlgeschlagen",
-                    "Nachricht: " + json.message,
-                    [{ text: "Ok", onPress: () => "ok" }],
-                    {
-                        cancelable: true,
-                        onDismiss: () => "ok",
-                    }
-                );
-            } else {
-                const choice = await AlertAsync(
-                    "Gesendet",
-                    "Vielen Dank für deine Abmeldung.",
-                    [{ text: "Ok", onPress: () => "ok" }],
-                    {
-                        cancelable: true,
-                        onDismiss: () => "ok",
-                    }
-                );
-    
-                if (choice === "ok") {
-                  router.back();
-                }
-            }
-			
-		};
-		showSuccessMessageAndGoBack();
-	}
+  async function handleSuccess(json: { status: string; message: string }) {
+    const message =
+      json.status !== "mail_sent"
+        ? `Nachricht: ${json.message}`
+        : "Vielen Dank für deine Abmeldung.";
+
+    const title = json.status !== "mail_sent" ? "Senden fehlgeschlagen" : "Gesendet";
+
+    const choice = await AlertAsync(title, message, [{ text: "Ok", onPress: () => "ok" }], {
+      cancelable: true,
+      onDismiss: () => "ok",
+    });
+
+    if (json.status === "mail_sent" && choice === "ok") {
+      router.back();
+    }
+  }
 
   async function handleSubmit() {
-    console.log("dropOutButtonClicked");
     if (validateData()) {
+      setIsSending(true);
       sendData();
     }
-    //await router.back();
   }
-  
-  
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -188,9 +209,7 @@ function dropOutImpl(info: Info){
         <Text style={styles.text}>Dein Name*</Text>
         <TextInput
           style={styles.text_input}
-          onChangeText={(senderName) =>
-            setSenderName(senderName)
-          }
+          onChangeText={setSenderName}
           onBlur={Keyboard.dismiss}
           value={senderName}
         />
@@ -198,36 +217,30 @@ function dropOutImpl(info: Info){
         <TextInput
           style={styles.text_input}
           keyboardType="email-address"
-          onChangeText={(senderEmail) =>
-            setSenderEmail(senderEmail)
-          }
+          onChangeText={setSenderEmail}
           value={senderEmail}
           autoCorrect={false}
         />
         <Text style={styles.text}>Deine Nachricht</Text>
         <TextInput
           style={styles.multiline_text_input}
-          onChangeText={(message) =>
-            setMessage(message)
-          }
+          onChangeText={setMessage}
           onBlur={Keyboard.dismiss}
           value={message}
-          multiline={true}
+          multiline
         />
-        <CheckBox containerStyle={styles.checkbox} textStyle={styles.checkbox}
+        <CheckBox
+          containerStyle={styles.checkbox}
+          textStyle={styles.checkbox}
           checked={acceptance}
-          onPress={() =>
-            setAcceptance(!acceptance)
-          }
+          onPress={() => setAcceptance(!acceptance)}
           title="Ich stimme der Datenverwendung für diese Nachricht zu"
         />
       </View>
-      <View style={styles.buttonView}>
+      <View style={styles.buttonview}>
         <Button
-          style={styles.sendButton}
-          onPress={() => {
-            handleSubmit();
-          }}
+          style={styles.savebutton}
+          onPress={handleSubmit}
           buttonStyle={{
             backgroundColor: COLOR_PRIMARY,
             width: 140,
@@ -239,134 +252,13 @@ function dropOutImpl(info: Info){
           title="Senden"
         />
       </View>
-      {isSending && (<ActivityIndicator size="large"	color={COLOR_PRIMARY} style={styles.waitOverlay}/>)}
+      {isSending && (
+        <ActivityIndicator
+          size="large"
+          color={COLOR_PRIMARY}
+          style={styles.waitOverlay}
+        />
+      )}
     </ScrollView>
   );
 }
-
-const lightstyles = StyleSheet.create({
-	container: {
-		flex: 1,
-		margin: 10,
-	},
-	inputContainer: {
-		paddingTop: 15,
-	},
-	text_input: {
-		borderColor: "#CCCCCC",
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		height: 36,
-		fontSize: 18,
-		paddingLeft: 20,
-		paddingRight: 20,
-	},
-	multiline_text_input: {
-		borderColor: "#CCCCCC",
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		height: 100,
-		fontSize: 18,
-		paddingLeft: 20,
-		paddingRight: 20,
-	},
-	title: {
-		fontSize: 22,
-		fontWeight: "bold",
-	},
-	subtitle: {
-		fontSize: 20,
-	},
-	text: {
-		paddingTop: 15,
-		fontSize: 18,
-		fontWeight: "bold",
-	},
-    centerText:{
-        textAlign: 'center',
-    },
-	buttonView: {
-		marginTop: 10,
-		width: "100%",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	sendButton: {
-		marginTop: 10,
-	},
-    waitOverlay: {
-        position: "absolute",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        top: 0,
-     },
-});
-
-const darkstyles = StyleSheet.create({
-	container: {
-		flex: 1,
-		padding: 20,
-	},
-	inputContainer: {
-		paddingTop: 15,
-	},
-	text_input: {
-		borderColor: "#CCCCCC",
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		height: 36,
-		fontSize: 18,
-		paddingLeft: 20,
-		paddingRight: 20,
-	},
-	multiline_text_input: {
-		borderColor: "#CCCCCC",
-		borderTopWidth: 1,
-		borderBottomWidth: 1,
-		height: 100,
-		fontSize: 18,
-		paddingLeft: 20,
-		paddingRight: 20,
-	},
-	title: {
-		fontSize: 22,
-		fontWeight: "bold",
-    color: 'white',
-	},
-	subtitle: {
-		fontSize: 20,
-    color: 'white',
-	},
-	text: {
-		paddingTop: 15,
-		fontSize: 18,
-		fontWeight: "bold",
-    color: 'white',
-	},
-  centerText:{
-      textAlign: 'center',
-      color: 'white',
-  },
-	buttonView: {
-		marginTop: 10,
-		width: "100%",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	sendButton: {
-		marginTop: 10,
-	},
-  checkbox:{
-    backgroundColor: 'black',
-    color: 'white',
-    borderColor: 'black',
-  },
-    waitOverlay: {
-        position: "absolute",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        top: 0,
-     },
-});

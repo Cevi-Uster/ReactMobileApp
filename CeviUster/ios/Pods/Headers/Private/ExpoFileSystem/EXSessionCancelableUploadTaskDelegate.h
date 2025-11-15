@@ -1,1 +1,1 @@
-../../../../../node_modules/expo-file-system/ios/EXSessionTasks/EXSessionCancelableUploadTaskDelegate.h
+../../../../../node_modules/expo-file-system/ios/Legacy/EXSessionTasks/EXSessionCancelableUploadTaskDelegate.h

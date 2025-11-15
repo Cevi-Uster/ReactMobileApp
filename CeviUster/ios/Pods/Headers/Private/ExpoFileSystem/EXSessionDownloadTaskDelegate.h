@@ -1,1 +1,1 @@
-../../../../../node_modules/expo-file-system/ios/EXSessionTasks/EXSessionDownloadTaskDelegate.h
+../../../../../node_modules/expo-file-system/ios/Legacy/EXSessionTasks/EXSessionDownloadTaskDelegate.h

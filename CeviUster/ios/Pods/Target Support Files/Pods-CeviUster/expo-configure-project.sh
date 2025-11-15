@@ -46,5 +46,6 @@ with_node \
   --eval "require(require.resolve('expo-modules-autolinking', { paths: [require.resolve('expo/package.json')] }))(process.argv.slice(1))" \
   generate-modules-provider  \
   --target "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/Pods/Target Support Files/Pods-CeviUster/ExpoModulesProvider.swift" \
+  --entitlement "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/CeviUster/CeviUster.entitlements" \
   --platform "apple" \
-  --packages "expo-asset" "expo-constants" "expo-dev-launcher" "expo-dev-menu" "expo-file-system" "expo-font" "expo-keep-awake" "expo-router" "expo-system-ui" "expo-web-browser"
+  --packages "expo" "expo-asset" "expo-constants" "expo-file-system" "expo-font" "expo-haptics" "expo-image" "expo-keep-awake" "expo-linking" "expo-router" "expo-splash-screen" "expo-symbols" "expo-system-ui" "expo-web-browser"

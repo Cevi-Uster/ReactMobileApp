@@ -1,17 +1,17 @@
 {
   "name": "ExpoModulesCore",
-  "version": "1.12.24",
+  "version": "3.0.17",
   "summary": "The core of Expo Modules architecture",
   "description": "The core of Expo Modules architecture",
   "license": "MIT",
   "authors": "650 Industries, Inc.",
   "homepage": "https://github.com/expo/expo/tree/main/packages/expo-modules-core",
   "platforms": {
-    "ios": "13.4",
-    "osx": "10.15",
-    "tvos": "13.4"
+    "ios": "15.1",
+    "osx": "11.0",
+    "tvos": "15.1"
   },
-  "swift_versions": "5.4",
+  "swift_versions": "5.9",
   "source": {
     "git": "https://github.com/expo/expo.git"
   },
@@ -22,9 +22,10 @@
     "DEFINES_MODULE": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
     "SWIFT_COMPILATION_MODE": "wholemodule",
-    "HEADER_SEARCH_PATHS": "\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector/jsinspector_modern.framework/Headers\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
-    "OTHER_SWIFT_FLAGS": "$(inherited) ",
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32"
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED",
+    "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/React-jsinspector\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) EXPO_MODULES_CORE_VERSION=3.0.17",
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 "
   },
   "user_target_xcconfig": {
     "HEADER_SEARCH_PATHS": [
@@ -45,22 +46,13 @@
     "ReactCommon/turbomodule/core": [
 
     ],
-    "React-RCTAppDelegate": [
-
-    ],
     "React-NativeModulesApple": [
-
-    ],
-    "RCT-Folly": [
-      "2024.01.01.00"
-    ],
-    "glog": [
 
     ],
     "React-RCTFabric": [
 
     ],
-    "React-Codegen": [
+    "ReactCodegen": [
 
     ],
     "RCTRequired": [
@@ -96,19 +88,26 @@
     "React-rendererdebug": [
 
     ],
-    "DoubleConversion": [
+    "React-jsi": [
+
+    ],
+    "React-renderercss": [
+
+    ],
+    "ReactNativeDependencies": [
+
+    ],
+    "React-Core-prebuilt": [
 
     ]
   },
-  "compiler_flags": "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -Wno-comma -Wno-shorten-64-to-32 -DREACT_NATIVE_TARGET_VERSION=74 -DUSE_HERMES",
+  "compiler_flags": "-DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32 -DREACT_NATIVE_TARGET_VERSION=81 -DUSE_HERMES -DRCT_NEW_ARCH_ENABLED",
   "source_files": [
     "ios/**/*.{h,m,mm,swift,cpp}",
     "common/cpp/**/*.{h,cpp}"
   ],
   "exclude_files": [
-    "ios/Tests/",
-    "ios/Fabric/",
-    "common/cpp/fabric/"
+    "ios/Tests/"
   ],
   "private_header_files": [
     "ios/**/*+Private.h",
@@ -126,5 +125,5 @@
       "source_files": "ios/Tests/**/*.{m,swift}"
     }
   ],
-  "swift_version": "5.4"
+  "swift_version": "5.9"
 }
