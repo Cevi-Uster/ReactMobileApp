@@ -13,20 +13,31 @@
     "tag": "v0.81.4"
   },
   "source_files": [
-    "reactperflogger/*.h",
-    "fusebox/*.h"
+    "reactperflogger/*.{cpp,h}",
+    "fusebox/*.{cpp,h}"
   ],
   "header_dir": "reactperflogger",
   "pod_target_xcconfig": {
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/..\""
+    "HEADER_SEARCH_PATHS": [
+      "\"$(PODS_TARGET_SRCROOT)/..\"",
+      "$(PODS_ROOT)/glog",
+      "$(PODS_ROOT)/boost",
+      "$(PODS_ROOT)/DoubleConversion",
+      "$(PODS_ROOT)/fast_float/include",
+      "$(PODS_ROOT)/fmt/include",
+      "$(PODS_ROOT)/SocketRocket",
+      "$(PODS_ROOT)/RCT-Folly"
+    ]
   },
   "dependencies": {
-    "ReactNativeDependencies": [
-
-    ],
-    "React-Core-prebuilt": [
-
-    ]
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   }
 }

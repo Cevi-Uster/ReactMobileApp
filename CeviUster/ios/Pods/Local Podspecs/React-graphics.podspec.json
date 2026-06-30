@@ -13,35 +13,38 @@
     "tag": "v0.81.4"
   },
   "source_files": [
-    "*.h",
-    "platform/ios/**/*.h"
+    "*.{m,mm,cpp,h}",
+    "platform/ios/**/*.{m,mm,cpp,h}"
   ],
   "header_dir": "react/renderer/graphics",
   "frameworks": "UIKit",
   "pod_target_xcconfig": {
     "USE_HEADERMAP": "NO",
-    "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/../../../\"",
+    "HEADER_SEARCH_PATHS": [
+      "\"$(PODS_TARGET_SRCROOT)/../../../\"",
+      "$(PODS_ROOT)/glog",
+      "$(PODS_ROOT)/boost",
+      "$(PODS_ROOT)/DoubleConversion",
+      "$(PODS_ROOT)/fast_float/include",
+      "$(PODS_ROOT)/fmt/include",
+      "$(PODS_ROOT)/SocketRocket",
+      "$(PODS_ROOT)/RCT-Folly"
+    ],
     "DEFINES_MODULE": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20"
   },
   "dependencies": {
-    "React-jsi": [
-
-    ],
-    "React-jsiexecutor": [
-
-    ],
-    "React-utils": [
-
-    ],
-    "hermes-engine": [
-
-    ],
-    "ReactNativeDependencies": [
-
-    ],
-    "React-Core-prebuilt": [
-
-    ]
+    "React-jsi": [],
+    "React-jsiexecutor": [],
+    "React-utils": [],
+    "hermes-engine": [],
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   }
 }

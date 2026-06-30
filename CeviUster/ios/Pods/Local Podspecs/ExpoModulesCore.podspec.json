@@ -23,7 +23,17 @@
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
     "SWIFT_COMPILATION_MODE": "wholemodule",
     "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED",
-    "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/React-jsinspector\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
+    "HEADER_SEARCH_PATHS": [
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector/jsinspector_modern.framework/Headers\"",
+      "\"$(PODS_ROOT)/Headers/Private/Yoga\"",
+      "$(PODS_ROOT)/glog",
+      "$(PODS_ROOT)/boost",
+      "$(PODS_ROOT)/DoubleConversion",
+      "$(PODS_ROOT)/fast_float/include",
+      "$(PODS_ROOT)/fmt/include",
+      "$(PODS_ROOT)/SocketRocket",
+      "$(PODS_ROOT)/RCT-Folly"
+    ],
     "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) EXPO_MODULES_CORE_VERSION=3.0.17",
     "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 "
   },
@@ -34,72 +44,34 @@
     ]
   },
   "dependencies": {
-    "hermes-engine": [
-
-    ],
-    "React-jsinspector": [
-
-    ],
-    "React-Core": [
-
-    ],
-    "ReactCommon/turbomodule/core": [
-
-    ],
-    "React-NativeModulesApple": [
-
-    ],
-    "React-RCTFabric": [
-
-    ],
-    "ReactCodegen": [
-
-    ],
-    "RCTRequired": [
-
-    ],
-    "RCTTypeSafety": [
-
-    ],
-    "ReactCommon/turbomodule/bridging": [
-
-    ],
-    "Yoga": [
-
-    ],
-    "React-Fabric": [
-
-    ],
-    "React-graphics": [
-
-    ],
-    "React-utils": [
-
-    ],
-    "React-featureflags": [
-
-    ],
-    "React-debug": [
-
-    ],
-    "React-ImageManager": [
-
-    ],
-    "React-rendererdebug": [
-
-    ],
-    "React-jsi": [
-
-    ],
-    "React-renderercss": [
-
-    ],
-    "ReactNativeDependencies": [
-
-    ],
-    "React-Core-prebuilt": [
-
-    ]
+    "hermes-engine": [],
+    "React-jsinspector": [],
+    "React-Core": [],
+    "ReactCommon/turbomodule/core": [],
+    "React-NativeModulesApple": [],
+    "React-RCTFabric": [],
+    "ReactCodegen": [],
+    "RCTRequired": [],
+    "RCTTypeSafety": [],
+    "ReactCommon/turbomodule/bridging": [],
+    "Yoga": [],
+    "React-Fabric": [],
+    "React-graphics": [],
+    "React-utils": [],
+    "React-featureflags": [],
+    "React-debug": [],
+    "React-ImageManager": [],
+    "React-rendererdebug": [],
+    "React-jsi": [],
+    "React-renderercss": [],
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   },
   "compiler_flags": "-DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32 -DREACT_NATIVE_TARGET_VERSION=81 -DUSE_HERMES -DRCT_NEW_ARCH_ENABLED",
   "source_files": [
@@ -118,9 +90,7 @@
       "name": "Tests",
       "test_type": "unit",
       "dependencies": {
-        "ExpoModulesTestCore": [
-
-        ]
+        "ExpoModulesTestCore": []
       },
       "source_files": "ios/Tests/**/*.{m,swift}"
     }

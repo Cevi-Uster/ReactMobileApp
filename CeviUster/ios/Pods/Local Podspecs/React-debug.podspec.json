@@ -12,7 +12,7 @@
     "git": "https://github.com/facebook/react-native.git",
     "tag": "v0.81.4"
   },
-  "source_files": "**/*.h",
+  "source_files": "**/*.{cpp,h}",
   "header_dir": "react/debug",
   "pod_target_xcconfig": {
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",

@@ -12,7 +12,7 @@
     "git": "https://github.com/facebook/react-native.git",
     "tag": "v0.81.4"
   },
-  "source_files": "JSITracing.h",
+  "source_files": "JSITracing.{cpp,h}",
   "header_dir": ".",
   "pod_target_xcconfig": {
     "HEADER_SEARCH_PATHS": "\"${PODS_TARGET_SRCROOT}/../..\"",
@@ -21,8 +21,6 @@
     "GCC_WARN_PEDANTIC": "YES"
   },
   "dependencies": {
-    "React-jsi": [
-
-    ]
+    "React-jsi": []
   }
 }

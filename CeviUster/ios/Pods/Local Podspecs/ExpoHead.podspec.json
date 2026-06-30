@@ -15,12 +15,8 @@
   },
   "static_framework": true,
   "dependencies": {
-    "ExpoModulesCore": [
-
-    ],
-    "RNScreens": [
-
-    ]
+    "ExpoModulesCore": [],
+    "RNScreens": []
   },
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES",

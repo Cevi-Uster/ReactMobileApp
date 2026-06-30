@@ -17,9 +17,7 @@
   },
   "static_framework": true,
   "dependencies": {
-    "ExpoModulesCore": [
-
-    ]
+    "ExpoModulesCore": []
   },
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES",
@@ -33,9 +31,7 @@
     "always_out_of_date": "1"
   },
   "resource_bundles": {
-    "EXConstants": [
-
-    ],
+    "EXConstants": [],
     "ExpoConstants_privacy": [
       "PrivacyInfo.xcprivacy"
     ]

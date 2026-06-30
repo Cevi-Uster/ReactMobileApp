@@ -15,19 +15,30 @@
   },
   "header_dir": "ReactCommon",
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+    "HEADER_SEARCH_PATHS": [
+      "\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+      "$(PODS_ROOT)/glog",
+      "$(PODS_ROOT)/boost",
+      "$(PODS_ROOT)/DoubleConversion",
+      "$(PODS_ROOT)/fast_float/include",
+      "$(PODS_ROOT)/fmt/include",
+      "$(PODS_ROOT)/SocketRocket",
+      "$(PODS_ROOT)/RCT-Folly"
+    ],
     "USE_HEADERMAP": "YES",
     "DEFINES_MODULE": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
     "GCC_WARN_PEDANTIC": "YES"
   },
   "dependencies": {
-    "ReactNativeDependencies": [
-
-    ],
-    "React-Core-prebuilt": [
-
-    ]
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   },
   "subspecs": [
     {
@@ -48,9 +59,7 @@
         "React-logger": [
           "0.81.4"
         ],
-        "hermes-engine": [
-
-        ]
+        "hermes-engine": []
       },
       "subspecs": [
         {
@@ -59,11 +68,9 @@
             "React-jsi": [
               "0.81.4"
             ],
-            "hermes-engine": [
-
-            ]
+            "hermes-engine": []
           },
-          "source_files": "react/bridging/**/*.h",
+          "source_files": "react/bridging/**/*.{cpp,h}",
           "exclude_files": "react/bridging/tests",
           "header_dir": "react/bridging",
           "pod_target_xcconfig": {
@@ -72,7 +79,7 @@
         },
         {
           "name": "core",
-          "source_files": "react/nativemodule/core/ReactCommon/**/*.h",
+          "source_files": "react/nativemodule/core/ReactCommon/**/*.{cpp,h}",
           "pod_target_xcconfig": {
             "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/ReactCommon\" \"$(PODS_CONFIGURATION_BUILD_DIR)/React-debug/React_debug.framework/Headers\" \"$(PODS_CONFIGURATION_BUILD_DIR)/React-debug/React_featureflags.framework/Headers\" \"$(PODS_CONFIGURATION_BUILD_DIR)/React-utils/React_utils.framework/Headers\""
           },

@@ -9,7 +9,10 @@
     "tag": "v#{version}"
   },
   "summary": "Macros for marking APIs as deprecated",
-  "source_files": "Exported/*.h",
+  "source_files": [
+    "Exported/*.h",
+    "RCTDeprecation.m"
+  ],
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20"

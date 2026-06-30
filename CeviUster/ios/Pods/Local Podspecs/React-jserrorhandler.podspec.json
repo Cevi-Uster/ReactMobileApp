@@ -14,38 +14,38 @@
   },
   "header_dir": "jserrorhandler",
   "source_files": [
-    "JsErrorHandler.h",
-    "StackTraceParser.h"
+    "JsErrorHandler.{cpp,h}",
+    "StackTraceParser.{cpp,h}"
   ],
   "pod_target_xcconfig": {
     "USE_HEADERMAP": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/React-featureflags\" \"${PODS_ROOT}/React-debug\""
+    "HEADER_SEARCH_PATHS": [
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-featureflags/React_featureflags.framework/Headers\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-debug/React_debug.framework/Headers\"",
+      "$(PODS_ROOT)/glog",
+      "$(PODS_ROOT)/boost",
+      "$(PODS_ROOT)/DoubleConversion",
+      "$(PODS_ROOT)/fast_float/include",
+      "$(PODS_ROOT)/fmt/include",
+      "$(PODS_ROOT)/SocketRocket",
+      "$(PODS_ROOT)/RCT-Folly"
+    ]
   },
   "dependencies": {
-    "React-jsi": [
-
-    ],
-    "React-cxxreact": [
-
-    ],
-    "ReactCommon/turbomodule/bridging": [
-
-    ],
-    "React-featureflags": [
-
-    ],
-    "React-debug": [
-
-    ],
-    "hermes-engine": [
-
-    ],
-    "ReactNativeDependencies": [
-
-    ],
-    "React-Core-prebuilt": [
-
-    ]
+    "React-jsi": [],
+    "React-cxxreact": [],
+    "ReactCommon/turbomodule/bridging": [],
+    "React-featureflags": [],
+    "React-debug": [],
+    "hermes-engine": [],
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   }
 }

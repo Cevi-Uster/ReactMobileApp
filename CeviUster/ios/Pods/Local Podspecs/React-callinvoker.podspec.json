@@ -12,6 +12,6 @@
     "git": "https://github.com/facebook/react-native.git",
     "tag": "v0.81.4"
   },
-  "source_files": "**/*.h",
+  "source_files": "**/*.{cpp,h}",
   "header_dir": "ReactCommon"
 }

@@ -19,7 +19,28 @@
   "header_dir": "React",
   "weak_frameworks": "JavaScriptCore",
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "$(PODS_TARGET_SRCROOT)/ReactCommon ${PODS_ROOT}/Headers/Public/FlipperKit $(PODS_ROOT)/Headers/Public/ReactCommon $(PODS_ROOT)/Headers/Public/React-hermes $(PODS_ROOT)/Headers/Public/hermes-engine \"${PODS_ROOT}/React-runtimeexecutor\" \"${PODS_ROOT}/React-runtimeexecutor/platform/ios\" \"${PODS_ROOT}/React-jsinspector\" \"${PODS_ROOT}/React-jsinspectorcdp\" \"${PODS_ROOT}/React-jsitooling\" \"${PODS_ROOT}/React-utils\" \"${PODS_ROOT}/React-utils/react/utils/platform/ios\" \"${PODS_ROOT}/RCTDeprecation\"",
+    "HEADER_SEARCH_PATHS": [
+      "$(PODS_TARGET_SRCROOT)/ReactCommon",
+      "${PODS_ROOT}/Headers/Public/FlipperKit",
+      "$(PODS_ROOT)/Headers/Public/ReactCommon",
+      "$(PODS_ROOT)/Headers/Public/React-hermes",
+      "$(PODS_ROOT)/Headers/Public/hermes-engine",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-runtimeexecutor/React_runtimeexecutor.framework/Headers\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-runtimeexecutor/React_runtimeexecutor.framework/Headers/platform/ios\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector/jsinspector_modern.framework/Headers\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspectorcdp/jsinspector_moderncdp.framework/Headers\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsitooling/JSITooling.framework/Headers\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-utils/React_utils.framework/Headers\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/React-utils/React_utils.framework/Headers/react/utils/platform/ios\"",
+      "\"${PODS_CONFIGURATION_BUILD_DIR}/RCTDeprecation/RCTDeprecation.framework/Headers\"",
+      "$(PODS_ROOT)/glog",
+      "$(PODS_ROOT)/boost",
+      "$(PODS_ROOT)/DoubleConversion",
+      "$(PODS_ROOT)/fast_float/include",
+      "$(PODS_ROOT)/fmt/include",
+      "$(PODS_ROOT)/SocketRocket",
+      "$(PODS_ROOT)/RCT-Folly"
+    ],
     "DEFINES_MODULE": "YES",
     "GCC_PREPROCESSOR_DEFINITIONS": "RCT_METRO_PORT=${RCT_METRO_PORT}",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
@@ -30,62 +51,34 @@
   },
   "default_subspecs": "Default",
   "dependencies": {
-    "React-cxxreact": [
-
-    ],
-    "React-perflogger": [
-
-    ],
-    "React-jsi": [
-
-    ],
-    "React-jsiexecutor": [
-
-    ],
-    "React-featureflags": [
-
-    ],
-    "React-runtimescheduler": [
-
-    ],
-    "Yoga": [
-
-    ],
-    "React-hermes": [
-
-    ],
-    "React-runtimeexecutor": [
-
-    ],
-    "React-jsinspector": [
-
-    ],
-    "React-jsinspectorcdp": [
-
-    ],
-    "React-jsitooling": [
-
-    ],
-    "React-utils": [
-
-    ],
-    "RCTDeprecation": [
-
-    ],
-    "hermes-engine": [
-
-    ],
-    "ReactNativeDependencies": [
-
-    ],
-    "React-Core-prebuilt": [
-
-    ]
+    "React-cxxreact": [],
+    "React-perflogger": [],
+    "React-jsi": [],
+    "React-jsiexecutor": [],
+    "React-featureflags": [],
+    "React-runtimescheduler": [],
+    "Yoga": [],
+    "React-hermes": [],
+    "React-runtimeexecutor": [],
+    "React-jsinspector": [],
+    "React-jsinspectorcdp": [],
+    "React-jsitooling": [],
+    "React-utils": [],
+    "RCTDeprecation": [],
+    "hermes-engine": [],
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   },
   "subspecs": [
     {
       "name": "Default",
-      "source_files": "React/**/*.h",
+      "source_files": "React/**/*.{c,h,m,mm,S,cpp}",
       "exclude_files": [
         "React/CoreModules/**/*",
         "React/DevSupport/**/*",
@@ -101,8 +94,8 @@
     {
       "name": "DevSupport",
       "source_files": [
-        "React/DevSupport/*.h",
-        "React/Inspector/*.h"
+        "React/DevSupport/*.{h,mm,m}",
+        "React/Inspector/*.{h,mm,m}"
       ],
       "dependencies": {
         "React-Core/Default": [
@@ -116,7 +109,7 @@
     },
     {
       "name": "RCTWebSocket",
-      "source_files": "Libraries/WebSocket/*.h",
+      "source_files": "Libraries/WebSocket/*.{h,m}",
       "dependencies": {
         "React-Core/Default": [
           "0.81.4"
@@ -127,99 +120,77 @@
       "name": "CoreModulesHeaders",
       "source_files": "React/CoreModules/**/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTActionSheetHeaders",
       "source_files": "Libraries/ActionSheetIOS/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTAnimationHeaders",
       "source_files": "Libraries/NativeAnimation/{Drivers/*,Nodes/*,*}.{h}",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTBlobHeaders",
       "source_files": "Libraries/Blob/{RCTBlobManager,RCTFileReaderModule}.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTImageHeaders",
       "source_files": "Libraries/Image/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTLinkingHeaders",
       "source_files": "Libraries/LinkingIOS/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTNetworkHeaders",
       "source_files": "Libraries/Network/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTPushNotificationHeaders",
       "source_files": "Libraries/PushNotificationIOS/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTSettingsHeaders",
       "source_files": "Libraries/Settings/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTTextHeaders",
       "source_files": "Libraries/Text/**/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     },
     {
       "name": "RCTVibrationHeaders",
       "source_files": "Libraries/Vibration/*.h",
       "dependencies": {
-        "React-Core/Default": [
-
-        ]
+        "React-Core/Default": []
       }
     }
   ]
