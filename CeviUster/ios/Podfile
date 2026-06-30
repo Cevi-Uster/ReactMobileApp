@@ -48,5 +48,29 @@ target 'CeviUster' do
       :mac_catalyst_enabled => false,
       :ccache_enabled => podfile_properties['apple.ccacheEnabled'] == 'true',
     )
+
+    # fmt 11.x uses consteval which is broken in Apple Clang 16 (Xcode 16).
+    # base.h unconditionally redefines FMT_USE_CONSTEVAL, so a -D flag alone
+    # is overridden. Patch the header to respect an external value, then set it.
+    fmt_base = File.join(installer.sandbox.root, 'fmt/include/fmt/base.h')
+    if File.exist?(fmt_base)
+      content = File.read(fmt_base)
+      sentinel = 'FMT_USE_CONSTEVAL externally set'
+      unless content.include?(sentinel)
+        patched = content.sub(
+          "// Detect consteval, C++20 constexpr extensions and std::is_constant_evaluated.\n#if !defined(__cpp_lib_is_constant_evaluated)",
+          "// Detect consteval, C++20 constexpr extensions and std::is_constant_evaluated.\n// #{sentinel}\n#if defined(FMT_USE_CONSTEVAL)\n#elif !defined(__cpp_lib_is_constant_evaluated)"
+        )
+        File.chmod(0644, fmt_base)
+        File.write(fmt_base, patched)
+      end
+    end
+
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'FMT_USE_CONSTEVAL=0'
+      end
+    end
   end
 end
