@@ -1,1 +1,1 @@
-../../../../../../node_modules/expo-modules-core/common/cpp/BridgelessJSCallInvoker.h
+../../../../../../node_modules/expo-modules-core/common/cpp/JSI/BridgelessJSCallInvoker.h

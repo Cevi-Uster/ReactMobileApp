@@ -1,1 +1,1 @@
-../../../../../../node_modules/expo-modules-core/common/cpp/TypedArray.h
+../../../../../../node_modules/expo-modules-core/common/cpp/JSI/TypedArray.h

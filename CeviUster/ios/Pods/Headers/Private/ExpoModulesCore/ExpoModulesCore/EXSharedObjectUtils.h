@@ -1,1 +1,1 @@
-../../../../../../node_modules/expo-modules-core/ios/JSI/EXSharedObjectUtils.h
+../../../../../../node_modules/expo-modules-core/ios/JS/EXSharedObjectUtils.h

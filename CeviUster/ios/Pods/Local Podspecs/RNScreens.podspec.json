@@ -1,6 +1,6 @@
 {
   "name": "RNScreens",
-  "version": "4.16.0",
+  "version": "4.25.2",
   "summary": "Native navigation primitives for your React Native app.",
   "description": "RNScreens - first incomplete navigation solution for your React Native app",
   "homepage": "https://github.com/software-mansion/react-native-screens",
@@ -15,7 +15,7 @@
   },
   "source": {
     "git": "https://github.com/software-mansion/react-native-screens.git",
-    "tag": "4.16.0"
+    "tag": "4.25.2"
   },
   "source_files": [
     "ios/**/*.{h,m,mm,cpp,swift}"
@@ -24,19 +24,11 @@
   "requires_arc": true,
   "exclude_files": "ios/gamma/**/*.{h,m,mm,cpp,swift}",
   "pod_target_xcconfig": {
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited)  -DRCT_NEW_ARCH_ENABLED=1 ",
-    "HEADER_SEARCH_PATHS": [
-      "\"$(PODS_ROOT)/Headers/Private/Yoga\"",
-      "$(PODS_ROOT)/glog",
-      "$(PODS_ROOT)/boost",
-      "$(PODS_ROOT)/DoubleConversion",
-      "$(PODS_ROOT)/fast_float/include",
-      "$(PODS_ROOT)/fmt/include",
-      "$(PODS_ROOT)/SocketRocket",
-      "$(PODS_ROOT)/RCT-Folly"
-    ],
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited)  -DRCT_NEW_ARCH_ENABLED=1  -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
+    "OTHER_SWIFT_FLAGS": "$(inherited)  -DRCT_NEW_ARCH_ENABLED -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
+    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/Yoga\"",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED"
+    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
   },
   "compiler_flags": "-DRCT_NEW_ARCH_ENABLED=1",
   "dependencies": {
@@ -59,14 +51,8 @@
     "React-jsi": [],
     "React-renderercss": [],
     "hermes-engine": [],
-    "glog": [],
-    "boost": [],
-    "DoubleConversion": [],
-    "fast_float": [],
-    "fmt": [],
-    "RCT-Folly": [],
-    "SocketRocket": [],
-    "RCT-Folly/Fabric": [],
+    "ReactNativeDependencies": [],
+    "React-Core-prebuilt": [],
     "React-RCTImage": []
   },
   "subspecs": [

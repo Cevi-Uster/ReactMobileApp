@@ -94,10 +94,13 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
       override;
   jsi::Value getProperty(const jsi::Object &obj, const jsi::PropNameID &name)
       override;
+  jsi::Value getProperty(const jsi::Object &obj, const jsi::Value &name)
+      override;
 
   bool hasProperty(const jsi::Object &obj, const jsi::String &name) override;
   bool hasProperty(const jsi::Object &obj, const jsi::PropNameID &name)
       override;
+  bool hasProperty(const jsi::Object &obj, const jsi::Value &name) override;
 
   void setPropertyValue(
       const jsi::Object &obj,
@@ -107,6 +110,15 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
       const jsi::Object &obj,
       const jsi::PropNameID &name,
       const jsi::Value &value) override;
+  void setPropertyValue(
+      const jsi::Object &obj,
+      const jsi::Value &name,
+      const jsi::Value &value) override;
+
+  void deleteProperty(const jsi::Object &obj, const jsi::PropNameID &name)
+      override;
+  void deleteProperty(const jsi::Object &obj, const jsi::String &name) override;
+  void deleteProperty(const jsi::Object &, const jsi::Value &name) override;
 
   void setPrototypeOf(const jsi::Object &object, const jsi::Value &prototype)
       override;
@@ -122,6 +134,22 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
   jsi::ArrayBuffer createArrayBuffer(
       std::shared_ptr<jsi::MutableBuffer> buffer) override;
 
+  jsi::Uint8Array createUint8Array(size_t length) override;
+  jsi::Uint8Array createUint8Array(
+      const jsi::ArrayBuffer &buffer,
+      size_t offset,
+      size_t length) override;
+
+  jsi::ArrayBuffer buffer(const jsi::TypedArray &typedArray) override;
+
+  jsi::Value createError(const jsi::String &msg) override;
+  jsi::Value createEvalError(const jsi::String &msg) override;
+  jsi::Value createRangeError(const jsi::String &msg) override;
+  jsi::Value createReferenceError(const jsi::String &msg) override;
+  jsi::Value createSyntaxError(const jsi::String &msg) override;
+  jsi::Value createTypeError(const jsi::String &msg) override;
+  jsi::Value createURIError(const jsi::String &msg) override;
+
   size_t size(const jsi::Array &arr) override;
   size_t size(const jsi::ArrayBuffer &buf) override;
 
@@ -133,6 +161,9 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
       const jsi::Array &arr,
       size_t i,
       const jsi::Value &value) override;
+
+  size_t push(const jsi::Array &arr, const jsi::Value *elements, size_t count)
+      override;
 
   jsi::Function createFunctionFromHostFunction(
       const jsi::PropNameID &name,
@@ -153,6 +184,8 @@ class TracingRuntime : public jsi::RuntimeDecorator<jsi::Runtime> {
   void setExternalMemoryPressure(const jsi::Object &obj, size_t amount)
       override;
 
+  std::shared_ptr<jsi::MutableBuffer> tryGetMutableBuffer(
+      const jsi::ArrayBuffer &buffer) override;
   /// @}
 
   void addMarker(const std::string &marker);

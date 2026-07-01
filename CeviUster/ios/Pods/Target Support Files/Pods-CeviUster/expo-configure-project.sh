@@ -43,9 +43,12 @@ NODE_NOT_FOUND
 
 with_node \
   --no-warnings \
-  --eval "require(require.resolve('expo-modules-autolinking', { paths: [require.resolve('expo/package.json')] }))(process.argv.slice(1))" \
+  --eval "require('expo/bin/autolinking')" \
+  expo-modules-autolinking \
   generate-modules-provider  \
   --target "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/Pods/Target Support Files/Pods-CeviUster/ExpoModulesProvider.swift" \
   --entitlement "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/CeviUster/CeviUster.entitlements" \
+   \
+  --podfile-properties-file-path "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/Podfile.properties.json" \
   --platform "apple" \
-  --packages "expo" "expo-asset" "expo-constants" "expo-file-system" "expo-font" "expo-haptics" "expo-image" "expo-keep-awake" "expo-linking" "expo-router" "expo-splash-screen" "expo-symbols" "expo-system-ui" "expo-web-browser"
+  --packages "@expo/dom-webview" "@expo/ui" "expo" "expo-asset" "expo-constants" "expo-file-system" "expo-font" "expo-glass-effect" "expo-haptics" "expo-image" "expo-keep-awake" "expo-linking" "expo-router" "expo-splash-screen" "expo-symbols" "expo-system-ui" "expo-web-browser"

@@ -1,6 +1,6 @@
 {
   "name": "React-jsitracing",
-  "version": "0.81.4",
+  "version": "0.86.0",
   "summary": "Internal library for JSI debugging.",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -10,9 +10,9 @@
   },
   "source": {
     "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.81.4"
+    "tag": "v0.86.0"
   },
-  "source_files": "JSITracing.{cpp,h}",
+  "source_files": "JSITracing.h",
   "header_dir": ".",
   "pod_target_xcconfig": {
     "HEADER_SEARCH_PATHS": "\"${PODS_TARGET_SRCROOT}/../..\"",

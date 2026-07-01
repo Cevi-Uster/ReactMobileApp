@@ -1,1 +1,1 @@
-../../../../../../node_modules/expo-modules-core/common/cpp/ObjectDeallocator.h
+../../../../../../node_modules/expo-modules-core/common/cpp/JSI/ObjectDeallocator.h
