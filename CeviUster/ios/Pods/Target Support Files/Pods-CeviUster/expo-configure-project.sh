@@ -47,6 +47,7 @@ with_node \
   expo-modules-autolinking \
   generate-modules-provider  \
   --target "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/Pods/Target Support Files/Pods-CeviUster/ExpoModulesProvider.swift" \
+  --target-name "CeviUster" \
   --entitlement "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/CeviUster/CeviUster.entitlements" \
    \
   --podfile-properties-file-path "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/Podfile.properties.json" \

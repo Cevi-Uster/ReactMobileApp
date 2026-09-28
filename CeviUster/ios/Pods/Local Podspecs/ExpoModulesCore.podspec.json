@@ -1,6 +1,6 @@
 {
   "name": "ExpoModulesCore",
-  "version": "57.0.1",
+  "version": "57.0.16",
   "summary": "The core of Expo Modules architecture",
   "description": "The core of Expo Modules architecture",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "SWIFT_COMPILATION_MODE": "wholemodule",
     "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
     "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/React-jsinspector\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
-    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) EXPO_MODULES_CORE_VERSION=57.0.1",
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) EXPO_MODULES_CORE_VERSION=57.0.16",
     "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1  -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
     "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
   },
@@ -82,9 +82,10 @@
       "dependencies": {
         "ExpoModulesTestCore": []
       },
-      "source_files": "ios/Tests/**/*.{m,swift}",
+      "source_files": "ios/Tests/**/*.{h,m,mm,swift}",
       "pod_target_xcconfig": {
-        "OTHER_LDFLAGS": "$(inherited) -lc++"
+        "OTHER_LDFLAGS": "$(inherited) -lc++",
+        "SWIFT_OBJC_BRIDGING_HEADER": "$(PODS_TARGET_SRCROOT)/ios/Tests/Tests-Bridging-Header.h"
       }
     }
   ],

@@ -1,6 +1,6 @@
 {
   "name": "ExpoFont",
-  "version": "57.0.0",
+  "version": "57.0.3",
   "summary": "Load fonts at runtime and use them in React Native components.",
   "description": "Load fonts at runtime and use them in React Native components.",
   "license": "MIT",

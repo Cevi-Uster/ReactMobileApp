@@ -1,6 +1,6 @@
 {
   "name": "ExpoFileSystem",
-  "version": "57.0.0",
+  "version": "57.0.6",
   "summary": "Provides access to the local file system on the device.",
   "description": "Provides access to the local file system on the device.",
   "license": "MIT",

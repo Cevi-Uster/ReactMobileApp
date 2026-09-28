@@ -2,7 +2,7 @@
   "name": "React-NativeModulesApple",
   "module_name": "React_NativeModulesApple",
   "header_dir": "ReactCommon",
-  "version": "0.86.0",
+  "version": "0.86.3",
   "summary": "-",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -11,8 +11,8 @@
     "ios": "15.1"
   },
   "source": {
-    "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.86.0"
+    "git": "https://github.com/react/react-native.git",
+    "tag": "v0.86.3"
   },
   "pod_target_xcconfig": {
     "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/React-Core\" \"$(PODS_CONFIGURATION_BUILD_DIR)/React-debug/React_featureflags.framework/Headers\" \"${PODS_ROOT}/React-debug\" \"${PODS_ROOT}/React-runtimeexecutor\" \"${PODS_ROOT}/React-runtimeexecutor/platform/ios\" \"${PODS_ROOT}/React-featureflags\" \"${PODS_ROOT}/React-jsinspector\" \"${PODS_ROOT}/React-jsinspectorcdp\"",

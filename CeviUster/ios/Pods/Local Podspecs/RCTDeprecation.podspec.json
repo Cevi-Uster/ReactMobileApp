@@ -1,11 +1,11 @@
 {
   "name": "RCTDeprecation",
-  "version": "0.86.0",
+  "version": "0.86.3",
   "authors": "Meta Platforms, Inc. and its affiliates",
   "license": "MIT",
   "homepage": "https://reactnative.dev/",
   "source": {
-    "git": "https://github.com/facebook/react-native.git",
+    "git": "https://github.com/react/react-native.git",
     "tag": "v#{version}"
   },
   "summary": "Macros for marking APIs as deprecated",

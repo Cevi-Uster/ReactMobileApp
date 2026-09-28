@@ -1,6 +1,6 @@
 {
   "name": "React-RCTNetwork",
-  "version": "0.86.0",
+  "version": "0.86.3",
   "summary": "The networking library of React Native.",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -10,8 +10,8 @@
   },
   "compiler_flags": "-Wno-nullability-completeness",
   "source": {
-    "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.86.0"
+    "git": "https://github.com/react/react-native.git",
+    "tag": "v0.86.3"
   },
   "source_files": "",
   "preserve_paths": [

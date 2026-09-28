@@ -26,6 +26,9 @@ variant_for_slice()
   "hermesvm.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
+  "hermesvm.xcframework/macos-arm64_x86_64")
+    echo ""
+    ;;
   "hermesvm.xcframework/tvos-arm64")
     echo ""
     ;;
@@ -51,6 +54,9 @@ archs_for_slice()
     echo "arm64 x86_64"
     ;;
   "hermesvm.xcframework/ios-arm64_x86_64-simulator")
+    echo "arm64 x86_64"
+    ;;
+  "hermesvm.xcframework/macos-arm64_x86_64")
     echo "arm64 x86_64"
     ;;
   "hermesvm.xcframework/tvos-arm64")
