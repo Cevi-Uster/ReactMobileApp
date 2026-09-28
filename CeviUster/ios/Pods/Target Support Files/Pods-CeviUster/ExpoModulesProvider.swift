@@ -5,43 +5,50 @@
  * but only these that are written in Swift and use the new API for creating Expo modules.
  */
 
-import ExpoModulesCore
-import Expo
-import ExpoAsset
-import EXConstants
-import ExpoFileSystem
-import ExpoFont
-import ExpoHaptics
-import ExpoImage
-import ExpoKeepAwake
-import ExpoLinking
-import ExpoHead
-import ExpoSplashScreen
-import ExpoSymbols
-import ExpoSystemUI
-import ExpoWebBrowser
+internal import ExpoModulesCore
+internal import ExpoDomWebView
+internal import ExpoUI
+internal import Expo
+internal import ExpoAsset
+internal import EXConstants
+internal import ExpoFileSystem
+internal import ExpoFont
+internal import ExpoGlassEffect
+internal import ExpoHaptics
+internal import ExpoImage
+internal import ExpoKeepAwake
+internal import ExpoLinking
+internal import ExpoRouter
+internal import ExpoSplashScreen
+internal import ExpoSymbols
+internal import ExpoSystemUI
+internal import ExpoWebBrowser
 
 @objc(ExpoModulesProvider)
-public class ExpoModulesProvider: ModulesProvider {
-  public override func getModuleClasses() -> [AnyModule.Type] {
+internal class ExpoModulesProvider: ModulesProvider {
+  public override func getModuleClasses() -> [ExpoModuleTupleType] {
     return [
-      ExpoFetchModule.self,
-      AssetModule.self,
-      ConstantsModule.self,
-      FileSystemModule.self,
-      FileSystemLegacyModule.self,
-      FontLoaderModule.self,
-      FontUtilsModule.self,
-      HapticsModule.self,
-      ImageModule.self,
-      KeepAwakeModule.self,
-      ExpoLinkingModule.self,
-      ExpoHeadModule.self,
-      LinkPreviewNativeModule.self,
-      SplashScreenModule.self,
-      SymbolModule.self,
-      ExpoSystemUIModule.self,
-      WebBrowserModule.self
+      (module: DomWebViewModule.self, name: nil),
+      (module: ExpoUIModule.self, name: nil),
+      (module: ExpoFetchModule.self, name: nil),
+      (module: AssetModule.self, name: nil),
+      (module: ConstantsModule.self, name: nil),
+      (module: FileSystemModule.self, name: nil),
+      (module: FileSystemLegacyModule.self, name: nil),
+      (module: FontLoaderModule.self, name: nil),
+      (module: FontUtilsModule.self, name: nil),
+      (module: GlassEffectModule.self, name: nil),
+      (module: HapticsModule.self, name: nil),
+      (module: ImageModule.self, name: nil),
+      (module: KeepAwakeModule.self, name: nil),
+      (module: ExpoLinkingModule.self, name: nil),
+      (module: ExpoHeadModule.self, name: nil),
+      (module: LinkPreviewNativeModule.self, name: nil),
+      (module: RouterToolbarModule.self, name: nil),
+      (module: SplashScreenModule.self, name: nil),
+      (module: SymbolModule.self, name: nil),
+      (module: ExpoSystemUIModule.self, name: nil),
+      (module: WebBrowserModule.self, name: nil)
     ]
   }
 

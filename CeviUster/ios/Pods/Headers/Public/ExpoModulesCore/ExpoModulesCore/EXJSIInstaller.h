@@ -1,1 +1,1 @@
-../../../../../../node_modules/expo-modules-core/ios/JSI/EXJSIInstaller.h
+../../../../../../node_modules/expo-modules-core/ios/JS/EXJSIInstaller.h

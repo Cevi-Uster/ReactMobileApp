@@ -1,1 +1,1 @@
-../../../../../../node_modules/expo-modules-core/common/cpp/JSIUtils.h
+../../../../../../node_modules/expo-modules-core/common/cpp/JSI/JSIUtils.h
