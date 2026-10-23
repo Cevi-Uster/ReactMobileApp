@@ -28,7 +28,7 @@
     "expo-web-browser": "~57.0.2",
     "html-entities": "^2.6.0",
     "moment": "^2.30.1",
-    "react": "19.2.3",
+    "react": "19.3.0",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
     "react-native-alert-async": "^1.0.5",
@@ -45,7 +45,7 @@
     "validator": "^13.15.35"
   },
   "devDependencies": {
-    "@types/react": "~19.2.18",
+    "@types/react": "~19.3.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~57.0.2",
     "typescript": "~6.0.3"
