@@ -121,7 +121,12 @@ jobs:
         with:
           xcode-version: latest-stable
       - run: yarn install --frozen-lockfile --network-concurrency 1
-      # Pods/ is committed (built from source: RCT_USE_PREBUILT_RNCORE=0), so no pod install.
+      # Prebuilt React-Core lacks its module map, so build React Native from source.
+      - run: pod install
+        working-directory: CeviUster/ios
+        env:
+          RCT_USE_PREBUILT_RNCORE: '0'
+          RCT_USE_RN_DEP: '0'
       - name: Build for the simulator (no signing)
         working-directory: CeviUster/ios
         run: |
