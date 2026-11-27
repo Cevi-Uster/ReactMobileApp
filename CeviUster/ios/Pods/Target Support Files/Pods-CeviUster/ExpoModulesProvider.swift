@@ -7,7 +7,6 @@
 
 internal import ExpoModulesCore
 internal import ExpoDomWebView
-internal import ExpoUI
 internal import Expo
 internal import ExpoAsset
 internal import EXConstants
@@ -20,16 +19,24 @@ internal import ExpoKeepAwake
 internal import ExpoLinking
 internal import ExpoRouter
 internal import ExpoSplashScreen
+internal import ExpoStatusBar
 internal import ExpoSymbols
 internal import ExpoSystemUI
 internal import ExpoWebBrowser
 
 @objc(ExpoModulesProvider)
 internal class ExpoModulesProvider: ModulesProvider {
+  public override var packages: [String: ExpoPackage] {
+    return [
+      "expo-haptics": ExpoPackage(
+        modules: [HapticsModule.self]
+      )
+    ]
+  }
+
   public override func getModuleClasses() -> [ExpoModuleTupleType] {
     return [
       (module: DomWebViewModule.self, name: nil),
-      (module: ExpoUIModule.self, name: nil),
       (module: ExpoFetchModule.self, name: nil),
       (module: AssetModule.self, name: nil),
       (module: ConstantsModule.self, name: nil),
@@ -46,6 +53,7 @@ internal class ExpoModulesProvider: ModulesProvider {
       (module: LinkPreviewNativeModule.self, name: nil),
       (module: RouterToolbarModule.self, name: nil),
       (module: SplashScreenModule.self, name: nil),
+      (module: StatusBarModule.self, name: nil),
       (module: SymbolModule.self, name: nil),
       (module: ExpoSystemUIModule.self, name: nil),
       (module: WebBrowserModule.self, name: nil)

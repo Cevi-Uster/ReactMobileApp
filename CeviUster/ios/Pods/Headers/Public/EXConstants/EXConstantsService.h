@@ -1,1 +1,1 @@
-../../../../../node_modules/expo-constants/ios/EXConstantsService.h
+../../../../../node_modules/expo-constants/ios/EXConstantsObjC/include/EXConstants/EXConstantsService.h

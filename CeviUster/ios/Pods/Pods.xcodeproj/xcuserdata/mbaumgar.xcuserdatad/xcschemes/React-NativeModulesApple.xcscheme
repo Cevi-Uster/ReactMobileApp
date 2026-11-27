@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5807741745EB757C97C09F2D56726BE0"
-               BuildableName = "React-NativeModulesApple"
+               BuildableName = "libReact-NativeModulesApple.a"
                BlueprintName = "React-NativeModulesApple"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

@@ -1,6 +1,6 @@
 {
   "name": "EXConstants",
-  "version": "57.0.17",
+  "version": "58.0.16",
   "summary": "Provides system information that remains constant throughout the lifetime of your app.",
   "description": "Provides system information that remains constant throughout the lifetime of your app.",
   "license": "MIT",
@@ -26,7 +26,7 @@
   "source_files": "**/*.{h,m,swift}",
   "script_phases": {
     "name": "Generate app.config for prebuilt Constants.manifest",
-    "script": "bash -l -c \"$PODS_TARGET_SRCROOT/../scripts/get-app-config-ios.sh\"",
+    "script": "bash -l -c \"\\\"$PODS_TARGET_SRCROOT/../scripts/get-app-config-ios.sh\\\"\"",
     "execution_position": "before_compile",
     "always_out_of_date": "1"
   },

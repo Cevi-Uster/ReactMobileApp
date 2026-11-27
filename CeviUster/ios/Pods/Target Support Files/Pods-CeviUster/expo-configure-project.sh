@@ -52,4 +52,5 @@ with_node \
    \
   --podfile-properties-file-path "/Users/mbaumgar/Documents/Projekte/ReactMobileApp/CeviUster/ios/Podfile.properties.json" \
   --platform "apple" \
-  --packages "@expo/dom-webview" "@expo/ui" "expo" "expo-asset" "expo-constants" "expo-file-system" "expo-font" "expo-glass-effect" "expo-haptics" "expo-image" "expo-keep-awake" "expo-linking" "expo-router" "expo-splash-screen" "expo-symbols" "expo-system-ui" "expo-web-browser"
+  --target-platform "ios" \
+  --packages "@expo/dom-webview" "@expo/log-box" "expo" "expo-asset" "expo-constants" "expo-file-system" "expo-font" "expo-glass-effect" "expo-haptics" "expo-image" "expo-keep-awake" "expo-linking" "expo-modules-core" "expo-modules-jsi" "expo-router" "expo-splash-screen" "expo-status-bar" "expo-symbols" "expo-system-ui" "expo-web-browser"

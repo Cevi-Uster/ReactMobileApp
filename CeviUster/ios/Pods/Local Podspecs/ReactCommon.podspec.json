@@ -1,7 +1,7 @@
 {
   "name": "ReactCommon",
   "module_name": "ReactCommon",
-  "version": "0.86.3",
+  "version": "0.88.1",
   "summary": "-",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -10,76 +10,66 @@
     "ios": "15.1"
   },
   "source": {
-    "git": "https://github.com/react/react-native.git",
-    "tag": "v0.86.3"
+    "git": "https://github.com/facebook/react-native.git",
+    "tag": "v0.88.1"
   },
   "header_dir": "ReactCommon",
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/React-Core\" \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/fast_float/include\" \"$(PODS_ROOT)/fmt/include\" \"$(PODS_ROOT)/SocketRocket\" \"$(PODS_ROOT)/RCT-Folly\"",
     "USE_HEADERMAP": "YES",
     "DEFINES_MODULE": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
     "GCC_WARN_PEDANTIC": "YES",
-    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) RN_BUILDING=1"
   },
   "dependencies": {
-    "ReactNativeDependencies": [],
-    "React-Core-prebuilt": []
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   },
   "subspecs": [
     {
       "name": "turbomodule",
       "dependencies": {
         "React-callinvoker": [
-          "0.86.3"
+          "0.88.1"
         ],
         "React-perflogger": [
-          "0.86.3"
-        ],
-        "React-cxxreact": [
-          "0.86.3"
+          "0.88.1"
         ],
         "React-jsi": [
-          "0.86.3"
+          "0.88.1"
         ],
         "React-logger": [
-          "0.86.3"
+          "0.88.1"
         ],
         "hermes-engine": []
       },
       "subspecs": [
         {
-          "name": "bridging",
-          "dependencies": {
-            "React-jsi": [
-              "0.86.3"
-            ],
-            "hermes-engine": []
-          },
-          "source_files": "react/bridging/**/*.h",
-          "exclude_files": "react/bridging/tests",
-          "header_dir": "react/bridging",
-          "pod_target_xcconfig": {
-            "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/ReactCommon\""
-          }
-        },
-        {
           "name": "core",
-          "source_files": "react/nativemodule/core/ReactCommon/**/*.h",
+          "source_files": "react/nativemodule/core/ReactCommon/**/*.{cpp,h}",
           "pod_target_xcconfig": {
             "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/ReactCommon\" \"$(PODS_CONFIGURATION_BUILD_DIR)/React-debug/React_debug.framework/Headers\" \"$(PODS_CONFIGURATION_BUILD_DIR)/React-debug/React_featureflags.framework/Headers\" \"$(PODS_CONFIGURATION_BUILD_DIR)/React-utils/React_utils.framework/Headers\""
           },
           "dependencies": {
+            "React-bridging": [],
+            "React-cxxreact": [
+              "0.88.1"
+            ],
             "React-debug": [
-              "0.86.3"
+              "0.88.1"
             ],
             "React-featureflags": [
-              "0.86.3"
+              "0.88.1"
             ],
             "React-utils": [
-              "0.86.3"
+              "0.88.1"
             ]
           }
         }

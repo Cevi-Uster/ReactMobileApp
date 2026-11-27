@@ -1,1 +1,1 @@
-../../../../../node_modules/expo-constants/ios/EXConstantsInstallationIdProvider.h
+../../../../../node_modules/expo-constants/ios/EXConstantsObjC/include/EXConstants/EXConstantsInstallationIdProvider.h

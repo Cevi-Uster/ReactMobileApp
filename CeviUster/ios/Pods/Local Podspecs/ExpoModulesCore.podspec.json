@@ -1,6 +1,6 @@
 {
   "name": "ExpoModulesCore",
-  "version": "57.0.16",
+  "version": "58.2.0",
   "summary": "The core of Expo Modules architecture",
   "description": "The core of Expo Modules architecture",
   "license": "MIT",
@@ -20,11 +20,10 @@
     "DEFINES_MODULE": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
     "SWIFT_COMPILATION_MODE": "wholemodule",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/React-jsinspector\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
-    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) EXPO_MODULES_CORE_VERSION=57.0.16",
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1  -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED",
+    "HEADER_SEARCH_PATHS": "\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector/jsinspector_modern.framework/Headers\" \"$(PODS_ROOT)/Headers/Private/Yoga\" \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/fast_float/include\" \"$(PODS_ROOT)/fmt/include\" \"$(PODS_ROOT)/SocketRocket\" \"$(PODS_ROOT)/RCT-Folly\"",
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) EXPO_MODULES_CORE_VERSION=58.2.0",
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 "
   },
   "user_target_xcconfig": {
     "HEADER_SEARCH_PATHS": [
@@ -44,7 +43,7 @@
     "ReactCodegen": [],
     "RCTRequired": [],
     "RCTTypeSafety": [],
-    "ReactCommon/turbomodule/bridging": [],
+    "React-bridging": [],
     "Yoga": [],
     "React-Fabric": [],
     "React-graphics": [],
@@ -55,10 +54,17 @@
     "React-rendererdebug": [],
     "React-jsi": [],
     "React-renderercss": [],
-    "ReactNativeDependencies": [],
-    "React-Core-prebuilt": []
+    "React-cxxstableapi": [],
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   },
-  "compiler_flags": "-DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32 -DREACT_NATIVE_TARGET_VERSION=86 -DUSE_HERMES -DRCT_NEW_ARCH_ENABLED",
+  "compiler_flags": "-DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32 -DREACT_NATIVE_TARGET_VERSION=88 -DUSE_HERMES -DRCT_NEW_ARCH_ENABLED",
   "static_framework": true,
   "header_dir": "ExpoModulesCore",
   "source_files": [
@@ -67,6 +73,7 @@
   ],
   "exclude_files": [
     "ios/Tests",
+    "ios/Benchmarks",
     "ios/Worklets",
     "ios/WorkletsTests",
     "ios/WorkletsAdapter"
@@ -86,6 +93,17 @@
       "pod_target_xcconfig": {
         "OTHER_LDFLAGS": "$(inherited) -lc++",
         "SWIFT_OBJC_BRIDGING_HEADER": "$(PODS_TARGET_SRCROOT)/ios/Tests/Tests-Bridging-Header.h"
+      }
+    },
+    {
+      "name": "Benchmarks",
+      "test_type": "unit",
+      "dependencies": {
+        "ExpoModulesTestCore": []
+      },
+      "source_files": "ios/Benchmarks/**/*.swift",
+      "pod_target_xcconfig": {
+        "OTHER_LDFLAGS": "$(inherited) -lc++"
       }
     }
   ],

@@ -25,14 +25,13 @@ apply plugin: "com.facebook.react.rootproject"
 
 
 def getPassword(String currentUser, String keyChain) {
-  def stdout = new ByteArrayOutputStream()
-  def stderr = new ByteArrayOutputStream()
-  exec {
-    commandLine 'security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w'
-    standardOutput = stdout
-    errorOutput = stderr
-    ignoreExitValue true
+  try {
+    def proc = new ProcessBuilder('security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w')
+      .redirectErrorStream(false).start()
+    def out = proc.inputStream.text.trim()
+    proc.waitFor()
+    return out
+  } catch (Exception ignored) {
+    return ""
   }
-  //noinspection GroovyAssignabilityCheck
-  stdout.toString().trim()
 }

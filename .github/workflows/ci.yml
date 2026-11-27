@@ -1,0 +1,140 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: CeviUster
+
+jobs:
+  # macOS minutes cost 10x, so on pull requests the iOS build only runs when
+  # something that can affect it changed. Pushes to master always build it.
+  changes:
+    name: Detect iOS changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    timeout-minutes: 5
+    outputs:
+      ios: ${{ steps.filter.outputs.ios }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            ios:
+              - 'CeviUster/ios/**'
+              - 'CeviUster/package.json'
+              - 'CeviUster/yarn.lock'
+              - '.github/workflows/ci.yml'
+
+  js:
+    name: Lint, typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: CeviUster/yarn.lock
+      - run: yarn install --frozen-lockfile --network-concurrency 1
+      # Existing lint (8) and tsc (16) errors on master: reported, not blocking yet.
+      # Remove continue-on-error once they are fixed.
+      - run: yarn lint
+        continue-on-error: true
+      - run: npx tsc --noEmit
+        continue-on-error: true
+
+  android:
+    name: Android debug build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: CeviUster/yarn.lock
+      # AGP 9 / Gradle 9.4.1 need JDK 17 or 21.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      # The NDK download from Google occasionally arrives corrupt. Cache it and retry.
+      - uses: actions/cache@v4
+        id: ndk-cache
+        with:
+          path: /usr/local/lib/android/sdk/ndk/27.1.12297006
+          key: android-ndk-27.1.12297006
+      - name: Install the NDK (with retries)
+        if: steps.ndk-cache.outputs.cache-hit != 'true'
+        run: |
+          for attempt in 1 2 3; do
+            rm -rf "$ANDROID_HOME/ndk/27.1.12297006"
+            if yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;27.1.12297006"; then exit 0; fi
+            echo "NDK install attempt $attempt failed"; sleep 10
+          done
+          exit 1
+      # compileSdk 37 and its build tools are still on a preview channel of the SDK manager.
+      - name: Install the Android SDK platform and build tools (with retries)
+        run: |
+          for attempt in 1 2 3; do
+            if yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --channel=1 "platforms;android-37.0" "build-tools;37.0.0"; then exit 0; fi
+            echo "SDK install attempt $attempt failed"; sleep 10
+          done
+          exit 1
+      - run: yarn install --frozen-lockfile --network-concurrency 1
+      # One ABI is enough to prove the native build compiles.
+      - run: ./gradlew assembleDebug -PreactNativeArchitectures=x86_64
+        working-directory: CeviUster/android
+
+  ios:
+    name: iOS simulator build
+    needs: changes
+    if: github.event_name == 'push' || needs.changes.outputs.ios == 'true'
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: yarn
+          cache-dependency-path: CeviUster/yarn.lock
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - run: yarn install --frozen-lockfile --network-concurrency 1
+      # Prebuilt React-Core lacks its module map, so build React Native from source.
+      # Pods/ is committed only partly (no headers/support files); start clean.
+      - run: rm -rf Pods && pod install
+        working-directory: CeviUster/ios
+        env:
+          RCT_USE_PREBUILT_RNCORE: '0'
+          RCT_USE_RN_DEP: '0'
+      - name: Build for the simulator (no signing)
+        working-directory: CeviUster/ios
+        run: |
+          xcodebuild build \
+            -workspace CeviUster.xcworkspace \
+            -scheme CeviUster \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO

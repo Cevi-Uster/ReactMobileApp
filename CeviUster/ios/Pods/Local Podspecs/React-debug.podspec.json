@@ -1,6 +1,6 @@
 {
   "name": "React-debug",
-  "version": "0.86.3",
+  "version": "0.88.1",
   "summary": "-",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -9,19 +9,30 @@
     "ios": "15.1"
   },
   "source": {
-    "git": "https://github.com/react/react-native.git",
-    "tag": "v0.86.3"
+    "git": "https://github.com/facebook/react-native.git",
+    "tag": "v0.88.1"
   },
-  "source_files": "*.h",
+  "source_files": "*.{cpp,h}",
   "header_dir": "react/debug",
   "pod_target_xcconfig": {
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "DEFINES_MODULE": "YES"
+    "DEFINES_MODULE": "YES",
+    "HEADER_SEARCH_PATHS": "",
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) RN_BUILDING=1"
+  },
+  "dependencies": {
+    "React-cxxstableapi": []
   },
   "subspecs": [
     {
+      "name": "debugUmbrella",
+      "source_files": "React/*.h",
+      "header_dir": "",
+      "header_mappings_dir": "."
+    },
+    {
       "name": "redbox",
-      "source_files": "redbox/*.h",
+      "source_files": "redbox/*.{cpp,h}",
       "exclude_files": "redbox/tests/**/*.{cpp,h}",
       "header_dir": "react/debug/redbox"
     }

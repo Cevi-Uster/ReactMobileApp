@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#ifndef HERMES_PUBLIC_DEBUGGERTYPES_H
-#define HERMES_PUBLIC_DEBUGGERTYPES_H
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -84,7 +83,7 @@ struct StackTrace {
 
  private:
   explicit StackTrace(std::vector<CallFrameInfo> frames)
-      : frames_(std::move(frames)){};
+      : frames_(std::move(frames)) {};
   friend ProgramState;
   friend ::hermes::vm::Debugger;
   std::vector<CallFrameInfo> frames_;
@@ -192,5 +191,3 @@ struct BreakpointInfo {
 } // namespace debugger
 } // namespace hermes
 } // namespace facebook
-
-#endif

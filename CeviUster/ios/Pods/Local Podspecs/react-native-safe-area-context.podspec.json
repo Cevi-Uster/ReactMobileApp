@@ -1,6 +1,6 @@
 {
   "name": "react-native-safe-area-context",
-  "version": "5.7.0",
+  "version": "5.11.1",
   "summary": "A flexible way to handle safe area, also works on Android and web.",
   "license": "MIT",
   "authors": "Janic Duplessis <janicduplessis@gmail.com>",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/AppAndFlow/react-native-safe-area-context.git",
-    "tag": "v5.7.0"
+    "tag": "v5.11.1"
   },
   "source_files": "ios/**/*.{h,m,mm}",
   "exclude_files": "ios/Fabric",
@@ -23,7 +23,7 @@
     "ReactCodegen": [],
     "RCTRequired": [],
     "RCTTypeSafety": [],
-    "ReactCommon/turbomodule/bridging": [],
+    "React-bridging": [],
     "ReactCommon/turbomodule/core": [],
     "React-NativeModulesApple": [],
     "Yoga": [],
@@ -36,17 +36,23 @@
     "React-rendererdebug": [],
     "React-jsi": [],
     "React-renderercss": [],
+    "React-cxxstableapi": [],
     "hermes-engine": [],
-    "ReactNativeDependencies": [],
-    "React-Core-prebuilt": []
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   },
   "compiler_flags": "-DRCT_NEW_ARCH_ENABLED=1",
   "pod_target_xcconfig": {
     "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/Yoga\"",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1  -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 ",
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED"
   },
   "subspecs": [
     {

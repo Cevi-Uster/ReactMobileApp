@@ -1,6 +1,6 @@
 {
   "name": "ExpoFileSystem",
-  "version": "57.0.6",
+  "version": "58.0.15",
   "summary": "Provides access to the local file system on the device.",
   "description": "Provides access to the local file system on the device.",
   "license": "MIT",
@@ -28,5 +28,19 @@
     ]
   },
   "source_files": "**/*.{h,m,swift}",
+  "exclude_files": "Tests/",
+  "testspecs": [
+    {
+      "name": "Tests",
+      "test_type": "unit",
+      "dependencies": {
+        "ExpoModulesTestCore": []
+      },
+      "source_files": "Tests/**/*.{m,swift}",
+      "pod_target_xcconfig": {
+        "OTHER_LDFLAGS": "$(inherited) -lc++"
+      }
+    }
+  ],
   "swift_version": "5.9"
 }
