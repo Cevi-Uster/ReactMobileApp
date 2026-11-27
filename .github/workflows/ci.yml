@@ -122,7 +122,8 @@ jobs:
           xcode-version: latest-stable
       - run: yarn install --frozen-lockfile --network-concurrency 1
       # Prebuilt React-Core lacks its module map, so build React Native from source.
-      - run: pod install
+      # Pods/ is committed only partly (no headers/support files); start clean.
+      - run: rm -rf Pods && pod install
         working-directory: CeviUster/ios
         env:
           RCT_USE_PREBUILT_RNCORE: '0'
