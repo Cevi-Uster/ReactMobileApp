@@ -1,6 +1,6 @@
 {
   "name": "Expo",
-  "version": "57.0.20",
+  "version": "58.1.0",
   "summary": "The Expo SDK",
   "description": "The Expo SDK",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "ReactCodegen": [],
     "RCTRequired": [],
     "RCTTypeSafety": [],
-    "ReactCommon/turbomodule/bridging": [],
+    "React-bridging": [],
     "ReactCommon/turbomodule/core": [],
     "React-NativeModulesApple": [],
     "Yoga": [],
@@ -40,16 +40,22 @@
     "React-rendererdebug": [],
     "React-jsi": [],
     "React-renderercss": [],
+    "React-cxxstableapi": [],
     "hermes-engine": [],
-    "ReactNativeDependencies": [],
-    "React-Core-prebuilt": []
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
   },
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/React-Core\" \"$(PODS_ROOT)/DoubleConversion\" \"${PODS_CONFIGURATION_BUILD_DIR}/ExpoModulesCore/Swift Compatibility Header\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
+    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/React-Core\" \"$(PODS_ROOT)/DoubleConversion\" \"${PODS_CONFIGURATION_BUILD_DIR}/ExpoModulesCore/Swift Compatibility Header\" \"$(PODS_ROOT)/Headers/Private/Yoga\" \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/fast_float/include\" \"$(PODS_ROOT)/fmt/include\" \"$(PODS_ROOT)/SocketRocket\" \"$(PODS_ROOT)/RCT-Folly\"",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1  -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 ",
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED"
   },
   "user_target_xcconfig": {
     "HEADER_SEARCH_PATHS": [
@@ -70,7 +76,10 @@
       "dependencies": {
         "ExpoModulesTestCore": []
       },
-      "source_files": "ios/Tests"
+      "source_files": "ios/Tests",
+      "pod_target_xcconfig": {
+        "OTHER_LDFLAGS": "$(inherited) -lc++"
+      }
     }
   ],
   "swift_version": "6.0"

@@ -1,6 +1,6 @@
 {
   "name": "RCTTypeSafety",
-  "version": "0.86.3",
+  "version": "0.88.1",
   "summary": "-",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -9,25 +9,26 @@
     "ios": "15.1"
   },
   "source": {
-    "git": "https://github.com/react/react-native.git",
-    "tag": "v0.86.3"
+    "git": "https://github.com/facebook/react-native.git",
+    "tag": "v0.88.1"
   },
-  "source_files": "**/*.h",
+  "source_files": "**/*.{c,h,m,mm,cpp}",
   "header_dir": "RCTTypeSafety",
   "pod_target_xcconfig": {
     "USE_HEADERMAP": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/Libraries/TypeSafety\""
+    "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/Libraries/TypeSafety\"",
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) RN_BUILDING=1"
   },
   "dependencies": {
     "FBLazyVector": [
-      "0.86.3"
+      "0.88.1"
     ],
     "RCTRequired": [
-      "0.86.3"
+      "0.88.1"
     ],
     "React-Core": [
-      "0.86.3"
+      "0.88.1"
     ]
   }
 }

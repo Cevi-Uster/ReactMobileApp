@@ -1,6 +1,6 @@
 {
   "name": "React-featureflags",
-  "version": "0.86.3",
+  "version": "0.88.1",
   "summary": "React Native internal feature flags",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -9,21 +9,34 @@
     "ios": "15.1"
   },
   "source": {
-    "git": "https://github.com/react/react-native.git",
-    "tag": "v0.86.3"
+    "git": "https://github.com/facebook/react-native.git",
+    "tag": "v0.88.1"
   },
-  "source_files": "*.h",
+  "source_files": "*.{cpp,h}",
   "header_dir": "react/featureflags",
   "pod_target_xcconfig": {
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "HEADER_SEARCH_PATHS": "",
+    "HEADER_SEARCH_PATHS": " \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/fast_float/include\" \"$(PODS_ROOT)/fmt/include\" \"$(PODS_ROOT)/SocketRocket\" \"$(PODS_ROOT)/RCT-Folly\"",
     "DEFINES_MODULE": "YES",
-    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) RN_BUILDING=1"
   },
   "dependencies": {
-    "ReactNativeDependencies": [],
-    "React-Core-prebuilt": []
-  }
+    "React-cxxstableapi": [],
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
+  },
+  "subspecs": [
+    {
+      "name": "featureflagsUmbrella",
+      "source_files": "React/*.h",
+      "header_dir": "",
+      "header_mappings_dir": "."
+    }
+  ]
 }

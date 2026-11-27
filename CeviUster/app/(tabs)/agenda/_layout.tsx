@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 
 export default function AgendaStack() {
   return (
-    <Stack>
+    <Stack screenOptions={{ headerTransparent: false, headerShadowVisible: true }}>
       <Stack.Screen 
         name="agendaCategories" 
         options={{

@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#ifndef HERMES_PUBLIC_RUNTIMECONFIG_H
-#define HERMES_PUBLIC_RUNTIMECONFIG_H
+#pragma once
 
 #include "hermes/Public/CrashManager.h"
 #include "hermes/Public/CtorConfig.h"
@@ -120,6 +119,18 @@ class PinnedHermesValue;
                                                                        \
   /* The flags passed from a VM experiment */                          \
   F(constexpr, uint32_t, VMExperimentFlags, 0)                         \
+                                                                       \
+  /* Force JIT compilation on all functions. */                        \
+  F(constexpr, bool, ForceJIT, false)                                  \
+                                                                       \
+  /* JIT compilation threshold (number of calls before JIT'ing). */    \
+  F(constexpr, uint32_t, JITThreshold, 1 << 5)                         \
+                                                                       \
+  /* JIT memory limit, after which no more code will be JIT'ed. */     \
+  F(constexpr, uint32_t, JITMemoryLimit, 32u << 20)                    \
+                                                                       \
+  /* Increase compliance with test262 (stricter checks at runtime). */ \
+  F(constexpr, bool, Test262, false)                                   \
   /* RUNTIME_FIELDS END */
 
 _HERMES_CTORCONFIG_STRUCT(RuntimeConfig, RUNTIME_FIELDS, {})
@@ -128,5 +139,3 @@ _HERMES_CTORCONFIG_STRUCT(RuntimeConfig, RUNTIME_FIELDS, {})
 
 } // namespace vm
 } // namespace hermes
-
-#endif // HERMES_PUBLIC_RUNTIMECONFIG_H

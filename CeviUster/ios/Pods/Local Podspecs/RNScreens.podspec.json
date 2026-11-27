@@ -1,6 +1,6 @@
 {
   "name": "RNScreens",
-  "version": "4.26.2",
+  "version": "4.30.1",
   "summary": "Native navigation primitives for your React Native app.",
   "description": "RNScreens - first incomplete navigation solution for your React Native app",
   "homepage": "https://github.com/software-mansion/react-native-screens",
@@ -15,20 +15,18 @@
   },
   "source": {
     "git": "https://github.com/software-mansion/react-native-screens.git",
-    "tag": "4.26.2"
+    "tag": "4.30.1"
   },
   "source_files": [
-    "ios/**/*.{h,m,mm,cpp,swift}"
+    "ios/**/*.{h,m,mm,cpp}"
   ],
-  "project_header_files": "ios/bridging/Swift-Bridging.h",
   "requires_arc": true,
-  "exclude_files": "ios/gamma/**/*.{h,m,mm,cpp,swift}",
+  "exclude_files": "ios/gamma/**/*.{h,m,mm,cpp}",
   "pod_target_xcconfig": {
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited)  -DRCT_NEW_ARCH_ENABLED=1  -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_SWIFT_FLAGS": "$(inherited)  -DRCT_NEW_ARCH_ENABLED -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/Yoga\"",
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited)  -DRCT_NEW_ARCH_ENABLED=1 ",
+    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/Headers/Private/Yoga\" \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/fast_float/include\" \"$(PODS_ROOT)/fmt/include\" \"$(PODS_ROOT)/SocketRocket\" \"$(PODS_ROOT)/RCT-Folly\"",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED"
   },
   "compiler_flags": "-DRCT_NEW_ARCH_ENABLED=1",
   "dependencies": {
@@ -37,7 +35,7 @@
     "ReactCodegen": [],
     "RCTRequired": [],
     "RCTTypeSafety": [],
-    "ReactCommon/turbomodule/bridging": [],
+    "React-bridging": [],
     "ReactCommon/turbomodule/core": [],
     "React-NativeModulesApple": [],
     "Yoga": [],
@@ -50,9 +48,16 @@
     "React-rendererdebug": [],
     "React-jsi": [],
     "React-renderercss": [],
+    "React-cxxstableapi": [],
     "hermes-engine": [],
-    "ReactNativeDependencies": [],
-    "React-Core-prebuilt": [],
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": [],
     "React-RCTImage": []
   },
   "subspecs": [

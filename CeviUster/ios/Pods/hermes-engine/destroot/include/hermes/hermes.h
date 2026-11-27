@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#ifndef HERMES_HERMES_H
-#define HERMES_HERMES_H
+#pragma once
 
 #include <exception>
 #include <list>
@@ -30,6 +29,7 @@ namespace hermes {
 namespace vm {
 class GCExecTrace;
 class Runtime;
+class SerializedValue;
 } // namespace vm
 } // namespace hermes
 
@@ -172,6 +172,28 @@ class HERMES_EXPORT IHermesTestHelpers : public jsi::ICast {
   ~IHermesTestHelpers() = default;
 };
 
+#ifdef JSI_UNSTABLE
+// Interface for methods that are exposed for tracing purposes.
+class IHermesTracingHelpers : public jsi::ICast {
+ public:
+  static constexpr jsi::UUID uuid{
+      0x74ac2c4e,
+      0xc660,
+      0x11f0,
+      0x8de9,
+      0x0242ac120002};
+
+  // Returns the secret for obtaining the underlying SerializedValue object
+  virtual const ::hermes::vm::SerializedValue *getHermesSerializedValue(
+      const jsi::Serialized &serialized) const = 0;
+  virtual const std::shared_ptr<jsi::Serialized> makeSerialized(
+      ::hermes::vm::SerializedValue &value) const = 0;
+
+ protected:
+  ~IHermesTracingHelpers() = default;
+};
+#endif
+
 class HermesRuntime : public jsi::Runtime,
                       public IHermes,
                       public IHermesSHUnit {
@@ -218,5 +240,3 @@ makeThreadSafeHermesRuntime(
         ::hermes::vm::RuntimeConfig());
 } // namespace hermes
 } // namespace facebook
-
-#endif

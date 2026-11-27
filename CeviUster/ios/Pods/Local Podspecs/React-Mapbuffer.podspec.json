@@ -1,6 +1,6 @@
 {
   "name": "React-Mapbuffer",
-  "version": "0.86.3",
+  "version": "0.88.1",
   "summary": "-",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -9,24 +9,40 @@
     "ios": "15.1"
   },
   "source": {
-    "git": "https://github.com/react/react-native.git",
-    "tag": "v0.86.3"
+    "git": "https://github.com/facebook/react-native.git",
+    "tag": "v0.88.1"
   },
-  "source_files": "react/renderer/mapbuffer/*.h",
-  "exclude_files": "react/renderer/mapbuffer/tests",
+  "source_files": "react/renderer/mapbuffer/*.{cpp,h}",
+  "exclude_files": [
+    "react/renderer/mapbuffer/tests",
+    "react/renderer/mapbuffer/React"
+  ],
   "public_header_files": "react/renderer/mapbuffer/*.h",
   "header_dir": "react/renderer/mapbuffer",
   "pod_target_xcconfig": {
-    "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)\" \"${PODS_ROOT}/React-debug\"",
+    "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)\" \"${PODS_CONFIGURATION_BUILD_DIR}/React-debug/React_debug.framework/Headers\" \"$(PODS_ROOT)/glog\" \"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/fast_float/include\" \"$(PODS_ROOT)/fmt/include\" \"$(PODS_ROOT)/SocketRocket\" \"$(PODS_ROOT)/RCT-Folly\"",
     "USE_HEADERMAP": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "OTHER_CFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -ivfsoverlay $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -Xcc -ivfsoverlay -Xcc $(PODS_ROOT)/React-Core-prebuilt/React-VFS.yaml"
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) RN_BUILDING=1"
   },
   "dependencies": {
+    "React-cxxstableapi": [],
     "React-debug": [],
-    "ReactNativeDependencies": [],
-    "React-Core-prebuilt": []
-  }
+    "glog": [],
+    "boost": [],
+    "DoubleConversion": [],
+    "fast_float": [],
+    "fmt": [],
+    "RCT-Folly": [],
+    "SocketRocket": [],
+    "RCT-Folly/Fabric": []
+  },
+  "subspecs": [
+    {
+      "name": "mapbufferUmbrella",
+      "source_files": "react/renderer/mapbuffer/React/*.h",
+      "header_dir": "",
+      "header_mappings_dir": "react/renderer/mapbuffer"
+    }
+  ]
 }

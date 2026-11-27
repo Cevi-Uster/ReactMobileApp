@@ -1,6 +1,6 @@
 {
   "name": "React-RCTLinking",
-  "version": "0.86.3",
+  "version": "0.88.1",
   "summary": "A general interface to interact with both incoming and outgoing app links.",
   "homepage": "https://reactnative.dev/",
   "documentation_url": "https://reactnative.dev/docs/linking",
@@ -11,10 +11,10 @@
   },
   "compiler_flags": "-Wno-nullability-completeness",
   "source": {
-    "git": "https://github.com/react/react-native.git",
-    "tag": "v0.86.3"
+    "git": "https://github.com/facebook/react-native.git",
+    "tag": "v0.88.1"
   },
-  "source_files": "",
+  "source_files": "*.{m,mm}",
   "preserve_paths": [
     "package.json",
     "LICENSE",
@@ -24,18 +24,19 @@
   "pod_target_xcconfig": {
     "USE_HEADERMAP": "YES",
     "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
-    "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/Headers/Public/ReactCodegen/react/renderer/components\" \"${PODS_ROOT}/React-RCTFBReactNativeSpec\" \"${PODS_ROOT}/ReactCommon\" \"${PODS_ROOT}/ReactCommon/react/nativemodule/core\" \"${PODS_ROOT}/React-NativeModulesApple\" \"${PODS_ROOT}/React-NativeModulesApple/build/generated/ios\""
+    "HEADER_SEARCH_PATHS": "\"${PODS_ROOT}/Headers/Public/ReactCodegen/react/renderer/components\" \"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTFBReactNativeSpec/React_RCTFBReactNativeSpec.framework/Headers\" \"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers\" \"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core\" \"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers\" \"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers/build/generated/ios\"",
+    "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) RN_BUILDING=1"
   },
   "frameworks": "UIKit",
   "dependencies": {
     "React-Core/RCTLinkingHeaders": [
-      "0.86.3"
+      "0.88.1"
     ],
     "ReactCommon/turbomodule/core": [
-      "0.86.3"
+      "0.88.1"
     ],
     "React-jsi": [
-      "0.86.3"
+      "0.88.1"
     ],
     "React-RCTFBReactNativeSpec": [],
     "ReactCommon": [],

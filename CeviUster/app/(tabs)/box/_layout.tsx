@@ -2,7 +2,7 @@ import React from 'react';
 import { Stack } from 'expo-router';
 export default function BoxStack() {
   return (
-    <Stack>
+    <Stack screenOptions={{ headerTransparent: false, headerShadowVisible: true }}>
       <Stack.Screen 
         name="stufen" 
         options={{
