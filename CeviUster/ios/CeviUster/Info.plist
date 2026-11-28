@@ -49,6 +49,10 @@
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Cevi Uster möchte auf deinen Kalender zugreifen, um Ereignisse hinzuzufügen.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Cevi Uster möchte auf deinen Kalender zugreifen, um Ereignisse hinzuzufügen.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>Cevi Uster möchte auf deinen Kalender zugreifen, um Ereignisse hinzuzufügen.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>

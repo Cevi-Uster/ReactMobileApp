@@ -1,13 +1,12 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Image, StyleSheet, useColorScheme } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Image, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-import { Colors } from '@/constants/Colors';
+import { useThemeColors } from '@/hooks/use-theme-colors';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const tintColor = Colors[colorScheme ?? 'light'].tint;
+  const tintColor = useThemeColors().primary;
 
   return (
     <Tabs
@@ -37,7 +36,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? 'calendar' : 'calendar-outline'}
               size={24}
-              color={color}
+              color={color as string}
             />
           ),
         }}
@@ -51,7 +50,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? 'bonfire' : 'bonfire-outline'}
               size={24}
-              color={color}
+              color={color as string}
             />
           ),
         }}
@@ -64,7 +63,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? 'at' : 'at-outline'}
               size={24}
-              color={color}
+              color={color as string}
             />
           ),
         }}
@@ -77,7 +76,7 @@ export default function TabLayout() {
             <Ionicons
               name={focused ? 'shield' : 'shield-outline'}
               size={24}
-              color={color}
+              color={color as string}
             />
           ),
         }}

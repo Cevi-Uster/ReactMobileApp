@@ -46,13 +46,12 @@ No CSS-in-JS library. Uses `StyleSheet.create` with explicit `lightStyles`/`dark
 ### Key libraries
 - `react-native-webview` — three of the five tabs are WebViews
 - `react-native-calendar-events` — calendar integration for agenda events (requires permission)
-- `react-native-elements` — ListItem, Button, Icon, Avatar, CheckBox
-- `moment` — date formatting
+- `components/ui/` — eigene ListRow, PrimaryButton, Checkbox, StateView, AppWebView (ersetzen `react-native-elements`)
 - `validator` — email validation in dropout form
 
 ### New Architecture
 Both iOS and Android run React Native's New Architecture (Fabric/JSI) with Hermes. `reactCompiler: true` and `typedRoutes: true` are enabled in `app.json`.
 
 ## Notable issues
-- `react-query` v3 is listed in `package.json` alongside `@tanstack/react-query` v5 — only the v5 package is actually used in code.
-- `components/providers.tsx` is dead code (duplicate `QueryClientProvider` not wired up).
+- Nach Entfernen von `react-native-elements`, `react-native-vector-icons`, `expo-haptics`, `expo-symbols`: `pod install` in `CeviUster/ios/` ausführen (Pods sind eingecheckt).
+- Tests: `yarn test` (node:test, nur `utils/`).

@@ -1,46 +1,55 @@
-import { decode } from "html-entities";
-import moment from "moment";
-import URLs from "../../constants/URLs";
-import { Info } from "./infoService.d";
+import { decode } from 'html-entities';
+import URLs from '../../constants/URLs';
+import { fetchJson } from '../http';
 
-export default async function fetchInfoData(stufenId: string, stufenName: string) {
-  var promise = new Promise(function(resolve, reject) {
-    const url = `${URLs.INFOBOX_BASE_URL}chaeschtlizettel/${stufenId}`;
-    console.log(`Try to load info from URL: ${url}`);
-    const load = async () => {
-      const chaeschliResponse = await fetch(url, {
-        headers: {
-          Accept: "application/json"
-        }
-      });
-      console.log("Fetch finished");
-      const json = await chaeschliResponse.json();
-      if (json !== undefined && json !== null) {
-        var expiryMoment = moment(Date.parse(json.bis)).endOf('day');
-        let isActual: boolean = moment().diff(expiryMoment) < 0;
-        const info: Info = {
-          stufe: stufenName,
-          aktuell: isActual,
-          infos: isActual ? decode(json.infos) : 'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.',
-          von: isActual ? new Date(Date.parse(json.von)) : null,
-          bis: isActual ? new Date(Date.parse(json.bis)) : null,
-          wo: isActual ? decode(json.wo) : null,
-          mitnehmen: decode(decode(json.mitnehmen)),
-          email: decode(decode(json.email)),
-        };
-        console.log(info.von);
-        resolve(info);
-      } else {
-        const info: Info = {
-          stufe: stufenName,
-          aktuell: false,
-          infos: 'Bei der Dateabfrage ist ein Fehler aufgetreten. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.',
-        };
-        resolve(info);
-      }
-    };
-    load(); 
-  });
-  
-  return promise;   
+export type Info = {
+  stufe: string;
+  aktuell: boolean;
+  von?: Date;
+  bis?: Date;
+  wo?: string;
+  infos?: string;
+  mitnehmen?: string;
+  email?: string;
+};
+
+type ChaeschtliResponse = {
+  von?: string;
+  bis?: string;
+  wo?: string;
+  infos?: string;
+  mitnehmen?: string;
+  email?: string;
+};
+
+const NO_INFO_TEXT =
+  'Keine aktuelle Informationen verfügbar. Wende dich bei Fragen bitte an den Stufenleiter / die Stufenleiterin.';
+
+export default async function fetchInfoData(stufenId: string, stufenName: string): Promise<Info> {
+  const json = await fetchJson<ChaeschtliResponse | null>(
+    `${URLs.INFOBOX_BASE_URL}chaeschtlizettel/${stufenId}`,
+    { headers: { Accept: 'application/json' } }
+  );
+  if (!json) {
+    throw new Error('Keine Daten erhalten');
+  }
+
+  const bis = json.bis ? new Date(Date.parse(json.bis)) : undefined;
+  let isActual = false;
+  if (bis && !Number.isNaN(bis.getTime())) {
+    const expiry = new Date(bis);
+    expiry.setHours(23, 59, 59, 999);
+    isActual = Date.now() < expiry.getTime();
+  }
+
+  return {
+    stufe: stufenName,
+    aktuell: isActual,
+    infos: isActual ? decode(json.infos ?? '') : NO_INFO_TEXT,
+    von: isActual && json.von ? new Date(Date.parse(json.von)) : undefined,
+    bis: isActual ? bis : undefined,
+    wo: isActual ? decode(json.wo ?? '') : undefined,
+    mitnehmen: decode(decode(json.mitnehmen ?? '')),
+    email: decode(decode(json.email ?? '')),
+  };
 }

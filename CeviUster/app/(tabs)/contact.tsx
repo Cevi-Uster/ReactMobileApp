@@ -1,12 +1,6 @@
-import { WebView } from 'react-native-webview';
-import URLs from '../../constants/URLs';
+import AppWebView from '@/components/ui/AppWebView';
+import URLs from '@/constants/URLs';
 
-export default function Contact() {
-  const styles = require('../../constants/ViewStyles');
-  return (
-    <WebView
-      style={styles.container}
-      source={{ uri: URLs.CONTACT_URL }}
-    />
-  );
+export default function Screen() {
+  return <AppWebView uri={URLs.CONTACT_URL} />;
 }

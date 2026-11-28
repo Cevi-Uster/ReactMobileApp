@@ -41,7 +41,7 @@ jobs:
               - '.github/workflows/ci.yml'
 
   js:
-    name: Lint, typecheck
+    name: Lint, typecheck, test
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -52,12 +52,9 @@ jobs:
           cache: yarn
           cache-dependency-path: CeviUster/yarn.lock
       - run: yarn install --frozen-lockfile --network-concurrency 1
-      # Existing lint (8) and tsc (16) errors on master: reported, not blocking yet.
-      # Remove continue-on-error once they are fixed.
       - run: yarn lint
-        continue-on-error: true
       - run: npx tsc --noEmit
-        continue-on-error: true
+      - run: yarn test
 
   android:
     name: Android debug build
