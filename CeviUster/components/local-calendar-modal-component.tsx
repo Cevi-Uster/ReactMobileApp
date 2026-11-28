@@ -43,7 +43,7 @@ function LocalCalendarModalComponent({
       <TouchableWithoutFeedback accessible={false} onPress={closeModal}>
         <View style={styles.backdrop}>
           <TouchableWithoutFeedback>
-            <View style={[styles.body, { backgroundColor: colors.background }]}>
+            <View style={[styles.body, { backgroundColor: colors.card, borderColor: colors.border }]}>
               <Text style={[styles.title, { color: colors.text }]}>{label}</Text>
               {loading ? <ActivityIndicator color={colors.primary} style={styles.status} /> : null}
               {errorMessage ? <Text style={[styles.status, { color: colors.error }]}>{errorMessage}</Text> : null}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.7)',
   },
-  body: { flexShrink: 1, padding: 12, borderRadius: 8 },
+  body: { flexShrink: 1, padding: 12, borderRadius: 8, borderWidth: 1 },
   title: { fontSize: 18, fontWeight: 'bold', marginBottom: 8 },
   status: { marginVertical: 10 },
   entry: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12 },

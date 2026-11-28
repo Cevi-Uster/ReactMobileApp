@@ -7,6 +7,7 @@ export type ThemeColors = {
   text: string;
   subtle: string;
   background: string;
+  card: string;
   border: string;
   inputBorder: string;
   primary: string;
@@ -19,6 +20,7 @@ export const Colors: { light: ThemeColors; dark: ThemeColors } = {
     text: '#000000',
     subtle: '#555555',
     background: '#ffffff',
+    card: '#ffffff',
     border: '#d9d9d9',
     inputBorder: '#cccccc',
     primary: COLOR_PRIMARY,
@@ -29,6 +31,7 @@ export const Colors: { light: ThemeColors; dark: ThemeColors } = {
     text: '#ffffff',
     subtle: '#aaaaaa',
     background: '#000000',
+    card: '#1c1c1e',
     border: '#333333',
     inputBorder: '#555555',
     primary: COLOR_PRIMARY,
