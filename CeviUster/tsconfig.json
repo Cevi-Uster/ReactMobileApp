@@ -18,5 +18,6 @@
     "app/**/*.tsx",
     "components/**/*.ts",
     "components/**/*.tsx"
-  ]
+  ],
+  "exclude": ["**/*.test.ts", "node_modules", "dist"]
 }

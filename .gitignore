@@ -6,3 +6,4 @@ CeviUster/android/local.properties
 *.hprof
 CeviUster/android/app/release
 .DS_Store
+.watchman-cookie-*

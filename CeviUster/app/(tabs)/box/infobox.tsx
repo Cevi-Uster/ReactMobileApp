@@ -1,170 +1,72 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Image,
-  useColorScheme,
-} from "react-native";
-import { Button } from "react-native-elements";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import { COLOR_PRIMARY, BORDER_RADIUS } from "../../../constants/Colors";
-import { sharedStyles } from "../../../constants/sharedStyles";
-import { Info } from "../../../services/box/infoService.d";
-import fetchInfoData from "../../../services/box/infoService";
+import React, { useLayoutEffect } from 'react';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import { useQuery } from '@tanstack/react-query';
+import PrimaryButton from '@/components/ui/PrimaryButton';
+import { ErrorView, LoadingView } from '@/components/ui/StateView';
+import { useThemeColors } from '@/hooks/use-theme-colors';
+import { sharedStyles } from '../../../constants/sharedStyles';
+import fetchInfoData, { Info } from '../../../services/box/infoService';
 
-const baseStyles = StyleSheet.create({
-  ...sharedStyles,
-  header: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  ort: {
-    marginTop: 5,
-    fontSize: 14,
-  },
-  info: {
-    marginTop: 5,
-    fontSize: 14,
-  },
-  mitnehmen: {
-    marginTop: 5,
-    fontSize: 14,
-  },
-  dropOutButton: {
-    marginTop: 10,
-  },
-});
+const pad = (n: number) => String(n).padStart(2, '0');
 
-const lightstyles = StyleSheet.create({
-  ...baseStyles,
-  title: {
-    ...sharedStyles.title,
-    color: "black",
-  },
-  header: {
-    ...baseStyles.header,
-    color: "black",
-  },
-  ort: {
-    ...baseStyles.ort,
-    color: "black",
-  },
-  info: {
-    ...baseStyles.info,
-    color: "black",
-  },
-  mitnehmen: {
-    ...baseStyles.mitnehmen,
-    color: "black",
-  },
-});
-
-const darkstyles = StyleSheet.create({
-  ...baseStyles,
-  title: {
-    ...sharedStyles.title,
-    color: "white",
-  },
-  header: {
-    ...baseStyles.header,
-    color: "white",
-  },
-  ort: {
-    ...baseStyles.ort,
-    color: "white",
-  },
-  info: {
-    ...baseStyles.info,
-    color: "white",
-  },
-  mitnehmen: {
-    ...baseStyles.mitnehmen,
-    color: "white",
-  },
-});
+function formatInfoDateTime(info: Info): string {
+  let dateTime = '';
+  if (info.von) {
+    dateTime = `${pad(info.von.getDate())}.${pad(info.von.getMonth() + 1)}.${info.von.getFullYear()} ${pad(info.von.getHours())}:${pad(info.von.getMinutes())}`;
+  }
+  if (info.bis) {
+    dateTime = `${dateTime} - ${pad(info.bis.getHours())}:${pad(info.bis.getMinutes())}`;
+  }
+  return dateTime;
+}
 
 export default function InfoBox() {
-  const { parentStufe, title } = useLocalSearchParams<{
-    parentStufe: string;
-    title: string;
-  }>();
-
-  const styles = useColorScheme() === "dark" ? darkstyles : lightstyles;
-  const [info, setInfo] = useState<Info | null>(null);
-
+  const { parentStufe, title } = useLocalSearchParams<{ parentStufe: string; title: string }>();
+  const colors = useThemeColors();
   const navigation = useNavigation();
+
   useLayoutEffect(() => {
     if (title) {
       navigation.setOptions({ title });
     }
   }, [navigation, title]);
 
-  useEffect(() => {
-    if (parentStufe && title) {
-      fetchInfoData(parentStufe, title).then((res) => {
-        setInfo(res as Info); // Cast `res` to `Info` to resolve type error
-      });
-    }
-  }, [parentStufe, title]);
+  const { data: info, isPending, isError, error, refetch } = useQuery({
+    queryKey: ['chaeschtlizettel', parentStufe, title],
+    queryFn: () => fetchInfoData(parentStufe, title),
+    enabled: !!parentStufe && !!title,
+  });
 
-  if (!info) return null;
+  if (isPending) return <LoadingView />;
+  if (isError) return <ErrorView message={error.message} onRetry={() => refetch()} />;
 
-  let dateTime = "";
-  if (info.von instanceof Date) {
-    const fromDay = ("0" + info.von.getDate()).slice(-2);
-    const fromMonth = ("0" + (info.von.getMonth() + 1)).slice(-2);
-    const fromHours = ("0" + info.von.getHours()).slice(-2);
-    const fromMinutes = ("0" + info.von.getMinutes()).slice(-2);
-    dateTime = `${fromDay}.${fromMonth}.${info.von.getFullYear()} ${fromHours}:${fromMinutes}`;
-  }
-
-  if (info.bis instanceof Date) {
-    const toHours = ("0" + info.bis.getHours()).slice(-2);
-    const toMinutes = ("0" + info.bis.getMinutes()).slice(-2);
-    dateTime = `${dateTime} - ${toHours}:${toMinutes}`;
-  }
+  const text = { color: colors.text };
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Image
-          style={styles.icon}
-          source={require("../../../assets/images/CeviLogoTransparent.png")}
-        />
-        <View style={styles.content}>
-          <Text style={styles.title}>{info.stufe}</Text>
+      <View style={sharedStyles.container}>
+        <Image style={sharedStyles.icon} source={require('../../../assets/images/CeviLogoTransparent.png')} />
+        <View style={sharedStyles.content}>
+          <Text style={[sharedStyles.title, text]}>{info.stufe}</Text>
           {info.aktuell && (
             <>
-              <Text style={styles.header}>{"\n"}Treffpunkt:</Text>
-              <Text style={styles.date}>{dateTime}</Text>
-              <Text style={styles.ort}>{info.wo}</Text>
-              <Text style={styles.header}>{"\n"}Infos:</Text>
-              <Text style={styles.info}>{info.infos}</Text>
-              <Text style={styles.header}>{"\n"}Mitnehmen:</Text>
-              <Text style={styles.mitnehmen}>{info.mitnehmen}</Text>
-              <View style={styles.buttonview}>
-                <Button
-                  style={styles.dropOutButton}
-                  onPress={() => dropOutButtonClicked(info)}
-                  buttonStyle={{
-                    backgroundColor: COLOR_PRIMARY,
-                    width: 140,
-                    height: 50,
-                    borderColor: "transparent",
-                    borderWidth: 0,
-                    borderRadius: BORDER_RADIUS,
-                  }}
-                  title="Abmelden"
-                />
+              <Text style={[styles.header, text]}>{'\n'}Treffpunkt:</Text>
+              <Text style={[sharedStyles.date, { color: colors.accent }]}>{formatInfoDateTime(info)}</Text>
+              <Text style={[styles.body, text]}>{info.wo}</Text>
+              <Text style={[styles.header, text]}>{'\n'}Infos:</Text>
+              <Text style={[styles.body, text]}>{info.infos}</Text>
+              <Text style={[styles.header, text]}>{'\n'}Mitnehmen:</Text>
+              <Text style={[styles.body, text]}>{info.mitnehmen}</Text>
+              <View style={sharedStyles.buttonview}>
+                <PrimaryButton title="Abmelden" onPress={() => dropOutButtonClicked(info)} />
               </View>
             </>
           )}
           {!info.aktuell && (
             <>
-              <Text style={styles.header}>{"\n"}Infos:</Text>
-              <Text style={styles.info}>{info.infos}</Text>
+              <Text style={[styles.header, text]}>{'\n'}Infos:</Text>
+              <Text style={[styles.body, text]}>{info.infos}</Text>
             </>
           )}
         </View>
@@ -175,12 +77,21 @@ export default function InfoBox() {
 
 function dropOutButtonClicked(info: Info) {
   router.push({
-    pathname: `/box/dropout`,
+    pathname: '/box/dropout',
     params: {
-      ...info,
-      aktuell: info.aktuell.toString(), // Convert boolean to string
-      von: info.von ? info.von.toISOString() : undefined, // Format Date to ISO string
-      bis: info.bis ? info.bis.toISOString() : undefined, // Format Date to ISO string
+      stufe: info.stufe,
+      aktuell: info.aktuell.toString(),
+      infos: info.infos,
+      von: info.von?.toISOString(),
+      bis: info.bis?.toISOString(),
+      wo: info.wo,
+      mit: info.mitnehmen,
+      email: info.email,
     },
   });
 }
+
+const styles = StyleSheet.create({
+  header: { fontSize: 16, fontWeight: 'bold' },
+  body: { marginTop: 5, fontSize: 14 },
+});

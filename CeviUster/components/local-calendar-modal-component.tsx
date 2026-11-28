@@ -1,73 +1,70 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
-  StyleSheet,
+  ActivityIndicator,
   Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ScrollView,
-  TouchableOpacity,
-  Text,
 } from 'react-native';
-import PropTypes from 'prop-types';
+import { useThemeColors } from '@/hooks/use-theme-colors';
+import { Calendar, listCalendars } from '../services/agenda/localCalendarService';
 
-import {listCalendars} from '../services/agenda/localCalendarService';
+type Props = {
+  isVisible?: boolean;
+  closeModal?: () => void;
+  handleCalendarSelected?: (calendar: Calendar) => void;
+  label?: string;
+};
 
 function LocalCalendarModalComponent({
   isVisible = false,
   closeModal = () => {},
   handleCalendarSelected = () => {},
-  label = 'Select a calendar',
-  modalTestID = 'localCalendarModal',
-}) {
-  const [calendars, setCalendars] = useState([]);
-
-  useEffect(() => {
-    const loadCalendars = async () => {
-      const calendarsTmp = await listCalendars();
-      setCalendars(calendarsTmp);
-    };
-    if (isVisible) {
-      loadCalendars();
-    }
-  }, [isVisible]);
+  label = 'Kalender wählen',
+}: Props) {
+  const colors = useThemeColors();
+  const { data, isFetching, error } = useQuery({
+    queryKey: ['local-calendars'],
+    queryFn: async () => (await listCalendars()).filter((c) => c.allowsModifications),
+    enabled: isVisible,
+    gcTime: 0,
+    retry: false,
+  });
+  const calendars = data ?? [];
+  const loading = isFetching;
+  const errorMessage = error?.message;
 
   return (
-    <Modal
-      transparent={true}
-      visible={isVisible}
-      onRequestClose={closeModal}
-      animationType="slide">
-      <TouchableWithoutFeedback
-        accessible={false}
-        onPress={closeModal}
-        style={styles.container}>
+    <Modal transparent visible={isVisible} onRequestClose={closeModal} animationType="slide">
+      <TouchableWithoutFeedback accessible={false} onPress={closeModal}>
         <View style={styles.backdrop}>
-          <View style={styles.agendaModalBody}>
-            <Text style={styles.title}>{label} :</Text>
-            <View style={styles.agendaList}>
+          <TouchableWithoutFeedback>
+            <View style={[styles.body, { backgroundColor: colors.background }]}>
+              <Text style={[styles.title, { color: colors.text }]}>{label}</Text>
+              {loading ? <ActivityIndicator color={colors.primary} style={styles.status} /> : null}
+              {errorMessage ? <Text style={[styles.status, { color: colors.error }]}>{errorMessage}</Text> : null}
+              {!loading && !errorMessage && calendars.length === 0 ? (
+                <Text style={[styles.status, { color: colors.subtle }]}>Keine beschreibbaren Kalender gefunden.</Text>
+              ) : null}
               <ScrollView>
-                {calendars.map((calendar, i) =>
-                  calendar.allowsModifications ? (
-                    <View key={i} style={styles.agendaListEntry}>
-                      <View style={[
-                          styles.circle,
-                          {backgroundColor: calendar.color},
-                        ]}/>
-                      <TouchableOpacity
-                        onPress={() => handleCalendarSelected(calendar)}
-                        style={[
-                          styles.calendarOption
-                        ]}>
-                        <Text key={i} style={[styles.defaultText]}>
-                          {calendar.title}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  ) : null,
-                )}
+                {calendars.map((calendar) => (
+                  <TouchableOpacity
+                    key={calendar.id}
+                    accessibilityRole="button"
+                    onPress={() => handleCalendarSelected(calendar)}
+                    style={styles.entry}
+                  >
+                    <View style={[styles.circle, { backgroundColor: calendar.color }]} />
+                    <Text style={[styles.entryText, { color: colors.text }]}>{calendar.title}</Text>
+                  </TouchableOpacity>
+                ))}
               </ScrollView>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
     </Modal>
@@ -75,38 +72,18 @@ function LocalCalendarModalComponent({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   backdrop: {
     flex: 1,
     padding: '5%',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.7)',
   },
-  agendaModalBody: {
-    flexShrink: 1,
-    backgroundColor: '#fff',
-    padding: 5,
-  },
-  agendaList: {
-    marginTop: 10,
-  },
-  calendarOption: {
-    padding: 10,
-  },
-  agendaListEntry: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-
-  },
-  circle: {
-    width: 10,
-    height: 10,
-    borderRadius: 10 / 2,
-  },
+  body: { flexShrink: 1, padding: 12, borderRadius: 8 },
+  title: { fontSize: 18, fontWeight: 'bold', marginBottom: 8 },
+  status: { marginVertical: 10 },
+  entry: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12 },
+  entryText: { fontSize: 16, marginLeft: 10, flexShrink: 1 },
+  circle: { width: 12, height: 12, borderRadius: 6 },
 });
 
 export default LocalCalendarModalComponent;

@@ -1,100 +1,28 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from 'react';
 import {
-  ActivityIndicator,
   Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  useColorScheme,
-} from "react-native";
-import { CheckBox, Button } from "react-native-elements";
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import AlertAsync from "react-native-alert-async";
-import {
-  COLOR_PRIMARY,
-  BORDER_RADIUS,
-} from "../../../constants/Colors";
-import { Info } from "../../../services/box/infoService";
-import URLs from "../../../constants/URLs";
-import validator from "validator";
+} from 'react-native';
+import { router, useLocalSearchParams, useNavigation } from 'expo-router';
+import validator from 'validator';
+import Checkbox from '@/components/ui/Checkbox';
+import PrimaryButton from '@/components/ui/PrimaryButton';
+import { useThemeColors } from '@/hooks/use-theme-colors';
+import URLs from '../../../constants/URLs';
 import { sharedStyles } from '../../../constants/sharedStyles';
+import { fetchWithTimeout } from '../../../services/http';
 
-const baseStyles = StyleSheet.create({
-  ...sharedStyles,
-  text_input: {
-    borderColor: "#CCCCCC",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    height: 36,
-    fontSize: 18,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  multiline_text_input: {
-    borderColor: "#CCCCCC",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    height: 100,
-    fontSize: 18,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-
-  waitOverlay: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-  },
-});
-
-const lightstyles = StyleSheet.create({
-  ...baseStyles,
-  checkbox: {
-    backgroundColor: "white",
-    color: "black",
-    borderColor: "white",
-  },
-});
-
-const darkstyles = StyleSheet.create({
-  ...baseStyles,
-  checkbox: {
-    backgroundColor: "black",
-    color: "white",
-    borderColor: "black",
-  },
-});
+const SUBJECT = 'ich möchte mich für das nächste Programm abmelden';
 
 export default function DropOut() {
-  const {
-    stufe,
-    aktuell,
-    infos,
-    von,
-    bis,
-    wo,
-    mit,
-    email,
-  } = useLocalSearchParams<Record<string, string>>(); // Adjusted type to Record<string, string>
-
-  const info: Info = {
-    stufe,
-    aktuell: aktuell === "true", // Convert string to boolean
-    infos,
-    von: von ? new Date(Date.parse(von)) : undefined, // Use undefined instead of null
-    bis: bis ? new Date(Date.parse(bis)) : undefined, // Use undefined instead of null
-    wo,
-    mitnehmen: mit,
-    email,
-  };
-
+  const { stufe, email } = useLocalSearchParams<Record<string, string>>();
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -103,162 +31,133 @@ export default function DropOut() {
     }
   }, [navigation, stufe]);
 
-  const content = dropOutImpl(info);
-
-  return Platform.OS === "ios" ? (
+  return (
     <KeyboardAvoidingView
-      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
-      behavior="padding"
-      enabled
-      keyboardVerticalOffset={100}
+      style={styles.flex}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
     >
-      {content}
+      <DropOutForm stufe={stufe} destinationEmail={email} />
     </KeyboardAvoidingView>
-  ) : (
-    <KeyboardAvoidingView>{content}</KeyboardAvoidingView>
   );
 }
 
-function dropOutImpl(info: Info) {
+function DropOutForm({ stufe, destinationEmail }: { stufe?: string; destinationEmail?: string }) {
+  const colors = useThemeColors();
   const [isSending, setIsSending] = useState(false);
-  const [senderName, setSenderName] = useState("");
-  const [senderEmail, setSenderEmail] = useState("");
-  const [subject, setSubject] = useState(
-    "ich möchte mich für das nächste Programm abmelden"
-  );
-  const [message, setMessage] = useState("");
+  const [senderName, setSenderName] = useState('');
+  const [senderEmail, setSenderEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [acceptance, setAcceptance] = useState(false);
 
-  const styles = useColorScheme() === "dark" ? darkstyles : lightstyles;
+  const inputStyle = [styles.input, { color: colors.text, borderColor: colors.inputBorder }];
+  const labelStyle = [sharedStyles.text, { color: colors.text }];
 
   function validateData() {
-    if (!senderName) {
-      Alert.alert("Bitte gib deinen Namen ein.");
+    if (!senderName.trim()) {
+      Alert.alert('Bitte gib deinen Namen ein.');
       return false;
-    } else if (!validator.isEmail(senderEmail)) {
-      Alert.alert("Bitte gib eine gültige E-Mailadresse ein.");
+    }
+    if (!validator.isEmail(senderEmail.trim())) {
+      Alert.alert('Bitte gib eine gültige E-Mailadresse ein.');
       return false;
     }
     if (!acceptance) {
-      Alert.alert("Bitte stimme der Datenverwendung zu.");
+      Alert.alert('Bitte stimme der Datenverwendung zu.');
       return false;
     }
     return true;
   }
 
-  function sendData() {
-    let formData = new FormData();
-    formData.append("_wpcf7", "1510");
-    formData.append("_wpcf7_unit_tag", "wpcf7-f1510-p286-o2");
-    formData.append("destination-email", info.email || ""); // Ensure string value
-    formData.append("your-name", senderName);
-    formData.append("your-email", senderEmail.toLowerCase());
-    formData.append("your-subject", subject);
-    formData.append("your-message", message);
-    formData.append("acceptance", acceptance.toString()); // Convert boolean to string
+  async function sendData() {
+    const formData = new FormData();
+    formData.append('_wpcf7', '1510');
+    formData.append('_wpcf7_unit_tag', 'wpcf7-f1510-p286-o2');
+    formData.append('destination-email', destinationEmail || '');
+    formData.append('your-name', senderName.trim());
+    formData.append('your-email', senderEmail.trim().toLowerCase());
+    formData.append('your-subject', SUBJECT);
+    formData.append('your-message', message);
+    formData.append('acceptance', acceptance.toString());
 
-    fetch(URLs.DROP_OFF_FORM_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((json: { status: string; message: string }) => {
-        handleSuccess(json);
-      })
-      .catch((error) => {
-        console.error(error);
-        Alert.alert("Fehler beim Senden!", error.message);
-      });
-  }
-
-  async function handleSuccess(json: { status: string; message: string }) {
-    const message =
-      json.status !== "mail_sent"
-        ? `Nachricht: ${json.message}`
-        : "Vielen Dank für deine Abmeldung.";
-
-    const title = json.status !== "mail_sent" ? "Senden fehlgeschlagen" : "Gesendet";
-
-    const choice = await AlertAsync(title, message, [{ text: "Ok", onPress: () => "ok" }], {
-      cancelable: true,
-      onDismiss: () => "ok",
-    });
-
-    if (json.status === "mail_sent" && choice === "ok") {
-      router.back();
+    // Kein Content-Type setzen: fetch ergänzt die multipart-Boundary selbst.
+    const response = await fetchWithTimeout(URLs.DROP_OFF_FORM_URL, { method: 'POST', body: formData });
+    if (!response.ok) {
+      throw new Error(`Serverfehler (${response.status})`);
     }
+    return (await response.json()) as { status: string; message: string };
   }
 
   async function handleSubmit() {
-    if (validateData()) {
-      setIsSending(true);
-      sendData();
+    if (isSending || !validateData()) {
+      return;
+    }
+    setIsSending(true);
+    try {
+      const json = await sendData();
+      if (json.status === 'mail_sent') {
+        Alert.alert('Gesendet', 'Vielen Dank für deine Abmeldung.', [{ text: 'Ok', onPress: () => router.back() }], {
+          cancelable: true,
+          onDismiss: () => router.back(),
+        });
+      } else {
+        Alert.alert('Senden fehlgeschlagen', `Nachricht: ${json.message}`);
+      }
+    } catch (error) {
+      Alert.alert('Fehler beim Senden!', error instanceof Error ? error.message : String(error));
+    } finally {
+      setIsSending(false);
     }
   }
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Abmeldung</Text>
-        <Text style={styles.subtitle}>
-          für das nächste Programm der Stufe {info.stufe}
+    <ScrollView keyboardShouldPersistTaps="handled">
+      <View style={sharedStyles.container}>
+        <Text style={[sharedStyles.title, { color: colors.text }]}>Abmeldung</Text>
+        <Text style={[sharedStyles.subtitle, { color: colors.text }]}>
+          für das nächste Programm der Stufe {stufe}
         </Text>
-        <Text style={styles.text}>Dein Name*</Text>
+        <Text style={labelStyle}>Dein Name*</Text>
+        <TextInput style={inputStyle} onChangeText={setSenderName} value={senderName} autoComplete="name" />
+        <Text style={labelStyle}>Deine E-Mailadresse*</Text>
         <TextInput
-          style={styles.text_input}
-          onChangeText={setSenderName}
-          onBlur={Keyboard.dismiss}
-          value={senderName}
-        />
-        <Text style={styles.text}>Deine E-Mailadresse*</Text>
-        <TextInput
-          style={styles.text_input}
+          style={inputStyle}
           keyboardType="email-address"
+          autoCapitalize="none"
+          autoComplete="email"
+          autoCorrect={false}
           onChangeText={setSenderEmail}
           value={senderEmail}
-          autoCorrect={false}
         />
-        <Text style={styles.text}>Deine Nachricht</Text>
+        <Text style={labelStyle}>Deine Nachricht</Text>
         <TextInput
-          style={styles.multiline_text_input}
+          style={[inputStyle, styles.multiline]}
           onChangeText={setMessage}
           onBlur={Keyboard.dismiss}
           value={message}
           multiline
         />
-        <CheckBox
-          containerStyle={styles.checkbox}
-          textStyle={styles.checkbox}
+        <Checkbox
           checked={acceptance}
-          onPress={() => setAcceptance(!acceptance)}
-          title="Ich stimme der Datenverwendung für diese Nachricht zu"
+          onToggle={() => setAcceptance(!acceptance)}
+          label="Ich stimme der Datenverwendung für diese Nachricht zu"
         />
       </View>
-      <View style={styles.buttonview}>
-        <Button
-          style={styles.savebutton}
-          onPress={handleSubmit}
-          buttonStyle={{
-            backgroundColor: COLOR_PRIMARY,
-            width: 140,
-            height: 50,
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: BORDER_RADIUS,
-          }}
-          title="Senden"
-        />
+      <View style={sharedStyles.buttonview}>
+        <PrimaryButton title="Senden" onPress={handleSubmit} loading={isSending} />
       </View>
-      {isSending && (
-        <ActivityIndicator
-          size="large"
-          color={COLOR_PRIMARY}
-          style={styles.waitOverlay}
-        />
-      )}
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  flex: { flex: 1 },
+  input: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 40,
+    fontSize: 18,
+    paddingHorizontal: 20,
+  },
+  multiline: { height: 100, textAlignVertical: 'top', paddingTop: 8 },
+});

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Colors, ThemeColors } from './Colors';
 
 const sharedStyles = StyleSheet.create({
   container: {
@@ -28,7 +29,6 @@ const sharedStyles = StyleSheet.create({
     marginTop: 10,
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#0097fe',
   },
   buttonview: {
     marginTop: 10,
@@ -52,7 +52,7 @@ const sharedStyles = StyleSheet.create({
     marginTop: 10,
   },
   tableContainer: {
-    flex: 0,
+    flex: 1,
   },
   tableItem: {
     padding: 12,
@@ -80,74 +80,24 @@ const sharedStyles = StyleSheet.create({
   },
 });
 
-const lightStyles = StyleSheet.create({
-  ...sharedStyles,
-  tableContainer: {
-    ...sharedStyles.tableContainer,
-    backgroundColor: "white",
-  },
-  tableItem: {
-    ...sharedStyles.tableItem,
-    backgroundColor: "white",
-  },
-  icon: {
-    color: "black",
-  },
-  subtitle: {
-    ...sharedStyles.subtitle,
-    color: "black",
-  },
-    text: {
-    ...sharedStyles.text,
-    color: "black",
-  },
-  listItemTitle: {
-    ...sharedStyles.listItemTitle,
-    color: "black",
-  },
-  listItemSubtitle: {
-    ...sharedStyles.listItemSubtitle,
-    color: "black",
-  },
-  avatar: {
-    ...sharedStyles.avatar,
-    tintColor: 'black',
-  },
-});
+function createStyles(colors: ThemeColors) {
+  return StyleSheet.create({
+    ...sharedStyles,
+    tableContainer: { ...sharedStyles.tableContainer, backgroundColor: colors.background },
+    tableItem: { ...sharedStyles.tableItem, backgroundColor: colors.background },
+    title: { ...sharedStyles.title, color: colors.text },
+    subtitle: { ...sharedStyles.subtitle, color: colors.text },
+    text: { ...sharedStyles.text, color: colors.text },
+    date: { ...sharedStyles.date, color: colors.accent },
+    venue: { ...sharedStyles.venue, color: colors.text },
+    description: { ...sharedStyles.description, color: colors.text },
+    listItemTitle: { ...sharedStyles.listItemTitle, color: colors.text },
+    listItemSubtitle: { ...sharedStyles.listItemSubtitle, color: colors.subtle },
+    avatar: { ...sharedStyles.avatar, tintColor: colors.text },
+  });
+}
 
-const darkStyles = StyleSheet.create({
-  ...sharedStyles,
-  tableContainer: {
-    ...sharedStyles.tableContainer,
-    backgroundColor: "black",
-  },
-  tableItem: {
-    ...sharedStyles.tableItem,
-    backgroundColor: "black",
-  },
-  icon: {
-    color: "white",
-  },
-  subtitle: {
-    ...sharedStyles.subtitle,
-    color: "white",
-  },
-  text: {
-    ...sharedStyles.text,
-    color: "white",
-  },
-  listItemTitle: {
-    ...sharedStyles.listItemTitle,
-    color: "white",
-  },
-  listItemSubtitle: {
-    ...sharedStyles.listItemSubtitle,
-    color: "white",
-  },
-  avatar: {
-    ...sharedStyles.avatar,
-    tintColor: 'white',
-  },
-});
+const lightStyles = createStyles(Colors.light);
+const darkStyles = createStyles(Colors.dark);
 
 export { sharedStyles, lightStyles, darkStyles };
